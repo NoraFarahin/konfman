@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"> 
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="maxActive" value="30"/>
+        <property name="maxIdle" value="10"/>
+        <property name="maxWait" value="1000"/>
+        <property name="defaultAutoCommit" value="true"/>
+    </bean>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+        <property name="annotatedClasses">
+            <list>
+                <value>com.jmw.konfman.model.User</value>
+                <value>com.jmw.konfman.model.Building</value>
+                <value>com.jmw.konfman.model.Floor</value>
+                <value>com.jmw.konfman.model.Room</value>
+                <value>com.jmw.konfman.model.Reservation</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+  <!-- bean id="urlMapping"     
+     class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">    
+       <property name="interceptors">
+         <list>
+              <ref bean="openSessionInViewInterceptor"/>
+         </list>
+       </property>
+  </bean>
+  <bean name="openSessionInViewInterceptor"  
+    class="org.springframework.orm.hibernate.support.OpenSessionInViewInterceptor">
+       <property name="sessionFactory"><ref bean="sessionFactory"/></property>
+  </bean -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+</beans>
