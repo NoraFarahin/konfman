@@ -117,7 +117,12 @@ public class RoomFormController extends AbstractWizardFormController {
     		}
             User user = userManager.getUser(userId);
     		logger.debug("Adding user: " + user.getFullName() + " as an admin for " + room.getName());
-            room.addAdministrator(user);
+            //for some reason or other we have to add the user to the room and the room to the user 
+    		//in order for the data to be saved. Interestingly, this is not necessary on the user side
+    		//of this functionality!
+    		room.addAdministrator(user);
+            user.addAdministeredRoom(room);
+            userManager.saveUser(user);
         } else if ((removeUserId != null) && !removeUserId.equals("")) {
     		try {
     			room = (Room)getCommand(request);
@@ -126,7 +131,9 @@ public class RoomFormController extends AbstractWizardFormController {
     			e.printStackTrace();
     		}
             User user = userManager.getUser(removeUserId);
+            user.removeAdminsteredRoom(room);
             room.removeAdministrator(user);
+            userManager.saveUser(user);
     		logger.debug("Removing user: " + user.getFullName() + " from admin on room " + room.getName());
         }
         else {
