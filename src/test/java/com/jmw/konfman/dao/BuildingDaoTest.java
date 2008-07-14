@@ -22,13 +22,15 @@ public class BuildingDaoTest extends BaseDaoTestCase {
     }
 
     public void testGetBuildings() {
+    	int currentBuildingCount = dao.getBuildings().size();
+    	
         building = new Building();
         building.setName("name");
         building.setTitle("title");
 
         dao.saveBuilding(building);
 
-        assertTrue(dao.getBuildings().size() >= 1);
+        assertEquals(currentBuildingCount + 1, dao.getBuildings().size());
     }
 
     public void testSaveBuilding() throws Exception {
@@ -43,19 +45,21 @@ public class BuildingDaoTest extends BaseDaoTestCase {
     }
 
     public void testAddAndRemoveBuilding() throws Exception {
-        building = new Building();
+    	int currentBuildingCount = dao.getBuildings().size();
+
+    	building = new Building();
         building.setName("Bill");
         building.setTitle("Joy");
 
         dao.saveBuilding(building);
-
+        assertEquals(currentBuildingCount + 1, dao.getBuildings().size());
         assertNotNull(building.getId());
         assertTrue(building.getName().equals("Bill"));
 
         log.debug("removing building...");
-
         dao.removeBuilding(building.getId());
-        endTransaction();
+        //should be back where we started
+        assertEquals(currentBuildingCount, dao.getBuildings().size());
 
         try {
             building = dao.getBuilding(building.getId());
@@ -82,14 +86,16 @@ public class BuildingDaoTest extends BaseDaoTestCase {
         floor.setName("f1");
         floor.setBuilding(building);
         
+        int currentFloorCount = fDao.getFloors().size();
         fDao.saveFloor(floor);
     	
         assertNotNull(floor.getId());
         assertTrue(floor.getName().equals("f1"));
+        assertEquals(currentFloorCount + 1, fDao.getFloors().size());
         
         log.debug("Floor saved: " + floor.getId() + " Building: " + floor.getBuilding().getId());
         //try reloading building
-        Building b2 = dao.getBuilding(building.getId());
+        Building b2 = floor.getBuilding(); //dao.getBuilding(building.getId());
         assertNotNull(b2);
         log.debug("Attempted to retreive building");
         List<Floor> floors = b2.getFloors();
