@@ -7,7 +7,8 @@ import junit.framework.TestCase;
  */
 public class UserTest extends TestCase {
 
-	User user = new User();
+	User user = null;
+	
 	/**
 	 * @param name
 	 */
@@ -102,25 +103,33 @@ public class UserTest extends TestCase {
 	/**
 	 * Test method for {@link com.jmw.konfman.model.User#getDefaultFloor()}.
 	 */
-	public void testGetDefaultFloor() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link com.jmw.konfman.model.User#setDefaultFloor(int)}.
-	 */
-	public void testSetDefaultFloor() {
-		fail("Not yet implemented"); // TODO
+	public void testGetSetDefaultFloor() {
+		assertNull(user.getDefaultFloor());
+		Floor floor = new Floor();
+		floor.setId(new Long(1000));
+		floor.setName("name");
+		
+		user.setDefaultFloor(floor);
+		assertNotNull(user.getDefaultFloor());
+		
+		Floor f1 = user.getDefaultFloor();
+		assertEquals(new Long(1000), f1.getId());
+		assertEquals("name", f1.getName());
 	}
 
 	/**
 	 * Test method for {@link com.jmw.konfman.model.User#getFullName()}.
 	 */
 	public void testGetFullName() {
-		assertEquals(null, user.getFullName());
+		assertEquals("null, null", user.getFullName());
 		user.setFirstName("first");
 		user.setLastName("last");
 		assertEquals("last, first", user.getFullName());
 	}
 
+
+	public void testGetSetReservations(){
+		assertNull(user.getReservations());
+		
+	}
 }

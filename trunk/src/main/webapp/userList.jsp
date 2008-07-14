@@ -14,7 +14,7 @@
     <display:column property="phone" sortable="true" titleKey="user.phone" escapeXml="true"/>
     <display:column property="email" sortable="true" titleKey="user.email" escapeXml="true"/>
     <display:column property="defaultFloor.name" sortable="true" titleKey="user.defaultFloor" escapeXml="true"/>
-	<display:column href="userreservation.html" paramId="userId" paramProperty="id">Add Reservation</display:column>
+	<display:column href="userreservations.html" paramId="userId" paramProperty="id">Reservations</display:column>
 </display:table>
 
 <!-- script type="text/javascript">highlightTableRows("userList");</script -->

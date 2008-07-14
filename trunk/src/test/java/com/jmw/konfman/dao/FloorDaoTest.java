@@ -19,12 +19,13 @@ public class FloorDaoTest extends BaseDaoTestCase {
 
     public void setBuildingDao(BuildingDao bDao) {
         this.bDao = bDao;
-        building = new Building();
-        building.setName("B1");
-        bDao.saveBuilding(building);
     }
     
     public void testGetFloors() {
+        building = new Building();
+        building.setName("B1");
+        bDao.saveBuilding(building);
+
         floor = new Floor();
         floor.setName("name");
         floor.setTitle("title");
@@ -36,6 +37,10 @@ public class FloorDaoTest extends BaseDaoTestCase {
     }
 
     public void testSaveFloor() throws Exception {
+        building = new Building();
+        building.setName("B1");
+        bDao.saveBuilding(building);
+
         floor = new Floor();
         floor.setName("Rod");
         floor.setTitle("Johnson");
@@ -48,6 +53,10 @@ public class FloorDaoTest extends BaseDaoTestCase {
     }
 
     public void testAddAndRemoveFloor() throws Exception {
+        building = new Building();
+        building.setName("B1");
+        bDao.saveBuilding(building);
+
         floor = new Floor();
         floor.setName("Bill");
         floor.setTitle("Joy");
@@ -73,6 +82,10 @@ public class FloorDaoTest extends BaseDaoTestCase {
     }
     
     public void testGetBuilding() throws Exception{
+        building = new Building();
+        building.setName("B1");
+        bDao.saveBuilding(building);
+
         floor = new Floor();
         floor.setName("Building-get");
         floor.setTitle("Joy");
@@ -88,18 +101,24 @@ public class FloorDaoTest extends BaseDaoTestCase {
     }
     
     public void testGetActiveFloors() throws Exception {
+        building = new Building();
+        building.setName("B1");
+        bDao.saveBuilding(building);
+
         floor = new Floor();
         floor.setName("Bill");
         floor.setTitle("Joy");
         floor.setBuilding(building);
         floor.setActive(true);
         
+        int currentFloorSize = dao.getActiveFloors().size();
+
         dao.saveFloor(floor);
         assertNotNull(floor.getId());
         assertTrue(floor.getName().equals("Bill"));
 
         List floors = dao.getActiveFloors();
-    	assertEquals(1, floors.size());
+        assertEquals(currentFloorSize + 1, floors.size());
 
     	Floor floor2 = new Floor();
         floor2.setName("Bill2");
@@ -112,6 +131,6 @@ public class FloorDaoTest extends BaseDaoTestCase {
         assertTrue(floor2.getName().equals("Bill2"));
         
         floors = dao.getActiveFloors();
-    	assertEquals(1, floors.size());
+        assertEquals(currentFloorSize + 1, floors.size());
     }
 }

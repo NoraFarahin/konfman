@@ -22,20 +22,24 @@ public class RoomDaoTest extends BaseDaoTestCase {
 
     public void setBuildingDao(BuildingDao bDao) {
         this.bDao = bDao;
-        building = new Building();
-        building.setName("B1");
-        bDao.saveBuilding(building);
     }
     
     public void setFloorDao(FloorDao fDao) {
         this.fDao = fDao;
+    }
+
+    private void config(){
+        building = new Building();
+        building.setName("B1");
+        bDao.saveBuilding(building);
         floor = new Floor();
         floor.setName("f1");
         floor.setBuilding(building);
         fDao.saveFloor(floor);
     }
-
+    
     public void testGetRooms() {
+    	config();
         room = new Room();
         room.setName("name");
         room.setTitle("title");
@@ -47,6 +51,7 @@ public class RoomDaoTest extends BaseDaoTestCase {
     }
 
     public void testSaveRoom() throws Exception {
+    	config();
         room = new Room();
         room.setName("Rod");
         room.setTitle("Johnson");
@@ -59,7 +64,8 @@ public class RoomDaoTest extends BaseDaoTestCase {
     }
 
     public void testAddAndRemoveRoom() throws Exception {
-        room = new Room();
+    	config();
+    	room = new Room();
         room.setName("Bill");
         room.setTitle("Joy");
         room.setFloor(floor);
@@ -84,6 +90,7 @@ public class RoomDaoTest extends BaseDaoTestCase {
     }
     
     public void testGetFloor() throws Exception{
+    	config();
         room = new Room();
         room.setName("Building-get");
         room.setTitle("Joy");
@@ -98,18 +105,21 @@ public class RoomDaoTest extends BaseDaoTestCase {
     }
     
     public void testGetActiveRooms() throws Exception {
-        room = new Room();
+    	config();
+    	room = new Room();
         room.setName("Bill");
         room.setTitle("Joy");
         room.setFloor(floor);
         room.setActive(true);
+        
+        int currentRoomCount = dao.getActiveRooms().size();
         
         dao.saveRoom(room);
         assertNotNull(room.getId());
         assertTrue(room.getName().equals("Bill"));
 
         List rooms = dao.getActiveRooms();
-    	assertEquals(1, rooms.size());
+    	assertEquals(currentRoomCount + 1, rooms.size());
 
     	Room room2 = new Room();
         room2.setName("Bill2");
@@ -122,6 +132,6 @@ public class RoomDaoTest extends BaseDaoTestCase {
         assertTrue(room2.getName().equals("Bill2"));
         
         rooms = dao.getActiveRooms();
-    	assertEquals(1, rooms.size());
+    	assertEquals(currentRoomCount + 1, rooms.size());
     }
 }

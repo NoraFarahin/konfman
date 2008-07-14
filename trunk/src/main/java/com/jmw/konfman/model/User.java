@@ -1,6 +1,7 @@
 package com.jmw.konfman.model;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 /**
@@ -32,8 +34,9 @@ public class User extends BaseObject {
     private Date birthday;
     
     private Set<Room> administeredRooms;
+    private List<Reservation> reservations;
 
-    @Id
+	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
     public Long getId() {
         return id;
@@ -180,4 +183,19 @@ public class User extends BaseObject {
     public String toString(){
     	return firstName + " " + lastName;
     }
+
+    /**
+	 * @return the reservations
+	 */
+	@OneToMany(mappedBy="user")
+    public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	/**
+	 * @param reservations the reservations to set
+	 */
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
 }

@@ -203,7 +203,7 @@ public class RoomFormController extends AbstractWizardFormController {
                     getText("room.deleted", room.getName()));
         } else {
             roomManager.saveRoom(room);
-            logger.debug("Saved room: " + room + " has " + room.getAdministrators().size() + " admins.");
+            //logger.debug("Saved room: " + room + " has " + room.getAdministrators().size() + " admins.");
             request.getSession().setAttribute("message",
                     getText("room.saved", room.getName()));
         }
