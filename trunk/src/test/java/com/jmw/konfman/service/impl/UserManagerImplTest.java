@@ -34,7 +34,7 @@ public class UserManagerImplTest extends MockObjectTestCase {
         // verify expectations
         mockDao.verify();
 
-        assertEquals(user.getFullName(), "Easter Bunny");
+        assertEquals(user.getFullName(), "Bunny, Easter");
 
         if (log.isDebugEnabled()) {
             log.debug("removing user...");

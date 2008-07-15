@@ -127,6 +127,9 @@ public class Floor extends BaseObject {
 	 */
 	@Transient
 	public String getFullName(){
-		return building.getName() + " : " + name;
+		if (building != null){
+			return building.getName() + " : " + name;
+		}
+		return ("No Building : " + name);
 	}
 }

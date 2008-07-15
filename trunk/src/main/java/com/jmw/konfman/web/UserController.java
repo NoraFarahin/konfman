@@ -19,7 +19,6 @@ public class UserController {
     }
     @RequestMapping("/usersselect.*")
     public String executeSelect(ModelMap model) {
-    	System.out.println("userselect");
         model.addAttribute("userList", userManager.getUsers());
         return "usersSelect";
     }

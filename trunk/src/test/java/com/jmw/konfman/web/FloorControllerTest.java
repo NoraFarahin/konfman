@@ -1,13 +1,10 @@
 package com.jmw.konfman.web;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 import org.springframework.ui.ModelMap;
 
-import com.jmw.konfman.model.Floor;
+import com.jmw.konfman.model.Building;
 import com.jmw.konfman.service.BuildingManager;
 
 public class FloorControllerTest extends MockObjectTestCase {
@@ -21,18 +18,16 @@ public class FloorControllerTest extends MockObjectTestCase {
 
     public void testGetFloors() throws Exception {
         // set expected behavior on manager
-        Floor floor1 = new Floor();
-        floor1.setName("ControllerTest");
-        List<Floor> floors = new ArrayList<Floor>();
-        floors.add(floor1);
+        Building b = new Building();
+        b.setName("ControllerTest");
         
-        mockManager.expects(once()).method("getFloors")
-                   .will(returnValue(floors));
+        mockManager.expects(once()).method("getBuilding")
+                   .will(returnValue(b));
 
         ModelMap map = new ModelMap();
         String result = c.execute(map, "1");
         assertFalse(map.isEmpty());
-        assertNotNull(map.get("floorList"));
+        assertNotNull(map.get("building"));
         assertEquals("floorList", result);
         
         // verify expectations
