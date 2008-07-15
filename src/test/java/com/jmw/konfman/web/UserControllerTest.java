@@ -20,7 +20,7 @@ public class UserControllerTest extends MockObjectTestCase {
         c.userManager = (UserManager) mockManager.proxy();
     }
 
-    public void testGetUsers() throws Exception {
+    public void testUserList() throws Exception {
         // set expected behavior on manager
         User user1 = new User();
         user1.setFirstName("ControllerTest");
@@ -35,6 +35,26 @@ public class UserControllerTest extends MockObjectTestCase {
         assertFalse(map.isEmpty());
         assertNotNull(map.get("userList"));
         assertEquals("userList", result);
+        
+        // verify expectations
+        mockManager.verify();
+    }
+
+    public void testUsersSelect() throws Exception {
+        // set expected behavior on manager
+        User user1 = new User();
+        user1.setFirstName("ControllerTest");
+        List<User> users = new ArrayList<User>();
+        users.add(user1);
+        
+        mockManager.expects(once()).method("getUsers")
+                   .will(returnValue(users));
+
+        ModelMap map = new ModelMap();
+        String result = c.executeSelect(map);
+        assertFalse(map.isEmpty());
+        assertNotNull(map.get("userList"));
+        assertEquals("usersSelect", result);
         
         // verify expectations
         mockManager.verify();

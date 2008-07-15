@@ -152,26 +152,37 @@ public class Room extends BaseObject {
 		this.administrators = administrators;
 	}
 
-	public void addAdministrator(User user){
-		administrators.add(user);
+	public boolean addAdministrator(User user){
+		return administrators.add(user);
 	}
 
-	public void removeAdministrator(User user){
-		administrators.remove(user);
+	public boolean removeAdministrator(User user){
+		return administrators.remove(user);
 	}
 
-	public boolean equals(Object o){
-    	if (o.getClass().equals(Room.class)){
-    		Room room = (Room)o;
-    		if (room.id.longValue() == id.longValue()){
-    			return true;
-    		}
+	/**
+     * Needed for comparison. Compares the value of the id.
+     */
+    public boolean equals(Object o){
+    	if (o != null){
+	    	if (o.getClass().equals(Room.class)){
+	    		Room room = (Room)o;
+	    		if (room.id != null && (room.id.longValue() == id.longValue())){
+	    			return true;
+	    		}
+	    	}
     	}
     	return false;
     }
    
+    /**
+     * Needed for comparison. Returns the hashcode of the id object
+     */
     public int hashCode(){
-    	return id.hashCode();
+    	if (id != null){
+    		return id.hashCode();
+    	}
+    	return 0;
     }
     
     public String toString(){

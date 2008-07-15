@@ -1,5 +1,10 @@
 package com.jmw.konfman.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import junit.framework.TestCase;
 /**
  * @author judahw
@@ -130,6 +135,71 @@ public class UserTest extends TestCase {
 
 	public void testGetSetReservations(){
 		assertNull(user.getReservations());
+		List<Reservation> reservations = new ArrayList<Reservation>();
+		Reservation res = new Reservation();
+		res.setId(new Long(2000));
+		reservations.add(res);
+		user.setReservations(reservations);
+		assertEquals(1, user.getReservations().size());
+		assertEquals(2000, user.getReservations().get(0).getId().longValue());
+	}
+	
+	public void testGetSetAdministeredRooms(){
+		assertNull(user.getAdministeredRooms());
+		Set<Room> rooms = new HashSet<Room>();
+		Room room = new Room();
+		room.setId(new Long(3000));
+		rooms.add(room);
+		user.setAdministeredRooms(rooms);
+		assertEquals(1, user.getAdministeredRooms().size());
+		Room room1 = (Room)user.getAdministeredRooms().iterator().next();
+		assertEquals(3000, room1.getId().longValue());
+	}
+	
+	public void testAddRemoveAdministeredRooms(){
+		assertNull(user.getAdministeredRooms());
+		Set<Room> rooms = new HashSet<Room>();
+		Room room = new Room();
+		room.setId(new Long(3300));
+		user.setAdministeredRooms(rooms);
+		assertEquals(0, user.getAdministeredRooms().size());
 		
+		//add the room
+		user.addAdministeredRoom(room);
+		assertEquals(1, user.getAdministeredRooms().size());
+		Room room1 = (Room)user.getAdministeredRooms().iterator().next();
+		assertEquals(3300, room1.getId().longValue());
+		
+		//try adding it again to be sure that it cannot be added twice
+		user.addAdministeredRoom(room);
+		assertEquals(1, user.getAdministeredRooms().size());
+		
+		//try to remove it
+		user.removeAdminsteredRoom(room1);
+		assertEquals(0, user.getAdministeredRooms().size());
+	}
+	
+	public void testEquals(){
+		assertFalse(user.equals(null));
+		assertFalse(user.equals(new User()));
+		assertFalse(user.equals(new Room()));
+		
+		user.setId(new Long(4000));
+		assertFalse(user.equals(new User()));
+		User u2 = new User();
+		u2.setId(new Long(4000));
+		assertTrue(user.equals(u2));
+		assertTrue(u2.equals(user));
+		
+		u2.setId(new Long(4001));
+		assertFalse(user.equals(u2));
+		assertFalse(u2.equals(user));
+	}
+	
+	public void testHashCode(){
+		assertEquals(0, user.hashCode());
+
+		user.setId(new Long(5000));
+		assertEquals(new Long(5000).hashCode(), user.hashCode());
 	}
 }

@@ -164,11 +164,13 @@ public class User extends BaseObject {
      * Needed for comparison. Compares the value of the id.
      */
     public boolean equals(Object o){
-    	if (o.getClass().equals(User.class)){
-    		User user = (User)o;
-    		if (user.id.longValue() == id.longValue()){
-    			return true;
-    		}
+    	if (o != null){
+	    	if (o.getClass().equals(User.class)){
+	    		User user = (User)o;
+	    		if (user.id != null && (user.id.longValue() == id.longValue())){
+	    			return true;
+	    		}
+	    	}
     	}
     	return false;
     }
@@ -177,7 +179,10 @@ public class User extends BaseObject {
      * Needed for comparison. Returns the hashcode of the id object
      */
     public int hashCode(){
-    	return id.hashCode();
+    	if (id != null){
+    		return id.hashCode();
+    	}
+    	return 0;
     }
     
     public String toString(){
