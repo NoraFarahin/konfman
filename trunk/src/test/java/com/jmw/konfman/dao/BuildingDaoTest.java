@@ -33,6 +33,26 @@ public class BuildingDaoTest extends BaseDaoTestCase {
         assertEquals(currentBuildingCount + 1, dao.getBuildings().size());
     }
 
+    public void testGetActiveBuildings() {
+    	int currentBuildingCount = dao.getBuildings().size();
+    	
+        building = new Building();
+        building.setName("name");
+        building.setTitle("title");
+
+        dao.saveBuilding(building);
+
+        assertEquals(currentBuildingCount, dao.getActiveBuildings().size());
+
+        Building b1 = new Building();
+        b1.setName("name1");
+        b1.setTitle("title1");
+        b1.setActive(true);
+        dao.saveBuilding(b1);
+
+        assertEquals(currentBuildingCount + 1, dao.getActiveBuildings().size());
+}
+
     public void testSaveBuilding() throws Exception {
         building = new Building();
         building.setName("Rod");
