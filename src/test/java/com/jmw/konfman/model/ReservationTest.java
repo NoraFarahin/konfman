@@ -113,14 +113,28 @@ public class ReservationTest extends TestCase {
 	}
 
 	/**
-	 * Test method for {@link com.jmw.konfman.model.Reservation#setDate(java.util.Date)}.
+	 * Test method for {@link com.jmw.konfman.model.Reservation#setDate(String)}.
 	 * Test method for {@link com.jmw.konfman.model.Reservation#getDate()}.
 	 */
 	public void testGetSetDate() throws Exception{
 		assertNull(reservation.getStartDateTime());
+		assertEquals("", reservation.getDate());
 		reservation.setDate("01/01/2005");
 		reservation.setStartTime("8:30 AM");
 		assertEquals("1/1/05", reservation.getDate());
+	}
+
+	/**
+	 * Test method for {@link com.jmw.konfman.model.Reservation#setDate(java.util.Date)}.
+	 * Test method for {@link com.jmw.konfman.model.Reservation#getDate()}.
+	 */
+	public void testGetSetDateDate() throws Exception{
+		assertNull(reservation.getStartDateTime());
+		assertEquals("", reservation.getDate());
+		Date date = new Date();
+		reservation.setDate(date);
+		assertEquals(date, reservation.getStartDateTime());
+		assertEquals(date, reservation.getEndDateTime());
 	}
 
 	/**
@@ -129,6 +143,7 @@ public class ReservationTest extends TestCase {
 	 */
 	public void testGetSetStartTime() throws Exception{
 		assertNull(reservation.getStartDateTime());
+		assertEquals("", reservation.getStartTime());
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
 		Date d = df.parse("01/01/2008 08:30 AM");
 		reservation.setDate("01/01/2008");
@@ -144,6 +159,7 @@ public class ReservationTest extends TestCase {
 	 */
 	public void testGetSetEndTime() throws Exception {
 		assertNull(reservation.getEndDateTime());
+		assertEquals("", reservation.getEndTime());
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
 		Date d = df.parse("01/01/2008 09:30 AM");
 		reservation.setDate("01/01/2008");
@@ -154,4 +170,9 @@ public class ReservationTest extends TestCase {
 		assertEquals("9:30 AM", reservation.getEndTime());
 	}
 
+	public void testToString(){
+		assertEquals("Reservation: null", reservation.toString());
+		reservation.setComment("comm");
+		assertEquals("Reservation: comm", reservation.toString());
+	}
 }
