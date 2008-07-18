@@ -13,7 +13,7 @@
 				<display:table name="${floor.rooms}" class="table" requestURI="" id="${floor.name}" pagesize="10">
 				    <display:column property="name" sortable="true" titleKey="room.name" escapeXml="true"/>
 				    <display:column property="title" sortable="false" titleKey="room.title" escapeXml="true"/>
-				    <display:column sortable="false" titleKey="room.title" href="userform.html?" paramId="roomId" paramProperty="id">
+				    <display:column sortable="false" titleKey="room.title" href="${submitform}.html?" paramId="roomId" paramProperty="id">
 				    	Select
 				    </display:column> 
 				</display:table>

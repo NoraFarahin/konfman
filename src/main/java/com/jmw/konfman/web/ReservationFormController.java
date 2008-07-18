@@ -12,12 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
-import org.springframework.validation.Validator;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,7 +25,9 @@ import org.springframework.web.servlet.mvc.AbstractWizardFormController;
 import com.jmw.konfman.model.Reservation;
 import com.jmw.konfman.model.Room;
 import com.jmw.konfman.model.User;
+import com.jmw.konfman.service.BuildingManager;
 import com.jmw.konfman.service.ReservationManager;
+import com.jmw.konfman.service.RoomManager;
 import com.jmw.konfman.service.UserManager;
 
 @Controller
@@ -37,25 +38,29 @@ public class ReservationFormController extends AbstractWizardFormController  {
     ReservationManager reservationManager;
     @Autowired
     UserManager userManager;
-
+    @Autowired
+    RoomManager roomManager;
+    @Autowired
+    BuildingManager buildingManager;
     
-    @Autowired(required = false)
-	@Qualifier("beanValidator")
-	Validator validator;
-
+    //@Autowired(required = false)
+	//@Qualifier("beanValidator")
+	//Validator validator;
+    
     public ReservationFormController() {
         setCommandName("reservation");
         setCommandClass(Reservation.class);
-        setPages(new String [] {"reservationForm", "usersSelect"});
-        if (validator != null)
-           setValidator(validator);
+        setPages(new String [] {"reservationForm", "usersSelect", "roomSelect"});
+        //if (validator != null)
+          // setValidator(validator);
     }
 
     
-    /*public ModelAndView processFormSubmission(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+    /*
+    public ModelAndView processFormSubmission(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
         System.out.println("processing");
 
-        return super.processFormSubmission(request, response, command, errors);
+        //return super.processFormSubmission(request, response, command, errors);
     }*/
 
     /**
@@ -74,7 +79,7 @@ public class ReservationFormController extends AbstractWizardFormController  {
                 new CustomNumberEditor(Long.class, null, true));
     }
     
-    /*
+    
     protected void validatePage(Object command, Errors errors, int page){
     	Reservation reservation = (Reservation)command;
     	System.out.println("validating: " + reservation.getComment());
@@ -82,74 +87,86 @@ public class ReservationFormController extends AbstractWizardFormController  {
     		System.out.println("Errors: " + errors.getErrorCount());
     	//}
     }
+
+    private Reservation createNewReservation(){
+    	Reservation reservation = new Reservation();
+    	return reservation;
+    }
     
-   /* public ModelAndView onSubmit(HttpServletRequest request,
-                                 HttpServletResponse response, Object command,
-                                 BindException errors)
-            throws Exception {
-        log.debug("entering 'onSubmit' method...");
-
-        Reservation reservation = (Reservation) command;
-        if (reservation.getUser() == null){
-            setSuccessView("redirect:usersselect.html?reservationId=" + reservation.getId());
-        } else {
-        	setSuccessView("redirect:reservations.html?roomId=" + reservation.getRoom().getId());
-        }
-        
-
-        if (request.getParameter("selectuser") != null) {
-            request.getSession().setAttribute("reservation", reservation);
-        } else if (request.getParameter("delete") != null) {
-            reservationManager.removeReservation(reservation.getId().toString());
-            request.getSession().setAttribute("message", 
-                    getText("reservation.deleted", reservation.getComment()));
-        } else {
-            reservationManager.saveReservation(reservation);
-            request.getSession().setAttribute("message",
-                    getText("reservation.saved", reservation.getComment()));
-        }
-
-        return new ModelAndView(getSuccessView());
-    }*/
-
-    protected Object formBackingObject(HttpServletRequest request)
-            throws ServletException {
+    private Reservation getReservation(String reservationId){
+    	return reservationManager.getReservation(reservationId);
+    }
+    
+    private Reservation updateUser(Reservation reservation, String userId){
+        User user = userManager.getUser(userId);
+		log.debug("Changed reservation's user: "  + user.getFullName());
+        reservation.setUser(user);
+        return reservation;
+    }
+    
+    private Reservation updateRoom(Reservation reservation, String roomId){
+        Room room = roomManager.getRoom(roomId);
+        reservation.setRoom(room);
+		log.debug("Changed reservation's room to: "  + room.getName());
+        return reservation;
+    }
+    
+    
+    private void setDestination(HttpServletRequest request, Reservation reservation){
+    	//figure out how we got here and save it so that we can get back there later
+    	String dest = request.getParameter("dest");
+    	if (dest != null && !dest.equals("")){
+    		if (dest.startsWith("user")){
+    			dest = dest + "?userId="+ reservation.getUser().getId();
+    		} else if (dest.startsWith("reservation")){
+    			dest = dest + "?roomId=" + reservation.getRoom().getId();
+    		}
+	        request.getSession().setAttribute("destination", dest);
+    	}
+    }
+    
+    protected Object formBackingObject(HttpServletRequest request) throws ServletException {
+        Reservation reservation = null;
+		try {
+			reservation = (Reservation)this.getCommand(request);
+		} catch (Exception e) {
+			logger.debug("Creating a new reservation");
+			reservation = createNewReservation();
+		}
         String reservationId = request.getParameter("id");
         String roomId = request.getParameter("roomId");
         String userId = request.getParameter("userId");
-        //System.out.println("Building Id: " + buildingId);
+        
+        //if we are requesting an existing reservation 
+        if ((reservationId != null) && !reservationId.equals("")) {
+            reservation = getReservation(reservationId);
+        }   
         if ((userId != null) && !userId.equals("")) {
-            User user = userManager.getUser(userId);
-            Reservation r = null;
-			try {
-				r = (Reservation)this.getCommand(request);
-				log.debug("added user: "  + user.getFullName());
-				//reservationManager.saveReservation(r);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-            r.setUser(user);
-            return r;
-        } else if ((reservationId != null) && !reservationId.equals("")) {
-            return reservationManager.getReservation(reservationId);
-        } else {
-            Reservation reservation = new Reservation();
-            Room r = new Room();
-            r.setId(Long.valueOf(roomId));
-            reservation.setRoom(r);
-            return reservation;
+        	reservation = this.updateUser(reservation, userId);
         }
+        if ((roomId != null) && !roomId.equals("")) {
+        	reservation = this.updateRoom(reservation, roomId);
+        }
+        setDestination(request, reservation);
+        return reservation;
     }
     
-    protected Map referenceData(HttpServletRequest request, int page){
+    @SuppressWarnings("unchecked")
+	protected Map referenceData(HttpServletRequest request, int page){
     	if (page == 1){
     		logger.debug("providing user data");
     		Map map = new HashMap();
     		map.put("userList", userManager.getUsers());
     		map.put("submitform", "reservationform");
     		return map;
+    	} else if (page > 1 ){
+    		logger.debug("providing building data");
+    		Map map = new HashMap();
+    		map.put("buildingList", buildingManager.getBuildings());
+    		map.put("submitform", "reservationform");
+    		return map;
     	}
+
     	return null;
     }
     
@@ -200,24 +217,20 @@ public class ReservationFormController extends AbstractWizardFormController  {
 	        request.getSession().setAttribute("message", 
 	                getText("reservation.deleted", reservation.getComment()));
 		} else {
-	        String userId = request.getParameter("userId");
-	        if ((userId != null) && !userId.equals("")) {
-	            User user = userManager.getUser(userId);
-	            reservation.setUser(user);
-	        }
 			reservationManager.saveReservation(reservation);
 			logger.debug("Reservation saved/updated");
             request.getSession().setAttribute("message",
                     getText("reservation.saved", reservation.getComment()));
 		}
-		return new ModelAndView("redirect:reservations.html?roomId=" + roomId);
+		System.out.println("Destination: " + request.getSession().getAttribute("destination"));
+		return new ModelAndView("redirect:" + request.getSession().getAttribute("destination"));
 	}
 
 	protected ModelAndView processCancel(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException errors)
 			throws Exception {
-		Reservation reservation = (Reservation)command;
+		//Reservation reservation = (Reservation)command;
 		logger.debug("Canceling reservation change...");
-		return new ModelAndView("redirect:reservations.html?roomId=" + reservation.getRoom().getId());
+		return new ModelAndView("redirect:" + request.getSession().getAttribute("destination"));
 	}
 }
