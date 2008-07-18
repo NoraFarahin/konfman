@@ -12,7 +12,6 @@
 <form:form commandName="reservation" method="post" action="reservationform.html?roomId=1" onsubmit="return validateUser(this)" id="reservationForm">
 <form:errors path="*" cssClass="error"/>
 <form:hidden path="id"/>
-<form:hidden path="room.id"/>
 <table class="detail">
 <tr>
     <th><label for="date"  class="required">*<fmt:message key="reservation.date"/>:</label></th>
@@ -46,11 +45,22 @@
     </td>
 </tr>
 <tr>
+    <th><label for="room" >*<fmt:message key="reservation.room.name"/>:</label></th>
+    <td>
+    	<c:if test="${not empty reservation.room}">
+        	<input name="roomName" value="${reservation.room.floor.name}-${reservation.room.title}" readonly="true"/> 
+		</c:if>
+    	<c:if test="${empty reservation.room}">
+        	<input name="roomName" value="No Room Selected" readonly="true"/> 
+		</c:if>
+        <input type="submit" class="button" name="_target2" value="Select/Change Room"/>
+    </td>
+</tr>
+<tr>
     <th><label for="user" >*<fmt:message key="user.fullName"/>:</label></th>
     <td>
         <input name="userName" value="${reservation.user.fullName}" readonly="true"/> 
         <input type="submit" class="button" name="_target1" value="Select/Change User"/>
-
     </td>
 </tr>
 <tr>

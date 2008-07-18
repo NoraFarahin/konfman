@@ -152,10 +152,20 @@ public class Room extends BaseObject {
 		this.administrators = administrators;
 	}
 
+	/**
+	 * Adds an administrator
+	 * @param user the user to administer this room
+	 * @return true if the admin was added, false if this admin already exists
+	 */
 	public boolean addAdministrator(User user){
 		return administrators.add(user);
 	}
 
+	/**
+	 * Removes an administrator
+	 * @param user the admin to remove
+	 * @return true if the admin was removed, false if the admin does not exist
+	 */
 	public boolean removeAdministrator(User user){
 		return administrators.remove(user);
 	}
