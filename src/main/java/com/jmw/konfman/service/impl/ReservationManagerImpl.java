@@ -26,11 +26,15 @@ public class ReservationManagerImpl implements ReservationManager {
         return dao.getReservation(Long.valueOf(reservationId));
     }
 
-    public void saveReservation(Reservation reservation) {
-        dao.saveReservation(reservation);
+    public boolean saveReservation(Reservation reservation) {
+        return dao.saveReservation(reservation);
     }
 
     public void removeReservation(String reservationId) {
         dao.removeReservation(Long.valueOf(reservationId));
     }
+
+	public boolean isConflict(Reservation reservation) {
+		return dao.isConflict(reservation);
+	}
 }

@@ -6,8 +6,36 @@ import com.jmw.konfman.model.Reservation;
 
 
 public interface ReservationDao extends Dao {
-    public List getReservations();
+    /**
+     * Returns all reservations stored in the system
+     * @return the reservations as a List
+     */
+	public List getReservations();
+	
+	/**
+	 * Gets a specific reservation specified by reservationId
+	 * @param reservationId the unique ID of the reservation sought
+	 * @return the reservation
+	 */
     public Reservation getReservation(Long reservationId);
-    public void saveReservation(Reservation reservation);
+    
+    /**
+     * Save changes to a reservation
+     * @param reservation the reservation to be changed
+     * @return false if the reservation was not saved due to a conflict 
+     */
+    public boolean saveReservation(Reservation reservation);
+    
+    /**
+     * Removes a reservation from the database
+     * @param reservationId the ID of the reservation to remove
+     */
     public void removeReservation(Long reservationId);
+    
+    /**
+     * Determines if there is a conflict between this reservation and an existing one
+     * @param reservation the new reservation
+     * @return true if there is a conflict, false if there is no conflict
+     */
+    public boolean isConflict(Reservation reservation);
 }
