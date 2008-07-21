@@ -12,11 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,16 +45,16 @@ public class ReservationFormController extends AbstractWizardFormController  {
     @Autowired
     BuildingManager buildingManager;
     
-    //@Autowired(required = false)
-	//@Qualifier("beanValidator")
-	//Validator validator;
+    @Autowired(required = false)
+	@Qualifier("beanValidator")
+	Validator validator;
     
     public ReservationFormController() {
         setCommandName("reservation");
         setCommandClass(Reservation.class);
         setPages(new String [] {"reservationForm", "usersSelect", "roomSelect"});
-        //if (validator != null)
-          // setValidator(validator);
+        if (validator != null)
+           setValidator(validator);
     }
 
     
@@ -82,9 +84,13 @@ public class ReservationFormController extends AbstractWizardFormController  {
     
     protected void validatePage(Object command, Errors errors, int page){
     	Reservation reservation = (Reservation)command;
-    	System.out.println("validating: " + reservation.getComment());
+    	boolean conflict = reservationManager.isConflict(reservation);
+    	/*if (conflict){
+    		errors.reject("reservation.conflicted", reservation.getComment());
+    	}*/
+    	//System.out.println("validating: " + reservation.getComment());
     	//if (page == 0){
-    		System.out.println("Errors: " + errors.getErrorCount());
+    		//System.out.println("Errors: " + errors.getErrorCount());
     	//}
     }
 
@@ -210,17 +216,23 @@ public class ReservationFormController extends AbstractWizardFormController  {
 			HttpServletResponse response, Object command, BindException errors)
 			throws Exception {
 		Reservation reservation = (Reservation)command;
-		String roomId = reservation.getRoom().getId().toString();
+		//String roomId = reservation.getRoom().getId().toString();
 		if (request.getParameter("_finish").equals("Delete")){
 			logger.debug("Removing reservation: " + reservation.getComment() + "/" + reservation.getId());
 			reservationManager.removeReservation(reservation.getId().toString());		
 	        request.getSession().setAttribute("message", 
 	                getText("reservation.deleted", reservation.getComment()));
 		} else {
-			reservationManager.saveReservation(reservation);
-			logger.debug("Reservation saved/updated");
-            request.getSession().setAttribute("message",
+			boolean b = reservationManager.saveReservation(reservation);
+			if (b == true){
+				logger.debug("Reservation saved/updated");
+				request.getSession().setAttribute("message",
                     getText("reservation.saved", reservation.getComment()));
+			} else {
+		        request.getSession().setAttribute("message", 
+		                getText("reservation.conflicted", reservation.getComment()));
+			}
+			
 		}
 		System.out.println("Destination: " + request.getSession().getAttribute("destination"));
 		return new ModelAndView("redirect:" + request.getSession().getAttribute("destination"));

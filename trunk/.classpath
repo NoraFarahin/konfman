@@ -11,6 +11,7 @@
   <classpathentry kind="var" path="M2_REPO/asm/asm/1.5.3/asm-1.5.3.jar"/>
   <classpathentry kind="var" path="M2_REPO/asm/asm-attrs/1.5.3/asm-attrs-1.5.3.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/aspectj/aspectjweaver/1.6.0/aspectjweaver-1.6.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/calendartag/1.0.1/calendartag-1.0.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/codehaus/cargo/cargo-ant/0.9/cargo-ant-0.9.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/codehaus/cargo/cargo-core-api-container/0.9/cargo-core-api-container-0.9.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/codehaus/cargo/cargo-core-api-generic/0.9/cargo-core-api-generic-0.9.jar"/>
