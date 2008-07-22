@@ -86,12 +86,42 @@ public class ReservattionDaoTest extends BaseDaoTestCase {
 			e.printStackTrace();
 			fail();
 		}
-        resDao.saveReservation(res);
+		assertTrue(resDao.saveReservation(res));
         assertTrue("primary key assigned", res.getId() != null);
 
         assertEquals(count + 1, resDao.getReservations().size());
         Reservation r = (Reservation) resDao.getReservations().get(count);
         assertEquals("comment", r.getComment());
+    }
+
+    public void testSaveReservationConflict() throws Exception {
+    	config();
+    	int count = resDao.getReservations().size();
+        Reservation r1 = new Reservation();
+        r1.setComment("comment20");
+        r1.setRoom(room);
+        r1.setDate("07/20/2008");
+        try {
+        	r1.setStartTime("1:30 PM");
+        	r1.setEndTime("3:30 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+        resDao.saveReservation(r1);
+
+        res = new Reservation();
+        res.setComment("comment");
+        res.setRoom(room);
+    	res.setDate("07/20/2008");
+        try {
+        	res.setStartTime("2:00 PM");
+        	res.setEndTime("2:30 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+        assertFalse(resDao.saveReservation(res));
     }
 
     public void testRemoveReservation() throws Exception {
@@ -569,6 +599,47 @@ public class ReservattionDaoTest extends BaseDaoTestCase {
 			fail();
 		}
     	assertTrue("Two Conflicts: These params should create a conflict", resDao.isConflict(res));
+    }
+
+    /**
+     * Test if there is a conflict if two rooms are selected
+     */
+	public void testIsConflictTwoRooms(){
+    	config();
+    	Room room2 = new Room();
+        room2 = new Room();
+        room2.setFloor(floor);
+        rDao.saveRoom(room2);
+
+        Reservation r1 = new Reservation();
+        r1.setComment("comment10");
+        r1.setRoom(room);
+        r1.setDate("07/20/2008");
+        try {
+        	r1.setStartTime("2:30 PM");
+        	r1.setEndTime("3:30 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+        resDao.saveReservation(r1);
+        assertNotNull(r1.getId());
+        
+        //Retrieve the same reservation and see that it does not conflict with self
+        res = resDao.getReservation(r1.getId());
+        assertEquals(r1.getId(), res.getId());
+        res.setComment("comment100");
+        res.setRoom(room2);
+    	res.setDate("07/20/2008");
+
+        try {
+        	res.setStartTime("3:00 PM");
+        	res.setEndTime("4:00 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+    	assertFalse("These params should NOT create a conflict", resDao.isConflict(res));
     }
 
 }
