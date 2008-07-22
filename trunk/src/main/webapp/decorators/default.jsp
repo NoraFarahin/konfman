@@ -28,8 +28,8 @@
         <h1 style="cursor: pointer" onclick="location.href='${ctx}/'">Konfman</h1>
 
         <div id="branding">
-            <a href="http://appfuse.org" title="Konfman - Conference room scheduler">
-                <img src="${ctx}/images/powered-by-appfuse.gif" width="203" height="75" alt="AppFuse"/></a>
+            <a href="http://konfman.sourceforge.net" title="Konfman - Conference room scheduler">
+                <img src="${ctx}/images/powered-by-appfuse.gif" width="203" height="75" alt="Konfman"/></a>
         </div>
 
         <p><fmt:message key="webapp.tagline"/></p>
@@ -51,8 +51,8 @@
             <p>The following is a list </p>
 
             <ul class="glassList">
-                <li><a href="${ctx}/userlist.html">Administer Users</a></li>
-                <li><a href="${ctx}/buildings.html">Administer Facilities</a></li>
+                <li><a href="./userlist.html">Administer Users</a></li>
+                <li><a href="./buildings.html">Administer Facilities</a></li>
             </ul>
 
             <img src="${ctx}/images/image.gif" alt="Click to Change Theme" width="150" height="112" class="right" style="margin: 10px 0 20px 0"
@@ -67,6 +67,7 @@
                     <li><a href="${ctx}/myreservations.html" title="My Reservations"><span>My Reservations</span></a></li>
                     <li><a href="${ctx}/myprofile.html" title="My Profile"><span>My Profile</span></a></li>
                     <li><a href="${ctx}/newreservation.html" title="My Profile"><span>New Reservation</span></a></li>
+                    <li><a href="${ctx}/appadmin/index.jsp" title="Application Administration"><span>Administration</span></a></li>
                     <li><a href="${ctx}/logoff.html" title="Log Off"><span>Log Off</span></a></li>
                 </ul>
             </div>

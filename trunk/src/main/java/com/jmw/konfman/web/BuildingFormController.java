@@ -25,7 +25,7 @@ import com.jmw.konfman.model.Building;
 import com.jmw.konfman.service.BuildingManager;
 
 @Controller
-@RequestMapping("/buildingform.*")
+@RequestMapping("/appadmin/buildingform.*")
 public class BuildingFormController extends SimpleFormController {
     private final Log log = LogFactory.getLog(BuildingFormController.class);
     @Autowired
@@ -38,7 +38,7 @@ public class BuildingFormController extends SimpleFormController {
     public BuildingFormController() {
         setCommandName("building");
         setCommandClass(Building.class);
-        setFormView("buildingForm");
+        setFormView("appadmin/buildingForm");
         setSuccessView("redirect:buildings.html");
         if (validator != null)
             setValidator(validator);
