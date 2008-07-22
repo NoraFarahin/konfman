@@ -184,13 +184,13 @@ public class UserFormController extends AbstractWizardFormController {
                     getText("user.saved", user.getFullName()));
             log.debug("Saved user: " + user.getFullName());
         }
-		return new ModelAndView("redirect:userlist.html");
+		return new ModelAndView("redirect:appadmin/userlist.html");
 	}
 	
 	protected ModelAndView processCancel(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException errors)
 			throws Exception {
 		logger.debug("Canceling user change...");
-		return new ModelAndView("redirect:userlist.html");
+		return new ModelAndView("redirect:appadmin/userlist.html");
 	}
 }

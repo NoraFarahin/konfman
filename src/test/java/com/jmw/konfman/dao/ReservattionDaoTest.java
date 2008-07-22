@@ -341,6 +341,39 @@ public class ReservattionDaoTest extends BaseDaoTestCase {
 	}
 	
     /**
+     * Test for a conflict where the test reservation starts right after the potential conflict 
+     */
+	public void testIsConflicEndOnAfterEdge(){
+    	config();
+        Reservation r1 = new Reservation();
+        r1.setComment("comment10");
+        r1.setRoom(room);
+        r1.setDate("07/20/2008");
+        try {
+        	r1.setStartTime("1:30 PM");
+        	r1.setEndTime("3:30 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+        resDao.saveReservation(r1);
+	    //try to make it succeed
+		res = new Reservation();
+	    res.setComment("comment100");
+	    res.setRoom(room);
+		res.setDate("07/20/2008");
+	
+	    try {
+	    	res.setStartTime("2:30 PM");
+	    	res.setEndTime("3:30 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertTrue(resDao.isConflict(res));
+	}
+	
+	/**
      * Test  for a conflict where the test reservation starts before and ends after the conflict 
      */
 	public void testIsConflictOutside(){
@@ -642,4 +675,48 @@ public class ReservattionDaoTest extends BaseDaoTestCase {
     	assertFalse("These params should NOT create a conflict", resDao.isConflict(res));
     }
 
+    /**
+     * Test for a conflict where the test reservation starts right after the potential conflict 
+     */
+	public void testIsConflicOnBothEnds(){
+    	config();
+        Reservation r1 = new Reservation();
+        r1.setComment("comment10");
+        r1.setRoom(room);
+        r1.setDate("07/20/2008");
+        try {
+        	r1.setStartTime("2:00 PM");
+        	r1.setEndTime("4:00 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+        resDao.saveReservation(r1);
+        Reservation r2 = new Reservation();
+        r2.setComment("comment10");
+        r2.setRoom(room);
+        r2.setDate("07/20/2008");
+        try {
+        	r2.setStartTime("4:00 PM");
+        	r2.setEndTime("5:30 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+        assertTrue(resDao.saveReservation(r2));
+	    //try to make it succeed
+		res = new Reservation();
+	    res.setComment("comment100");
+	    res.setRoom(room);
+		res.setDate("07/20/2008");
+	
+	    try {
+	    	res.setStartTime("2:30 PM");
+	    	res.setEndTime("5:00 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertTrue(resDao.isConflict(res));
+	}
 }

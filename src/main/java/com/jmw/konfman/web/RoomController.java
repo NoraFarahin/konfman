@@ -13,9 +13,9 @@ public class RoomController {
     @Autowired
     FloorManager floorManager;
 
-    @RequestMapping("/rooms.*")
+    @RequestMapping("/appadmin/rooms.*")
     public String execute(ModelMap model, @RequestParam(value="floorId") String floorId) {
         model.addAttribute("floor", floorManager.getFloor(floorId));
-        return "roomList";
+        return "appadmin/roomList";
     }
 }

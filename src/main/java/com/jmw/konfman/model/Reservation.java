@@ -1,11 +1,9 @@
 package com.jmw.konfman.model;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -94,7 +92,7 @@ public class Reservation extends BaseObject {
     	this.room = room;
     }
     
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
     public Room getRoom(){
     	return room;
     }
@@ -109,7 +107,7 @@ public class Reservation extends BaseObject {
 	/**
 	 * @return the user
 	 */
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne
 	public User getUser() {
 		return user;
 	}
