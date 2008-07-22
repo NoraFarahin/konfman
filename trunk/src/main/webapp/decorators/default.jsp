@@ -45,6 +45,7 @@
             <div id="underground"><decorator:getProperty property="page.underground"/></div>
         </div>
 
+        <!-- TODO put this into a tag which detemines users rights -->
         <div id="sub">
             <h3>Administration Functions</h3>
 

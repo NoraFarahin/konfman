@@ -25,7 +25,7 @@ import com.jmw.konfman.model.Floor;
 import com.jmw.konfman.service.FloorManager;
 
 @Controller
-@RequestMapping("/floorform.*")
+@RequestMapping("/appadmin/floorform.*")
 public class FloorFormController extends SimpleFormController {
     private final Log log = LogFactory.getLog(FloorFormController.class);
     @Autowired
@@ -38,7 +38,7 @@ public class FloorFormController extends SimpleFormController {
     public FloorFormController() {
         setCommandName("floor");
         setCommandClass(Floor.class);
-        setFormView("floorForm");
+        setFormView("appadmin/floorForm");
         setSuccessView("redirect:floors.html");
         if (validator != null)
             setValidator(validator);

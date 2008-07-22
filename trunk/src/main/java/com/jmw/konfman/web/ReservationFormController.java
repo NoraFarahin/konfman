@@ -82,13 +82,13 @@ public class ReservationFormController extends AbstractWizardFormController  {
     }
     
     
-    protected boolean suppressValidation(HttpServletRequest request) {
+    protected boolean suppressValidation(HttpServletRequest request, Object command) {
     	//don't validate unless we are finishing 
     	String finish = request.getParameter("_finish");
     	 if (finish == null || finish.equals("") || finish.equals("Delete")){
     		 return true;
     	 }
-    	 return false;
+    	 return super.suppressValidation(request, command);
     }
 
     protected void validatePage(Object command, Errors errors, int page){

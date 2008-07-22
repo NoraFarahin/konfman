@@ -208,13 +208,13 @@ public class RoomFormController extends AbstractWizardFormController {
                     getText("room.saved", room.getName()));
         }
 
-        return new ModelAndView("redirect:rooms.html?floorId=" + room.getFloor().getId());
+        return new ModelAndView("redirect:appadmin/rooms.html?floorId=" + room.getFloor().getId());
 	}
 
 	protected ModelAndView processCancel(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException error)
 			throws Exception {
 		Room room = (Room) command;
-        return new ModelAndView("redirect:rooms.html?floorId=" + room.getFloor().getId());
+        return new ModelAndView("redirect:appadmin/rooms.html?floorId=" + room.getFloor().getId());
 	}
 }

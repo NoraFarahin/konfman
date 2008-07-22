@@ -80,12 +80,17 @@ public class ReservationDaoHibernate implements ReservationDao {
 		List list = hibernateTemplate.find("from Reservation r where r.room = ? and ((? between r.startDateTime and r.endDateTime) or ((? between r.startDateTime and r.endDateTime)) or (? < r.startDateTime and ? > r.endDateTime))", params);
 		logger.debug("Retreiving matching reservations, count: " + list.size());
 		if (list.size() > 1){
+			logger.debug("###1");
 			return true;
 		} else if (list.size() == 1){
+			logger.debug("###2");
 			Reservation res = (Reservation) list.iterator().next();
+			logger.debug("###3");
 			//if this reservation was never saved then this is certainly a conflict 
 			//or if the ID is different then it is also a conflict
+			logger.debug("###4");
 			if (reservation.getId() == null || (!res.getId().equals(reservation.getId()))){
+				logger.debug("###5");
 				return true;
 			}
 		}
@@ -107,6 +112,7 @@ public class ReservationDaoHibernate implements ReservationDao {
 				return true;
 			}
 		}*/
+		logger.debug("###6");
 		return false;
 	}
 }
