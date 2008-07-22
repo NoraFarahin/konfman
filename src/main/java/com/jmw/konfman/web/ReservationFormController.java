@@ -82,12 +82,22 @@ public class ReservationFormController extends AbstractWizardFormController  {
     }
     
     
+    protected boolean suppressValidation(HttpServletRequest request) {
+    	//don't validate unless we are finishing 
+    	String finish = request.getParameter("_finish");
+    	 if (finish == null || finish.equals("") || finish.equals("Delete")){
+    		 return true;
+    	 }
+    	 return false;
+    }
+
     protected void validatePage(Object command, Errors errors, int page){
+    	
     	Reservation reservation = (Reservation)command;
     	boolean conflict = reservationManager.isConflict(reservation);
-    	/*if (conflict){
-    		errors.reject("reservation.conflicted", reservation.getComment());
-    	}*/
+    	if (conflict){
+    		errors.reject("reservation.conflicted", new String[] {reservation.getComment()}, "" );
+    	}
     	//System.out.println("validating: " + reservation.getComment());
     	//if (page == 0){
     		//System.out.println("Errors: " + errors.getErrorCount());
