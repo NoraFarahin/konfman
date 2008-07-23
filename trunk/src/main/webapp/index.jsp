@@ -1,17 +1,16 @@
 <%@ include file="/taglibs.jsp"%>
-
+<jsp:directive.page import="com.jmw.konfman.service.impl.*"/>
+<jsp:directive.page import="com.jmw.konfman.model.*"/>
 <div id="intro">
+	<%
+	request.getSession().setAttribute("myid", "1");
+	%>
     <h2>Welcome to Konfman Administration!</h2>
     <p>
         <a href="http://appfuse-light.dev.java.net">AppFuse Light</a> is a lightweight version of <a href="http://appfuse.org">AppFuse</a>.
         I was inspired to create it while writing <a href="http://springlive.com">Spring Live</a> and 
         looking at the <em>struts-blank</em> and <em>webapp-minimal</em> 
         applications that ship with Struts and Spring, respectively.
-        These "starter" apps were not robust enough for me, and I wanted 
-        something like AppFuse, only simpler.  Much of the documentation for developing
-        with AppFuse Light can be found in the <a href="http://sourcebeat.com/titles/springlive/public/Rev_12/SpringLive_SampleChapter.pdf">
-        Spring QuickStart Chapter</a> in Spring Live.  If you have issues downloading this 
-        PDF, you might try saving it to your hard drive before opening it.
     </p>
     <p>
         To see this feature, click on the button below. <a href="?" onclick="readMore(); return false">Click here</a> 
@@ -38,16 +37,6 @@
         <a href="http://wicket.sourceforge.net/">Wicket</a>. In addition, there's a
         number of extras for Spring MVC, including Velocity and FreeMarker versions, Ajax
         support and Acegi Security support. Installers are in the "extras" directory.
-    </p>
-    <p>
-        By default, AppFuse Light expects you to have MySQL installed. It will create an
-        "appfuse_light" database the first time tests are run or the application is started.
-        More information on database configuration can be found in this project's README.txt 
-        file.
-    </p>
-    <p> 
-        Since no server configuration is required, this application should
-        this application should work with any Servlet 2.4 servlet engine.
     </p>
     <p>
         <button class="button" onclick="readMore();">&laquo; Back</button>

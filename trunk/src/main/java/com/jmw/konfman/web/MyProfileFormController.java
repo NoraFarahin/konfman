@@ -24,17 +24,15 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractWizardFormController;
 
 import com.jmw.konfman.model.Floor;
-import com.jmw.konfman.model.Room;
 import com.jmw.konfman.model.User;
 import com.jmw.konfman.service.BuildingManager;
 import com.jmw.konfman.service.FloorManager;
-import com.jmw.konfman.service.RoomManager;
 import com.jmw.konfman.service.UserManager;
 
 @Controller
-@RequestMapping("/appadmin/userform.*")
-public class UserFormController extends AbstractWizardFormController {
-    private final Log log = LogFactory.getLog(UserFormController.class);
+@RequestMapping("/myprofile.*")
+public class MyProfileFormController extends AbstractWizardFormController {
+    private final Log log = LogFactory.getLog(MyProfileFormController.class);
     @Autowired
     UserManager userManager;
     
@@ -44,33 +42,17 @@ public class UserFormController extends AbstractWizardFormController {
     @Autowired
     FloorManager floorManager;
 
-    @Autowired
-    RoomManager roomManager;
-
     @Autowired(required = false)
 	@Qualifier("beanValidator")
 	Validator validator;
 
-    public UserFormController() {
+    public MyProfileFormController() {
         setCommandName("user");
         setCommandClass(User.class);
-        this.setPages(new String[] {"appadmin/userForm", "appadmin/floorSelect", "appadmin/roomSelect"});
+        this.setPages(new String[] {"myProfileForm", "floorSelect"});
         if (validator != null)
             setValidator(validator);
     }
-
-    /*
-    public ModelAndView processFormSubmission(HttpServletRequest request,
-                                              HttpServletResponse response,
-                                              Object command,
-                                              BindException errors)
-            throws Exception {
-        if (request.getParameter("cancel") != null) {
-            return new ModelAndView(getSuccessView());
-        }
-
-        return super.processFormSubmission(request, response, command, errors);
-    } */
 
     /**
      * Set up a custom property editor for converting Longs
@@ -90,34 +72,22 @@ public class UserFormController extends AbstractWizardFormController {
 
     protected Object formBackingObject(HttpServletRequest request)
             throws ServletException {
-        String userId = request.getParameter("id");
-        String roomId = request.getParameter("roomId");
-        String removeRoomId = request.getParameter("removeRoomId");
-        User user = null;
-   		try {
-			user = (User) this.getCommand(request);
+    	User user = null;
+		try {
+			user = (User)this.getCommand(request);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if (user == null){
-			user = new User();
-		}
-        if (roomId != null && !roomId.equals("")){
-        	Room room = roomManager.getRoom(roomId);
-			user.addAdministeredRoom(room);
-        } else if (removeRoomId != null && !removeRoomId.equals("")){
-        	Room room = roomManager.getRoom(removeRoomId);
-			user.removeAdminsteredRoom(room);
-        } else if ((userId != null) && !userId.equals("")) {
+        String userId = (String) request.getSession().getAttribute("myid");
+        if (user == null && userId != null && !userId.equals("")) {
             user = userManager.getUser(userId);
         }
-        
         String floorId = request.getParameter("floorId");
         if ((floorId != null) && !floorId.equals("")) {
             Floor floor = floorManager.getFloor(floorId);
             user.setDefaultFloor(floor);
         }
-
+        
         return user;
     }
     
@@ -126,7 +96,7 @@ public class UserFormController extends AbstractWizardFormController {
     		logger.debug("providing building data");
     		Map map = new HashMap();
     		map.put("buildingList", buildingManager.getBuildings());
-    		map.put("submitform", "userform.html");
+    		map.put("submitform", "myprofile.html");
     		return map;
     	}
     	return null;
@@ -183,13 +153,13 @@ public class UserFormController extends AbstractWizardFormController {
                     getText("user.saved", user.getFullName()));
             log.debug("Saved user: " + user.getFullName());
         }
-		return new ModelAndView("redirect:./userlist.html");
+		return new ModelAndView("redirect:/");
 	}
 	
 	protected ModelAndView processCancel(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException errors)
 			throws Exception {
 		logger.debug("Canceling user change...");
-		return new ModelAndView("redirect:./userlist.html");
+		return new ModelAndView("redirect:/");
 	}
 }

@@ -27,7 +27,7 @@ import com.jmw.konfman.service.RoomManager;
 import com.jmw.konfman.service.UserManager;
 
 @Controller
-@RequestMapping("/roomform.*")
+@RequestMapping("/**/roomform.*")
 public class RoomFormController extends AbstractWizardFormController {
     private final Log log = LogFactory.getLog(RoomFormController.class);
     @Autowired
@@ -43,7 +43,7 @@ public class RoomFormController extends AbstractWizardFormController {
     public RoomFormController() {
         setCommandName("room");
         setCommandClass(Room.class);
-        setPages(new String[] {"roomForm", "usersSelect"} );
+        setPages(new String[] {"roomForm", "appadmin/usersSelect"} );
         //setSuccessView("redirect:rooms.html");
         if (validator != null)
             setValidator(validator);
@@ -208,13 +208,13 @@ public class RoomFormController extends AbstractWizardFormController {
                     getText("room.saved", room.getName()));
         }
 
-        return new ModelAndView("redirect:appadmin/rooms.html?floorId=" + room.getFloor().getId());
+        return new ModelAndView("redirect:./rooms.html?floorId=" + room.getFloor().getId());
 	}
 
 	protected ModelAndView processCancel(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException error)
 			throws Exception {
 		Room room = (Room) command;
-        return new ModelAndView("redirect:appadmin/rooms.html?floorId=" + room.getFloor().getId());
+        return new ModelAndView("redirect:./rooms.html?floorId=" + room.getFloor().getId());
 	}
 }

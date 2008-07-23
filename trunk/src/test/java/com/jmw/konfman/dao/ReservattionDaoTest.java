@@ -94,6 +94,30 @@ public class ReservattionDaoTest extends BaseDaoTestCase {
         assertEquals("comment", r.getComment());
     }
 
+    /**
+     * Saves the same reservation twice as this was causing difficulties
+     * @throws Exception
+     */
+    public void testSaveReservationTwice() throws Exception {
+    	config();
+        res = new Reservation();
+        res.setComment("comment");
+        res.setRoom(room);
+    	res.setDate("07/20/2008");
+        try {
+        	res.setStartTime("2:00 PM");
+        	res.setEndTime("2:30 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertTrue(resDao.saveReservation(res));
+        assertTrue("primary key assigned", res.getId() != null);
+
+		//now try to save again and see that it works
+        assertTrue(resDao.saveReservation(res));
+    }
+
     public void testSaveReservationConflict() throws Exception {
     	config();
     	int count = resDao.getReservations().size();

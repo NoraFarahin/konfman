@@ -12,15 +12,15 @@ public class UserController {
     @Autowired
     UserManager userManager;
 
-    @RequestMapping("/appadmin/userlist.*")
+    @RequestMapping("/**/userlist.*")
     public String execute(ModelMap model) {
         model.addAttribute("userList", userManager.getUsers());
         return "appadmin/userList";
     }
-    @RequestMapping("/usersselect.*")
+    @RequestMapping("/**/usersselect.*")
     public String executeSelect(ModelMap model) {
         model.addAttribute("userList", userManager.getUsers());
-        return "usersSelect";
+        return "appadmin/usersSelect";
     }
     
 }

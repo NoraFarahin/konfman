@@ -44,16 +44,18 @@ public class ReservationDaoHibernate implements ReservationDao {
     }
 
     public boolean saveReservation(Reservation reservation) {
+		logger.debug("###1");
     	boolean b = isConflict(reservation);
+		logger.debug("###2");
     	if (b == true){
             logger.debug("conflict discovered");
     		return false;
     	}
+		logger.debug("###3");
         hibernateTemplate.saveOrUpdate(reservation);
+		logger.debug("###4");
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("reservationId set to: " + reservation.getId());
-        }
+        logger.debug("reservationId set to: " + reservation.getId());
         return true;
     }
 
@@ -66,33 +68,33 @@ public class ReservationDaoHibernate implements ReservationDao {
 		//reservations that begin where another ends
 		Date startDateTime = new Date(reservation.getStartDateTime().getTime() + 1);
 		Date endDateTime = new Date(reservation.getEndDateTime().getTime() - 1);
-		
-		Object [] params = new Object[5];
-		params[0] = reservation.getRoom();
-		params[1] = startDateTime;
-		params[2] = endDateTime;
-		params[3] = startDateTime;
-		params[4] = endDateTime;
+
 		//this HQL checks for three conditions:
 		//1) If the start time overlaps with and existing reservation
 		//2) If the end time overlaps with an existing reservation
 		//3) If the entire reservation is longer than any existing reservation
-		List list = hibernateTemplate.find("from Reservation r where r.room = ? and ((? between r.startDateTime and r.endDateTime) or ((? between r.startDateTime and r.endDateTime)) or (? < r.startDateTime and ? > r.endDateTime))", params);
+		List list = null;
+		if (reservation.getId() == null){
+			Object [] params = new Object[5];
+			params[0] = reservation.getRoom();
+			params[1] = startDateTime;
+			params[2] = endDateTime;
+			params[3] = startDateTime;
+			params[4] = endDateTime;
+			list = hibernateTemplate.find("from Reservation r where r.room = ? and ((? between r.startDateTime and r.endDateTime) or ((? between r.startDateTime and r.endDateTime)) or (? < r.startDateTime and ? > r.endDateTime))", params);
+		} else {
+			Object [] params = new Object[6];
+			params[0] = reservation.getId();
+			params[1] = reservation.getRoom();
+			params[2] = startDateTime;
+			params[3] = endDateTime;
+			params[4] = startDateTime;
+			params[5] = endDateTime;
+			list = hibernateTemplate.find("from Reservation r where r.id != ? and r.room = ? and ((? between r.startDateTime and r.endDateTime) or ((? between r.startDateTime and r.endDateTime)) or (? < r.startDateTime and ? > r.endDateTime))", params);
+		}
 		logger.debug("Retreiving matching reservations, count: " + list.size());
-		if (list.size() > 1){
-			logger.debug("###1");
+		if (list.size() > 0){
 			return true;
-		} else if (list.size() == 1){
-			logger.debug("###2");
-			Reservation res = (Reservation) list.iterator().next();
-			logger.debug("###3");
-			//if this reservation was never saved then this is certainly a conflict 
-			//or if the ID is different then it is also a conflict
-			logger.debug("###4");
-			if (reservation.getId() == null || (!res.getId().equals(reservation.getId()))){
-				logger.debug("###5");
-				return true;
-			}
 		}
 		/*
 		//in case that passed need to check if the new reservation is longer on both ends
@@ -112,7 +114,6 @@ public class ReservationDaoHibernate implements ReservationDao {
 				return true;
 			}
 		}*/
-		logger.debug("###6");
 		return false;
 	}
 }
