@@ -66,9 +66,9 @@
                 <ul class="clearfix">
                     <li><a href="${ctx}/" title="Home"><span>Home</span></a></li>
                     <li><a href="${ctx}/myreservations.html" title="My Reservations"><span>My Reservations</span></a></li>
-                    <li><a href="${ctx}/myprofile.html?me" title="My Profile"><span>My Profile</span></a></li>
+                    <li><a href="${ctx}/myprofile.html" title="My Profile"><span>My Profile</span></a></li>
                     <li><a href="${ctx}/newreservation.html" title="My Profile"><span>New Reservation</span></a></li>
-                    <li><a href="${ctx}/appadmin/" title="Application Administration"><span>Administration</span></a></li>
+                    <li><a href="${ctx}/appadmin/index.jsp" title="Application Administration"><span>Administration</span></a></li>
                     <li><a href="${ctx}/logoff.html" title="Log Off"><span>Log Off</span></a></li>
                 </ul>
             </div>

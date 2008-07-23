@@ -1,8 +1,5 @@
 package com.jmw.konfman.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +22,7 @@ import com.jmw.konfman.model.Floor;
 import com.jmw.konfman.service.FloorManager;
 
 @Controller
-@RequestMapping("/appadmin/floorform.*")
+@RequestMapping("/**/floorform.*")
 public class FloorFormController extends SimpleFormController {
     private final Log log = LogFactory.getLog(FloorFormController.class);
     @Autowired
@@ -50,7 +47,9 @@ public class FloorFormController extends SimpleFormController {
                                               BindException errors)
             throws Exception {
         if (request.getParameter("cancel") != null) {
-            return new ModelAndView(getSuccessView());
+        	Floor floor = (Floor)command;
+        	setSuccessView("redirect:floors.html?buildingId=" + floor.getBuilding().getId());
+        	return new ModelAndView(getSuccessView());
         }
         //System.out.println("BuildingId: " + command.toString());
 

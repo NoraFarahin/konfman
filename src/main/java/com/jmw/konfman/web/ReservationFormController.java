@@ -33,7 +33,7 @@ import com.jmw.konfman.service.RoomManager;
 import com.jmw.konfman.service.UserManager;
 
 @Controller
-@RequestMapping("/reservationform.*")
+@RequestMapping("/**/reservationform.*")
 public class ReservationFormController extends AbstractWizardFormController  {
     private final Log log = LogFactory.getLog(RoomFormController.class);
     @Autowired

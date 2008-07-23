@@ -17,15 +17,21 @@ public class ReservationController {
     @Autowired
     UserManager userManager;
 
-    @RequestMapping("/reservations.*")
+    @RequestMapping("/**/reservations.*")
     public String execute(ModelMap model, @RequestParam(value="roomId") String roomId) {
         model.addAttribute("room", roomManager.getRoom(roomId));
         return "reservationList";
     }
 
-    @RequestMapping("/userreservations.*")
-    public String userReservations(ModelMap model, @RequestParam(value="userId") String roomId) {
-        model.addAttribute("user", userManager.getUser(roomId));
+    @RequestMapping("/**/userreservations.*")
+    public String userReservations(ModelMap model, @RequestParam(value="userId") String userId) {
+        model.addAttribute("user", userManager.getUser(userId));
         return "userReservations";
+    }
+
+    @RequestMapping("/myreservations.*")
+    public String myReservations(ModelMap model) {
+    	model.addAttribute("me", userManager.getUser("1"));
+        return "myReservations";
     }
 }

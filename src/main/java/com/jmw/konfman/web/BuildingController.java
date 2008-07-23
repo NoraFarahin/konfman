@@ -12,7 +12,7 @@ public class BuildingController {
     @Autowired
     BuildingManager buildingManager;
 
-    @RequestMapping("/appadmin/buildings.*")
+    @RequestMapping("/**/buildings.*")
     public String execute(ModelMap model) {
         model.addAttribute("buildingList", buildingManager.getBuildings());
         return "appadmin/buildingList";
