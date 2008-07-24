@@ -23,10 +23,10 @@ public class ReservationController {
         return "reservationList";
     }
 
-    @RequestMapping("/**/userreservations.*")
+    @RequestMapping("/appadmin/userreservations.*")
     public String userReservations(ModelMap model, @RequestParam(value="userId") String userId) {
         model.addAttribute("user", userManager.getUser(userId));
-        return "userReservations";
+        return "appadmin/userReservations";
     }
 
     @RequestMapping("/myreservations.*")

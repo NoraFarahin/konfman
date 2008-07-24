@@ -118,6 +118,42 @@ public class ReservattionDaoTest extends BaseDaoTestCase {
         assertTrue(resDao.saveReservation(res));
     }
 
+    /**
+     * Saves the same reservation data twice, the second time as a new reservation.
+     * This was causing difficulties.
+     * @throws Exception
+     */
+    public void testSaveReservationDateTwice() throws Exception {
+    	config();
+        res = new Reservation();
+        res.setComment("comment");
+        res.setRoom(room);
+    	res.setDate("07/20/2008");
+        try {
+        	res.setStartTime("2:00 PM");
+        	res.setEndTime("2:30 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		assertTrue(resDao.saveReservation(res));
+        assertTrue("primary key assigned", res.getId() != null);
+
+        res = new Reservation();
+        res.setComment("comment");
+        res.setRoom(room);
+    	res.setDate("07/20/2008");
+        try {
+        	res.setStartTime("2:00 PM");
+        	res.setEndTime("2:30 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		//now try to save again and see that it fails
+        assertFalse(resDao.saveReservation(res));
+    }
+
     public void testSaveReservationConflict() throws Exception {
     	config();
     	int count = resDao.getReservations().size();

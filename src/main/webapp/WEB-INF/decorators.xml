@@ -2,7 +2,7 @@
     <decorator name="default" page="default.jsp">
         <pattern>/*</pattern>
     </decorator>
-    <!-- decorator name="appadmin" page="appadmin.jsp">
+    <decorator name="appadmin" page="appadmin.jsp">
         <pattern>/appadmin/*</pattern>
-    </decorator -->
+    </decorator>
 </decorators>
