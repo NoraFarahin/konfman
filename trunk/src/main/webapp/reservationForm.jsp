@@ -60,15 +60,21 @@
     <th><label for="user" >*<fmt:message key="user.fullName"/>:</label></th>
     <td>
         <input name="userName" value="${reservation.user.fullName}" readonly="true"/> 
+        <input type="submit" class="button" name="_target1" value="Select/Change User"/>
     </td>
 </tr>
 <tr>
     <td></td>
     <td>
-		<input type="submit" class="button" name="_finish" value="Save"/>
-		<c:if test="${not empty param.id}">
-			<input type="submit" class="button" name="_finish" value="Delete" onclick="bCancel=true"/>
-      	</c:if>
+      <c:if test="${not empty reservation.user}">
+        <input type="submit" class="button" name="_finish" value="Save"/>
+      </c:if>
+      <c:if test="${empty reservation.user}">
+        <input type="submit" class="button" name="_target1" value="Save"/>
+      </c:if>
+      <c:if test="${not empty param.id}">
+        <input type="submit" class="button" name="_finish" value="Delete" onclick="bCancel=true"/>
+      </c:if>
       	<input type="submit" class="button" name="_cancel" value="Cancel" onclick="_Cancel=true"/>
     </td>
 </tr>
