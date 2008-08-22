@@ -3,6 +3,8 @@ package com.jmw.konfman.service;
 import java.util.List;
 
 import com.jmw.konfman.model.Reservation;
+import com.jmw.konfman.model.Room;
+import com.jmw.konfman.model.User;
 
 public interface ReservationManager {
     /**
@@ -12,6 +14,30 @@ public interface ReservationManager {
 	public List getReservations();
     
     /**
+     * Gets user's current reservations (those which for today and in the future)
+     * @return a list of reservations
+     */
+	public List getCurrentUserReservations(User user);
+
+    /**
+     * Gets user's past reservations (those which are before today)
+     * @return a list of reservations
+     */
+	public List getPastUserReservations(User user);
+
+    /**
+     * Gets room's current reservations (those which for today and in the future)
+     * @return a list of reservations
+     */
+	public List getCurrentRoomReservations(Room room);
+
+    /**
+     * Gets room's past reservations (those which are before today)
+     * @return a list of reservations
+     */
+	public List getPastRoomReservations(Room room);
+
+	/**
      * Gets a specifc reservation
      * @param reservationId id number of the reservation to get
      * @return the selected reservation

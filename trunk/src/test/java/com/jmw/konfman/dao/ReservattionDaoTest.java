@@ -1,5 +1,6 @@
 package com.jmw.konfman.dao;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
@@ -8,16 +9,23 @@ import com.jmw.konfman.model.Building;
 import com.jmw.konfman.model.Floor;
 import com.jmw.konfman.model.Reservation;
 import com.jmw.konfman.model.Room;
+import com.jmw.konfman.model.User;
 
 public class ReservattionDaoTest extends BaseDaoTestCase {
-    private Floor floor = null;
-    private FloorDao dao = null;
+	private Building building = null;
     private BuildingDao bDao = null;
-    private Building building = null;
-    private RoomDao rDao = null;
+    
+	private Floor floor = null;
+    private FloorDao dao = null;
+    
     private Room room = null;
-    private ReservationDao resDao = null;
+    private RoomDao rDao = null;
+    
+    private User user = null;
+    private UserDao uDao = null;
+    
     private Reservation res = null;
+    private ReservationDao resDao = null;
     
     public void setFloorDao(FloorDao fDao) {
         this.dao = fDao;
@@ -30,6 +38,11 @@ public class ReservattionDaoTest extends BaseDaoTestCase {
     public void setRoomDao(RoomDao rDao) {
         this.rDao = rDao;
     }
+    
+    public void setUserDao(UserDao uDao){
+    	this.uDao = uDao;
+    }
+    
     public void setReservationDao(ReservationDao resDao) {
         this.resDao = resDao;
     }
@@ -779,4 +792,149 @@ public class ReservattionDaoTest extends BaseDaoTestCase {
 		}
 		assertTrue(resDao.isConflict(res));
 	}
+	
+	public void testPastAndCurrentUserReservations(){
+		config();
+		user = new User();
+		user.setFirstName("FN");
+		user.setLastName("LN");
+		uDao.saveUser(user);
+		
+        Reservation r1 = new Reservation();
+        r1.setComment("comment101");
+        r1.setRoom(room);
+        r1.setDate("09/20/2008");
+		r1.setUser(user);
+        try {
+        	r1.setStartTime("2:00 PM");
+        	r1.setEndTime("4:00 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+        assertTrue(resDao.saveReservation(r1));
+		List past = resDao.getPastUserReservations(user);
+		List curr = resDao.getCurrentUserReservations(user);
+		assertEquals(0, past.size());
+		assertEquals(1, curr.size());
+        
+        Reservation r2 = new Reservation();
+        r2.setComment("comment102");
+        r2.setRoom(room);
+        r2.setDate("07/20/2008");
+		r2.setUser(user);
+        try {
+        	r2.setStartTime("4:00 PM");
+        	r2.setEndTime("5:30 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+        assertTrue(resDao.saveReservation(r2));
+		past = resDao.getPastUserReservations(user);
+		curr = resDao.getCurrentUserReservations(user);
+		Reservation reservation = (Reservation)past.iterator().next();
+		Reservation reservationC = (Reservation)curr.iterator().next();
+		assertEquals(1, past.size());
+		assertEquals(1, curr.size());
+		assertEquals("comment102", reservation.getComment());
+		assertEquals("comment101", reservationC.getComment());
+
+        Reservation r3 = new Reservation();
+        r3.setComment("comment103");
+        r3.setRoom(room);
+        r3.setDate("10/20/2008");
+		r3.setUser(user);
+        try {
+        	r3.setStartTime("2:00 PM");
+        	r3.setEndTime("4:00 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+        assertTrue(resDao.saveReservation(r3));
+		past = resDao.getPastUserReservations(user);
+		curr = resDao.getCurrentUserReservations(user);
+		assertEquals(1, past.size());
+		assertEquals(2, curr.size());
+
+		Iterator iter = curr.iterator();
+		reservation = (Reservation)past.iterator().next();
+		reservationC = (Reservation)iter.next();
+		assertEquals("comment102", reservation.getComment());
+		assertEquals("comment101", reservationC.getComment());
+		reservationC = (Reservation)iter.next();
+		assertEquals("comment103", reservationC.getComment());
+	}
+
+	public void testPastAndCurrentRoomReservations(){
+		config();
+		
+        Reservation r1 = new Reservation();
+        r1.setComment("comment101");
+        r1.setRoom(room);
+        r1.setDate("09/20/2008");
+		r1.setUser(user);
+        try {
+        	r1.setStartTime("2:00 PM");
+        	r1.setEndTime("4:00 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+        assertTrue(resDao.saveReservation(r1));
+		List past = resDao.getPastRoomReservations(room);
+		List curr = resDao.getCurrentRoomReservations(room);
+		assertEquals(0, past.size());
+		assertEquals(1, curr.size());
+        
+        Reservation r2 = new Reservation();
+        r2.setComment("comment102");
+        r2.setRoom(room);
+        r2.setDate("07/20/2008");
+		r2.setUser(user);
+        try {
+        	r2.setStartTime("4:00 PM");
+        	r2.setEndTime("5:30 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+        assertTrue(resDao.saveReservation(r2));
+		past = resDao.getPastRoomReservations(room);
+		curr = resDao.getCurrentRoomReservations(room);
+		Reservation reservation = (Reservation)past.iterator().next();
+		Reservation reservationC = (Reservation)curr.iterator().next();
+		assertEquals(1, past.size());
+		assertEquals(1, curr.size());
+		assertEquals("comment102", reservation.getComment());
+		assertEquals("comment101", reservationC.getComment());
+
+        Reservation r3 = new Reservation();
+        r3.setComment("comment103");
+        r3.setRoom(room);
+        r3.setDate("10/20/2008");
+		r3.setUser(user);
+        try {
+        	r3.setStartTime("2:00 PM");
+        	r3.setEndTime("4:00 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+        assertTrue(resDao.saveReservation(r3));
+		past = resDao.getPastRoomReservations(room);
+		curr = resDao.getCurrentRoomReservations(room);
+		assertEquals(1, past.size());
+		assertEquals(2, curr.size());
+
+		Iterator iter = curr.iterator();
+		reservation = (Reservation)past.iterator().next();
+		reservationC = (Reservation)iter.next();
+		assertEquals("comment102", reservation.getComment());
+		assertEquals("comment101", reservationC.getComment());
+		reservationC = (Reservation)iter.next();
+		assertEquals("comment103", reservationC.getComment());
+	}
+
 }

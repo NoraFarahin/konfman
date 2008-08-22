@@ -3,8 +3,13 @@
 <title>Reservations for user:
 	<c:out value="${user.fullName}"/>
 </title> 
-<button onclick="location.href='reservationform.html?dest=userreservations.html&userId=${user.id}'"style="float: right; margin-top: -30px; width: 100px">Add Reservation</button>
-<display:table name="user.reservations" class="table" requestURI="" id="user" export="true" pagesize="10">
+<button onclick="location.href='reservationform.html?dest=userreservations.html&userId=<%=request.getParameter("userId")%>''"style="float: right; margin-top: -30px; width: 100px">Add Reservation</button>
+<p>
+	<a href='userreservations.html?userId=<%=request.getParameter("userId")%>'">Current Reservations</a> | 
+	<a href='userreservations.html?subset=past&userId=<%=request.getParameter("userId")%>'">Past Reservations</a> |
+	<a href='userreservations.html?subset=all&userId=<%=request.getParameter("userId")%>'">All Reservations</a>
+</p>  
+<display:table name="reservations" class="table" requestURI="" id="user" export="true" pagesize="10">
 	<display:setProperty name="export.pdf.filename" value="reservations.pdf"/>
     <display:column property="id" sortable="true" href="reservationform.html?dest=userreservations.html" media="html"
         paramId="id" paramProperty="id" titleKey="reservation.id"/>

@@ -53,8 +53,8 @@
 	        <!-- TODO determine some user functions to put here -->
 
             <ul class="glassList">
-                <li><a href="./userlist.html">Administer Users</a></li>
-                <li><a href="./buildings.html">Administer Facilities</a></li>
+                <li><a href="./404.html">Put some stuff here </a></li>
+                <li><a href="./404.html">More stuff here</a></li>
             </ul>
 
             <img src="${ctx}/images/image.gif" alt="Click to Change Theme" width="150" height="112" class="right" style="margin: 10px 0 20px 0"
