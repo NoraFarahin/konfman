@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 
 import com.jmw.konfman.dao.ReservationDao;
 import com.jmw.konfman.model.Reservation;
+import com.jmw.konfman.model.Room;
+import com.jmw.konfman.model.User;
 
 
 /**
@@ -44,16 +46,16 @@ public class ReservationDaoHibernate implements ReservationDao {
     }
 
     public boolean saveReservation(Reservation reservation) {
-		logger.debug("###1");
+		//logger.debug("###1");
     	boolean b = isConflict(reservation);
-		logger.debug("###2");
+		//logger.debug("###2");
     	if (b == true){
             logger.debug("conflict discovered");
     		return false;
     	}
-		logger.debug("###3");
+		//logger.debug("###3");
         hibernateTemplate.saveOrUpdate(reservation);
-		logger.debug("###4");
+		//logger.debug("###4");
 
         logger.debug("reservationId set to: " + reservation.getId());
         return true;
@@ -115,5 +117,41 @@ public class ReservationDaoHibernate implements ReservationDao {
 			}
 		}*/
 		return false;
+	}
+
+	public List getCurrentUserReservations(User user) {
+		Date date = new Date();
+		logger.debug("returning current reservations for after: " + date);
+		Object [] params = new Object[2];
+		params[0] = user;
+		params[1] = date;
+		return 	hibernateTemplate.find("from Reservation r where r.user = ? and r.startDateTime >= ?", params);
+	}
+
+	public List getPastUserReservations(User user) {
+		Date date = new Date();
+		logger.debug("returning past reservations for before: " + date);
+		Object [] params = new Object[2];
+		params[0] = user;
+		params[1] = date;
+		return 	hibernateTemplate.find("from Reservation r where r.user = ? and r.startDateTime < ?)", params);
+	}
+
+	public List getCurrentRoomReservations(Room room) {
+		Date date = new Date();
+		logger.debug("returning current reservations for after: " + date);
+		Object [] params = new Object[2];
+		params[0] = room;
+		params[1] = date;
+		return 	hibernateTemplate.find("from Reservation r where r.room = ? and r.startDateTime >= ?", params);
+	}
+
+	public List getPastRoomReservations(Room room) {
+		Date date = new Date();
+		logger.debug("returning past reservations for before: " + date);
+		Object [] params = new Object[2];
+		params[0] = room;
+		params[1] = date;
+		return 	hibernateTemplate.find("from Reservation r where r.room = ? and r.startDateTime < ?)", params);
 	}
 }

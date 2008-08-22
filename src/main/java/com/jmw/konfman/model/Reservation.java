@@ -32,6 +32,8 @@ public class Reservation extends BaseObject {
     DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
     @Transient
     DateFormat tf = new SimpleDateFormat("h:mm aa");
+    @Transient
+    DateFormat shortdf = new SimpleDateFormat("MM/dd/yyyy");
    
     /**
 	 * @return the id
@@ -128,7 +130,7 @@ public class Reservation extends BaseObject {
     	if (startDateTime == null){
     		return "";
     	}
-    	return DateFormat.getDateInstance(DateFormat.SHORT).format(startDateTime);
+    	return shortdf.format(startDateTime);
     }
     
     @Transient

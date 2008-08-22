@@ -1,13 +1,15 @@
 package com.jmw.konfman.service.impl;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.jmw.konfman.dao.ReservationDao;
 import com.jmw.konfman.model.Reservation;
+import com.jmw.konfman.model.Room;
+import com.jmw.konfman.model.User;
 import com.jmw.konfman.service.ReservationManager;
-
-import java.util.List;
 
 @Service(value = "reservationManager")
 public class ReservationManagerImpl implements ReservationManager {
@@ -37,4 +39,21 @@ public class ReservationManagerImpl implements ReservationManager {
 	public boolean isConflict(Reservation reservation) {
 		return dao.isConflict(reservation);
 	}
+
+	public List getCurrentUserReservations(User user) {
+		return dao.getCurrentUserReservations(user);
+	}
+
+	public List getPastUserReservations(User user) {
+		return dao.getPastUserReservations(user);
+	}
+
+	public List getCurrentRoomReservations(Room room) {
+		return dao.getCurrentRoomReservations(room);
+	}
+
+	public List getPastRoomReservations(Room room) {
+		return dao.getPastRoomReservations(room);
+	}
+
 }

@@ -3,7 +3,10 @@
 	<c:out value="${me.fullName}"/>
 </title> 
 <button onclick="location.href='reservationform.html?dest=myreservations.html&userId=${me.id}'"style="float: right; margin-top: -30px; width: 100px">Add Reservation</button>
-<display:table name="me.reservations" class="table" requestURI="" id="user" export="true" pagesize="10">
+<a href="myreservations.html">Current Reservations</a> | 
+<a href="myreservations.html?subset=past">Past Reservations</a> |
+<a href="myreservations.html?subset=all">All Reservations</a>  
+<display:table name="reservations" class="table" requestURI="" id="user" export="true" pagesize="10">
 	<display:setProperty name="export.pdf.filename" value="reservations.pdf"/>
     <display:column property="id" sortable="true" href="reservationform.html?dest=myreservations.html" media="html"
         paramId="id" paramProperty="id" titleKey="reservation.id"/>
