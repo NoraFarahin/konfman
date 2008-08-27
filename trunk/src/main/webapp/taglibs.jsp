@@ -7,6 +7,7 @@
 <%@ taglib uri="http://www.springmodules.org/tags/commons-validator" prefix="v" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
 <c:set var="datePattern"><fmt:message key="date.format"/></c:set>
 <c:set var="dateTimePattern"><fmt:message key="dateTime.format"/></c:set>
