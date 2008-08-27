@@ -59,8 +59,10 @@
 <tr>
     <th><label for="user" >*<fmt:message key="user.fullName"/>:</label></th>
     <td>
-        <input name="userName" value="${reservation.user.fullName}" readonly="true"/> 
-        <input type="submit" class="button" name="_target1" value="Select/Change User"/>
+        <input name="userName" value="${reservation.user.fullName}" readonly="true"/>
+        <sec:authorize ifAllGranted="ROLE_APP-ADMIN"> 
+        	<input type="submit" class="button" name="_target1" value="Select/Change User"/>
+        </sec:authorize>
     </td>
 </tr>
 <tr>

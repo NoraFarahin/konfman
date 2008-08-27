@@ -69,8 +69,11 @@
                     <li><a href="${ctx}/myreservations.html" title="My Reservations"><span>My Reservations</span></a></li>
                     <li><a href="${ctx}/myprofile.html?me" title="My Profile"><span>My Profile</span></a></li>
                     <li><a href="${ctx}/reservationform.html?dest=myreservations.html" title="Create a new reservation"><span>New Reservation</span></a></li>
-                    <li><a href="${ctx}/appadmin/" title="Application Administration"><span>Administration</span></a></li>
-                    <li><a href="${ctx}/logoff.html" title="Log Off"><span>Log Off</span></a></li>
+		            <sec:authorize ifAllGranted="ROLE_APP-ADMIN">
+                    	<li><a href="${ctx}/appadmin/" title="Application Administration"><span>Administration</span></a></li>
+                    </sec:authorize>
+                    <li><a href="${ctx}<c:url value='/j_spring_security_logout'/>" title="Log Off"><span>Log Off</span></a></li>
+                    <!--  li><a href="${ctx}/logoff.jsp" title="Log Off"><span>Log Off</span></a></li -->
                 </ul>
             </div>
         </div><!-- end nav -->

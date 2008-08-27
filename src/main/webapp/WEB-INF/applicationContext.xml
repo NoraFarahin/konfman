@@ -30,4 +30,5 @@
 
     <!-- Scans for @Repository, @Service and @Component -->
     <context:component-scan base-package="com.jmw.konfman"/>
+    
 </beans>
