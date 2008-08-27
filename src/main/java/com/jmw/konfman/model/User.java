@@ -32,8 +32,11 @@ public class User extends BaseObject {
     private String adminStatus;
     private Floor defaultFloor;
     private Date birthday;
+    private String username;
+    private boolean enabled = true;
     
-    private Set<Room> administeredRooms;
+    private Set<Authority> rolls;  
+	private Set<Room> administeredRooms;
     private List<Reservation> reservations;
 
 	@Id
@@ -116,6 +119,34 @@ public class User extends BaseObject {
     }
 
     /**
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
+
+	/**
+	 * @param username the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	/**
+	 * @return the enabled
+	 */
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	/**
+	 * @param enabled the enabled value to set
+	 */
+	public void setEnabled(boolean enabled) {
+		this.enabled = true;
+	}
+
+	/**
 	 * Gets the rooms that this user can administer
 	 * @return the administeredRooms
 	 */
@@ -202,5 +233,28 @@ public class User extends BaseObject {
 	 */
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
+	}
+
+    /**
+	 * @return the rolls
+	 */
+	@OneToMany
+	public Set<Authority> getRolls() {
+		return rolls;
+	}
+
+	/**
+	 * @param rolls the rolls to set
+	 */
+	public void setRolls(Set<Authority> rolls) {
+		this.rolls = rolls;
+	}
+	
+	public boolean addRoll(Authority authority){
+		return rolls.add(authority);
+	}
+	
+	public boolean removeRoll(Authority authority){
+		return rolls.remove(authority);
 	}
 }

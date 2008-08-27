@@ -17,6 +17,7 @@
 		<property name="dataSource" ref="dataSource"/>
         <property name="annotatedClasses">
             <list>
+                <value>com.jmw.konfman.model.Authority</value>
                 <value>com.jmw.konfman.model.User</value>
                 <value>com.jmw.konfman.model.Building</value>
                 <value>com.jmw.konfman.model.Floor</value>

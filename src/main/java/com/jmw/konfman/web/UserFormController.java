@@ -23,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractWizardFormController;
 
+import com.jmw.konfman.model.Authority;
 import com.jmw.konfman.model.Floor;
 import com.jmw.konfman.model.Room;
 import com.jmw.konfman.model.User;
+import com.jmw.konfman.service.AuthorityManager;
 import com.jmw.konfman.service.BuildingManager;
 import com.jmw.konfman.service.FloorManager;
 import com.jmw.konfman.service.RoomManager;
@@ -46,6 +48,9 @@ public class UserFormController extends AbstractWizardFormController {
 
     @Autowired
     RoomManager roomManager;
+    
+    @Autowired 
+    AuthorityManager authorityManager;
 
     @Autowired(required = false)
 	@Qualifier("beanValidator")
@@ -54,7 +59,7 @@ public class UserFormController extends AbstractWizardFormController {
     public UserFormController() {
         setCommandName("user");
         setCommandClass(User.class);
-        this.setPages(new String[] {"appadmin/userForm", "appadmin/floorSelect", "appadmin/roomSelect"});
+        this.setPages(new String[] {"appadmin/userForm", "appadmin/floorSelect", "appadmin/roomSelect", "appadmin/rollSelect"});
         if (validator != null)
             setValidator(validator);
     }
@@ -93,6 +98,9 @@ public class UserFormController extends AbstractWizardFormController {
         String userId = request.getParameter("id");
         String roomId = request.getParameter("roomId");
         String removeRoomId = request.getParameter("removeRoomId");
+        String addAuthorityId = request.getParameter("addAuthorityId");
+        String removeAuthorityId = request.getParameter("removeAuthorityId");
+        
         User user = null;
    		try {
 			user = (User) this.getCommand(request);
@@ -108,6 +116,13 @@ public class UserFormController extends AbstractWizardFormController {
         } else if (removeRoomId != null && !removeRoomId.equals("")){
         	Room room = roomManager.getRoom(removeRoomId);
 			user.removeAdminsteredRoom(room);
+        } else if (addAuthorityId != null && ! addAuthorityId.equals("")){
+        	Authority authority = authorityManager.getAuthority(addAuthorityId);
+			user.addRoll(authority);
+        } else if (removeAuthorityId != null && ! removeAuthorityId.equals("")){
+        	Authority authority = authorityManager.getAuthority(removeAuthorityId);
+			boolean removed = user.removeRoll(authority);
+			logger.debug(removed + " Removed authority: " + authority.getRole() + " form user: " + user.getFullName());
         } else if ((userId != null) && !userId.equals("")) {
             user = userManager.getUser(userId);
         }
@@ -122,10 +137,16 @@ public class UserFormController extends AbstractWizardFormController {
     }
     
     protected Map referenceData(HttpServletRequest request, int page){
-    	if (page >= 1){
+    	if (page == 2){
     		logger.debug("providing building data");
     		Map map = new HashMap();
     		map.put("buildingList", buildingManager.getBuildings());
+    		map.put("submitform", "userform.html");
+    		return map;
+    	} else if (page == 3){
+    		logger.debug("providing roll data");
+    		Map map = new HashMap();
+    		map.put("authorityList", authorityManager.getAuthorities());
     		map.put("submitform", "userform.html");
     		return map;
     	}

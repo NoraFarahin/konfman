@@ -2,11 +2,6 @@
 
 <head>
     <title><fmt:message key="userForm.title"/></title>
-    <%-- Calendar Setup - put in decorator if needed in multiple pages --%>
-    <link  href="${ctx}/styles/calendar.css"  type="text/css"  rel="stylesheet"/>
-    <script type="text/javascript" src="${ctx}/scripts/calendar.js"></script>
-    <script type="text/javascript" src="${ctx}/scripts/calendar-setup.js"></script>
-    <script type="text/javascript" src="${ctx}/scripts/lang/calendar-en.js"></script>
 </head>
 
 <p>Please fill in user's information below:</p>
@@ -16,7 +11,14 @@
 <form:hidden path="id"/>
 <table class="detail">
 <tr>
-    <th><label for="firstName" class="required"><fmt:message key="user.firstName"/>:</label></th>
+    <th><label for="username" class="required">* <fmt:message key="user.username"/>:</label></th>
+    <td>
+        <form:input path="username" id="username"/>
+        <form:errors path="username" cssClass="fieldError"/>
+    </td>
+</tr>
+<tr>
+    <th><label for="firstName" class="required">* <fmt:message key="user.firstName"/>:</label></th>
     <td>
         <form:input path="firstName" id="firstName"/>
         <form:errors path="firstName" cssClass="fieldError"/>
@@ -51,13 +53,6 @@
     </td>
 </tr>
 <tr>
-    <th><label for="adminStatus" class="required">* <fmt:message key="user.adminStatus"/>:</label></th>
-    <td>
-        <form:input path="adminStatus" id="adminStatus"/>
-        <form:errors path="adminStatus" cssClass="fieldError"/>
-    </td>
-</tr>
-<tr>
     <th><label for="defaultFloor"> <fmt:message key="user.defaultFloor"/>:</label></th>
     <td>
     	<c:if test="${not empty user.defaultFloor}">
@@ -67,14 +62,6 @@
 	    	<input value="No floor selected" readOnly="true"/>
 	    </c:if>
         <input type="submit" class="button" name="_target1" value="Select/Change Default Floor"/>
-    </td>
-</tr>
-<tr>
-    <th><label for="birthday"><fmt:message key="user.birthday"/>:</label></th>
-    <td>
-        <form:input path="birthday" id="birthday" size="11"/>
-        <button id="birthdayCal" type="button" class="button"> ... </button> [<fmt:message key="date.format"/>]
-        <form:errors path="birthday" cssClass="fieldError"/>
     </td>
 </tr>
 <tr>
@@ -88,6 +75,14 @@
     </td>
 </tr>
 </table>
+
+<h2>Authorities of ${user.fullName}</h2>
+<button type="submit" name="_target3" value="true" style="float: right; margin-top: -30px; width: 100px">Add Roll</button>
+<display:table name="user.rolls" class="table" requestURI="" id="rooms" export="false" pagesize="10">
+    <display:column property="role" sortable="true" titleKey="user.roll" escapeXml="true"/>
+    <display:column sortable="true" href="userform.html" media="html"
+        paramId="removeAuthorityId" paramProperty="id">Remove</display:column>
+</display:table>
 
 <h2>Rooms Administered by ${user.fullName}</h2>
 <button type="submit" name="_target2" value="true" style="float: right; margin-top: -30px; width: 100px">Add Room</button>
@@ -103,29 +98,5 @@
 </display:table>
 
 
-<script type="text/javascript">
-    Form.focusFirstElement($('userForm'));
-    Calendar.setup(
-    {
-        inputField  : "birthday",      // id of the input field
-        ifFormat    : "%m/%d/%Y",      // the date format
-        button      : "birthdayCal"    // id of the button
-    }
-    );
-</script>
-
 <v:javascript formName="user" staticJavascript="false" xhtml="true" cdata="false"/>
 <script type="text/javascript" src="<c:url value="/scripts/validator.jsp"/>"></script>
-<script type="text/javascript">
-function readMore() {
-    var main = document.getElementById("defaultFloor");
-    var more = document.getElementById("selectFloor");
-    if (main.style.display == "") {
-        main.style.display = "none";
-        more.style.display = "";
-    } else {
-        more.style.display = "none";
-        main.style.display = "";
-    }
-}
-</script>
