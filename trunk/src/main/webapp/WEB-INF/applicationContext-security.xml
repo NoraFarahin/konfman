@@ -21,6 +21,7 @@
     <http auto-config="true" access-denied-page="/accessDenied.jsp">
 		<intercept-url pattern="/**/scripts/stylesheetswitcher.js" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/**/images/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/**/*.ico" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/**/*.css" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <intercept-url pattern="/appadmin/**" access="ROLE_APP-ADMIN"/>

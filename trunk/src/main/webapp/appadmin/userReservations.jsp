@@ -3,7 +3,7 @@
 <title>Reservations for user:
 	<c:out value="${user.fullName}"/>
 </title> 
-<button onclick="location.href='reservationform.html?dest=userreservations.html&userId=<%=request.getParameter("userId")%>''"style="float: right; margin-top: -30px; width: 100px">Add Reservation</button>
+<button onclick="location.href='./reservationform.html?dest=userreservations.html&userId=<%=request.getParameter("userId")%>'"style="float: right; margin-top: -30px; width: 100px">Add Reservation</button>
 <p>
 	<a href='userreservations.html?userId=<%=request.getParameter("userId")%>'">Current Reservations</a> | 
 	<a href='userreservations.html?subset=past&userId=<%=request.getParameter("userId")%>'">Past Reservations</a> |

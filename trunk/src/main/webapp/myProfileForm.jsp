@@ -11,6 +11,13 @@
 	<form:hidden path="id"/>
 	<table class="detail">
 	<tr>
+	    <th><label for="username" class="required">* <fmt:message key="user.username"/>:</label></th>
+	    <td>
+	        <form:input path="username" id="username"/>
+	        <form:errors path="username" cssClass="fieldError"/>
+	    </td>
+	</tr>
+	<tr>
 	    <th><label for="firstName" class="required"><fmt:message key="user.firstName"/>:</label></th>
 	    <td>
 	        <form:input path="firstName" id="firstName"/>
@@ -25,7 +32,7 @@
 	    </td>
 	</tr>
 	<tr>
-	    <th><label for="phone" class="required">* <fmt:message key="user.phone"/>:</label></th>
+	    <th><label for="phone"> <fmt:message key="user.phone"/>:</label></th>
 	    <td>
 	        <form:input path="phone" id="phone"/>
 	        <form:errors path="phone" cssClass="fieldError"/>

@@ -135,8 +135,7 @@ public class RoomFormController extends AbstractWizardFormController {
             room.removeAdministrator(user);
             userManager.saveUser(user);
     		logger.debug("Removing user: " + user.getFullName() + " from admin on room " + room.getName());
-        }
-        else {
+        } else {
             room = new Room();
             Floor f = new Floor();
             f.setId(Long.valueOf(floorId));
