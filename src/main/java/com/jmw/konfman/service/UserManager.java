@@ -1,10 +1,12 @@
 package com.jmw.konfman.service;
 
-import com.jmw.konfman.model.User;
-
 import java.util.List;
 
-public interface UserManager {
+import org.springframework.security.userdetails.UserDetailsService;
+
+import com.jmw.konfman.model.User;
+
+public interface UserManager extends UserDetailsService{
     public List getUsers();
     public User getUser(String userId);
     public void saveUser(User user);

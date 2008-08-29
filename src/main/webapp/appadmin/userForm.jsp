@@ -78,7 +78,7 @@
 
 <h2>Authorities of ${user.fullName}</h2>
 <button type="submit" name="_target3" value="true" style="float: right; margin-top: -30px; width: 100px">Add Roll</button>
-<display:table name="user.rolls" class="table" requestURI="" id="rooms" export="false" pagesize="10">
+<display:table name="user.roles" class="table" requestURI="" id="roles" export="false" pagesize="10">
     <display:column property="role" sortable="true" titleKey="user.roll" escapeXml="true"/>
     <display:column sortable="true" href="userform.html" media="html"
         paramId="removeAuthorityId" paramProperty="id">Remove</display:column>
