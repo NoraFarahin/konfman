@@ -1,2 +1,1 @@
-cd C:\servers\hsqldb
-java -cp ./lib/hsqldb.jar org.hsqldb.util.DatabaseManager
+java -cp ./hsqldb/lib/hsqldb.jar org.hsqldb.util.DatabaseManager

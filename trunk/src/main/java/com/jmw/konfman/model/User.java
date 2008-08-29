@@ -1,11 +1,13 @@
 package com.jmw.konfman.model;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,13 +16,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.springframework.security.GrantedAuthority;
+import org.springframework.security.userdetails.UserDetails;
+
 /**
  * Represents a user in the Konfman application
  * @author judahw
  *
  */
 @Entity
-public class User extends BaseObject {
+public class User extends BaseObject implements UserDetails{
     private static final long serialVersionUID = 3257568390917667126L;
 
     private Long id;
@@ -35,8 +40,8 @@ public class User extends BaseObject {
     private String username;
     private boolean enabled = true;
     
-    private Set<Authority> rolls;  
-	private Set<Room> administeredRooms;
+    private Set<Authority> roles = new HashSet<Authority>();  
+	private Set<Room> administeredRooms = new HashSet<Room>();
     private List<Reservation> reservations;
 
 	@Id
@@ -236,25 +241,46 @@ public class User extends BaseObject {
 	}
 
     /**
-	 * @return the rolls
+	 * @return the authorities
 	 */
-	@OneToMany
-	public Set<Authority> getRolls() {
-		return rolls;
+	@ManyToMany(fetch=FetchType.EAGER)
+	public Set<Authority> getRoles() {
+		return roles;
 	}
 
 	/**
-	 * @param rolls the rolls to set
+	 * @param authorities the authorities to set
 	 */
-	public void setRolls(Set<Authority> rolls) {
-		this.rolls = rolls;
+	public void setRoles(Set<Authority> roles) {
+		this.roles = roles;
 	}
 	
 	public boolean addRoll(Authority authority){
-		return rolls.add(authority);
+		return roles.add(authority);
 	}
 	
 	public boolean removeRoll(Authority authority){
-		return rolls.remove(authority);
+		return roles.remove(authority);
+	}
+
+	@Transient
+	public GrantedAuthority[] getAuthorities() {
+		GrantedAuthority[] grantedAuthorities = new GrantedAuthority[0]; 
+		return roles.toArray(grantedAuthorities);
+	}
+
+	@Transient
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Transient
+	public boolean isAccountNonLocked() {
+		return enabled;
+	}
+
+	@Transient
+	public boolean isCredentialsNonExpired() {
+		return true;
 	}
 }

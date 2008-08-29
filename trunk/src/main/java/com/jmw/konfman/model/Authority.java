@@ -7,13 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+
+import org.springframework.security.GrantedAuthority;
 
 /**
  * @author judahw
  *
  */
 @Entity
-public class Authority {
+public class Authority implements GrantedAuthority{
 	private Long id;
 	private String role;
 
@@ -60,5 +63,15 @@ public class Authority {
     	}
     	return 0;
     }
+
+	@Transient
+	public String getAuthority() {
+		return role;
+	}
+
+	public int compareTo(Object arg0) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
     
 }
