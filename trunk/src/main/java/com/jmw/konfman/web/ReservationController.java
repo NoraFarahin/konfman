@@ -67,7 +67,6 @@ public class ReservationController {
 
     @RequestMapping("/myreservations.*")
     public String myReservations(HttpServletRequest request, ModelMap model, @RequestParam(value="subset", required=false) String subset) {
-    	//TODO make the user object or at least ID pulled from the session
     	SecurityContext ssc = (SecurityContext) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
     	Authentication auth = ssc.getAuthentication();
     	User user = (User) auth.getPrincipal();
