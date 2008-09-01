@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.security.Authentication;
+import org.springframework.security.context.SecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Validator;
@@ -76,11 +78,13 @@ public class MyProfileFormController extends AbstractWizardFormController {
 		try {
 			user = (User)this.getCommand(request);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
-        String userId = (String) request.getSession().getAttribute("myid");
-        if (user == null && userId != null && !userId.equals("")) {
-            user = userManager.getUser(userId);
+        
+        if (user == null) {
+        	SecurityContext ssc = (SecurityContext) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+        	Authentication auth = ssc.getAuthentication();
+        	user = (User) auth.getPrincipal();
         }
         String floorId = request.getParameter("floorId");
         if ((floorId != null) && !floorId.equals("")) {
