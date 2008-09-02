@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.security.Authentication;
+import org.springframework.security.context.SecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
@@ -104,8 +106,15 @@ public class ReservationFormController extends AbstractWizardFormController  {
     	//}
     }
 
-    private Reservation createNewReservation(){
+    private Reservation createNewReservation(HttpServletRequest request){
     	Reservation reservation = new Reservation();
+		String dest = request.getParameter("dest");
+		if (dest!=null && dest.startsWith("my")){
+			SecurityContext sc = (SecurityContext)request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+			Authentication auth = sc.getAuthentication();
+			User user = (User)auth.getPrincipal();
+			reservation.setUser(user);
+		}
     	return reservation;
     }
     
@@ -147,7 +156,7 @@ public class ReservationFormController extends AbstractWizardFormController  {
 			reservation = (Reservation)this.getCommand(request);
 		} catch (Exception e) {
 			logger.debug("Creating a new reservation");
-			reservation = createNewReservation();
+			reservation = createNewReservation(request);
 		}
         String reservationId = request.getParameter("id");
         String roomId = request.getParameter("roomId");
