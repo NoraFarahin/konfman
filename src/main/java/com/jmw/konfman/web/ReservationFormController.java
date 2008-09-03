@@ -150,6 +150,12 @@ public class ReservationFormController extends AbstractWizardFormController  {
     	}
     }
     
+    protected int getTargetPage(HttpServletRequest request, int currentPage){
+    	this.setAllowDirtyBack(true);
+    	this.setAllowDirtyForward(true);
+    	return super.getTargetPage(request, currentPage);
+    }
+    
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         Reservation reservation = null;
 		try {
