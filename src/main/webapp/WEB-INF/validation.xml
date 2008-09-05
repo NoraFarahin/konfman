@@ -9,6 +9,9 @@
             <field property="lastName" depends="required">
                 <arg key="user.lastName"/>
             </field>
+            <field property="firstName" depends="required">
+                <arg key="user.firstName"/>
+            </field>
         </form>
     </formset>
 </form-validation>
