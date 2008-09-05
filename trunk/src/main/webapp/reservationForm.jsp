@@ -54,12 +54,14 @@
         	<input name="roomName" value="No Room Selected" readonly="true"/> 
 		</c:if>
         <input type="submit" class="button" name="_target2" value="Select/Change Room"/>
+        <form:errors path="room" cssClass="fieldError"/>
     </td>
 </tr>
 <tr>
     <th><label for="user" >*<fmt:message key="user.fullName"/>:</label></th>
     <td>
         <input name="userName" value="${reservation.user.fullName}" readonly="true"/>
+        <form:errors path="user" cssClass="fieldError"/>
         <sec:authorize ifAllGranted="ROLE_APP-ADMIN"> 
         	<input type="submit" class="button" name="_target1" value="Select/Change User"/>
         </sec:authorize>

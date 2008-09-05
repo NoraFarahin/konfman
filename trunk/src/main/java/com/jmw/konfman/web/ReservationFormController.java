@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.security.Authentication;
@@ -33,11 +32,12 @@ import com.jmw.konfman.service.BuildingManager;
 import com.jmw.konfman.service.ReservationManager;
 import com.jmw.konfman.service.RoomManager;
 import com.jmw.konfman.service.UserManager;
+import com.jmw.konfman.validator.ReservationValidator;
 
 @Controller
 @RequestMapping("/**/reservationform.*")
 public class ReservationFormController extends AbstractWizardFormController  {
-    private final Log log = LogFactory.getLog(RoomFormController.class);
+    private final Log log = LogFactory.getLog(ReservationFormController.class);
     @Autowired
     ReservationManager reservationManager;
     @Autowired
@@ -47,9 +47,9 @@ public class ReservationFormController extends AbstractWizardFormController  {
     @Autowired
     BuildingManager buildingManager;
     
-    @Autowired(required = false)
-	@Qualifier("beanValidator")
-	Validator validator;
+    //@Autowired(required = false)
+	//@Qualifier("beanValidator")
+	Validator validator = new ReservationValidator();
     
     public ReservationFormController() {
         setCommandName("reservation");
@@ -84,14 +84,14 @@ public class ReservationFormController extends AbstractWizardFormController  {
     }
     
     
-    protected boolean suppressValidation(HttpServletRequest request, Object command) {
+    /*protected boolean suppressValidation(HttpServletRequest request, Object command) {
     	//don't validate unless we are finishing 
     	String finish = request.getParameter("_finish");
     	 if (finish == null || finish.equals("") || finish.equals("Delete")){
     		 return true;
     	 }
     	 return super.suppressValidation(request, command);
-    }
+    }*/
 
     protected void validatePage(Object command, Errors errors, int page){
     	
@@ -100,6 +100,7 @@ public class ReservationFormController extends AbstractWizardFormController  {
     	if (conflict){
     		errors.reject("reservation.conflicted", new String[] {reservation.getComment()}, "" );
     	}
+    	validator.validate(command, errors);
     	//System.out.println("validating: " + reservation.getComment());
     	//if (page == 0){
     		//System.out.println("Errors: " + errors.getErrorCount());
