@@ -40,12 +40,20 @@ public class ReservationManagerImpl implements ReservationManager {
 		return dao.isConflict(reservation);
 	}
 
+	public List getAllUserReservations(User user) {
+		return dao.getAllUserReservations(user);
+	}
+
 	public List getCurrentUserReservations(User user) {
 		return dao.getCurrentUserReservations(user);
 	}
 
 	public List getPastUserReservations(User user) {
 		return dao.getPastUserReservations(user);
+	}
+
+	public List getAllRoomReservations(Room room) {
+		return dao.getAllRoomReservations(room);
 	}
 
 	public List getCurrentRoomReservations(Room room) {

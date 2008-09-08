@@ -19,6 +19,7 @@ import org.springframework.security.Authentication;
 import org.springframework.security.context.SecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +45,7 @@ public class MyProfileFormController extends AbstractWizardFormController {
     @Autowired
     FloorManager floorManager;
 
-    @Autowired(required = false)
+    @Autowired
 	@Qualifier("beanValidator")
 	Validator validator;
 
@@ -70,6 +71,11 @@ public class MyProfileFormController extends AbstractWizardFormController {
         // convert java.lang.Long
         binder.registerCustomEditor(Long.class, null,
                 new CustomNumberEditor(Long.class, null, true));
+    }
+
+    protected void validatePage(Object command, Errors errors, int page){
+    	log.debug("Attempting to validate the submitted user.");
+    	validator.validate(command, errors);
     }
 
     protected Object formBackingObject(HttpServletRequest request)
@@ -146,17 +152,10 @@ public class MyProfileFormController extends AbstractWizardFormController {
 			HttpServletResponse response, Object command, BindException error)
 			throws Exception {
 		User user = (User)command;
-        if (request.getParameter("_finish").equals("Delete")) {
-            userManager.removeUser(user.getId().toString());
-            request.getSession().setAttribute("message", 
-                    getText("user.deleted", user.getFullName()));
-            log.debug("Deleted user");
-        } else {
-            userManager.saveUser(user);
-            request.getSession().setAttribute("message",
-                    getText("user.saved", user.getFullName()));
-            log.debug("Saved user: " + user.getFullName());
-        }
+        userManager.saveUser(user);
+        request.getSession().setAttribute("message", 
+                getText("profile.saved"));
+        log.debug("Saved user: " + user.getFullName());
 		return new ModelAndView("redirect:/");
 	}
 	

@@ -29,7 +29,7 @@
 
         <div id="branding">
             <a href="http://konfman.sourceforge.net" title="Konfman - Conference room scheduler">
-                <img src="${ctx}/images/powered-by-appfuse.gif" width="203" height="75" alt="Konfman"/></a>
+                <img src="${ctx}/images/logo.jpg" width="203" height="75" alt="Konfman"/></a>
         </div>
 
         <p><fmt:message key="webapp.tagline"/></p>
@@ -67,9 +67,12 @@
                     <li><a href="${ctx}/" title="Home"><span>Home</span></a></li>
                     <li><a href="${ctx}/myreservations.html" title="My Reservations"><span>My Reservations</span></a></li>
                     <li><a href="${ctx}/myprofile.html" title="My Profile"><span>My Profile</span></a></li>
-                    <li><a href="${ctx}/newreservation.html" title="My Profile"><span>New Reservation</span></a></li>
-                    <li><a href="${ctx}/appadmin/index.jsp" title="Application Administration"><span>Administration</span></a></li>
-                    <li><a href="${ctx}/logoff.html" title="Log Off"><span>Log Off</span></a></li>
+                    <li><a href="${ctx}/reservationform.html?dest=myreservations.html" title="Create a new reservation"><span>New Reservation</span></a></li>
+                   	<li><a href="${ctx}/appadmin/" title="Application Administration"><span>Administration</span></a></li>
+		            <sec:authorize ifAllGranted="ROLE_ROOM-ADMIN">
+                    	<li><a href="${ctx}/roomadmin/" title="Room Administration"><span>Room Admin</span></a></li>
+                    </sec:authorize>
+                    <li><a href="${ctx}<c:url value='/j_spring_security_logout'/>" title="Log Off"><span>Log Off</span></a></li>
                 </ul>
             </div>
         </div><!-- end nav -->

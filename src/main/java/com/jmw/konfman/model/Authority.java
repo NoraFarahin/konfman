@@ -17,6 +17,7 @@ import org.springframework.security.GrantedAuthority;
  */
 @Entity
 public class Authority implements GrantedAuthority{
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String role;
 

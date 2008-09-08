@@ -119,6 +119,10 @@ public class ReservationDaoHibernate implements ReservationDao {
 		return false;
 	}
 
+	public List getAllUserReservations(User user) {
+		return 	hibernateTemplate.find("from Reservation r where r.user = ? ", user);
+	}
+
 	public List getCurrentUserReservations(User user) {
 		Date date = new Date();
 		logger.debug("returning current reservations for after: " + date);
@@ -135,6 +139,10 @@ public class ReservationDaoHibernate implements ReservationDao {
 		params[0] = user;
 		params[1] = date;
 		return 	hibernateTemplate.find("from Reservation r where r.user = ? and r.startDateTime < ?)", params);
+	}
+
+	public List getAllRoomReservations(Room room) {
+		return 	hibernateTemplate.find("from Reservation r where r.room = ? ", room);
 	}
 
 	public List getCurrentRoomReservations(Room room) {

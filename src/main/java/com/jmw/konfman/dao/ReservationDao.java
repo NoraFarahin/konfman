@@ -18,6 +18,12 @@ public interface ReservationDao extends Dao {
      * Gets user's current reservations (those which for today and in the future)
      * @return a list of reservations
      */
+	public List getAllUserReservations(User user);
+
+	/**
+     * Gets user's current reservations (those which for today and in the future)
+     * @return a list of reservations
+     */
 	public List getCurrentUserReservations(User user);
 
     /**
@@ -27,6 +33,12 @@ public interface ReservationDao extends Dao {
 	public List getPastUserReservations(User user);
 
     /**
+     * Gets room's current reservations (those which for today and in the future)
+     * @return a list of reservations
+     */
+	public List getAllRoomReservations(Room room);
+
+	/**
      * Gets room's current reservations (those which for today and in the future)
      * @return a list of reservations
      */

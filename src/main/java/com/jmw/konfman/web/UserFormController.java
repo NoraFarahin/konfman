@@ -17,6 +17,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,7 +53,7 @@ public class UserFormController extends AbstractWizardFormController {
     @Autowired 
     AuthorityManager authorityManager;
 
-    @Autowired(required = false)
+    @Autowired
 	@Qualifier("beanValidator")
 	Validator validator;
 
@@ -93,6 +94,11 @@ public class UserFormController extends AbstractWizardFormController {
                 new CustomNumberEditor(Long.class, null, true));
     }
 
+    protected void validatePage(Object command, Errors errors, int page){
+    	log.debug("Attempting to validate the submitted user.");
+    	validator.validate(command, errors);
+    }
+    
     protected Object formBackingObject(HttpServletRequest request)
             throws ServletException {
         String userId = request.getParameter("id");
@@ -105,7 +111,7 @@ public class UserFormController extends AbstractWizardFormController {
    		try {
 			user = (User) this.getCommand(request);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		if (user == null){
 			user = new User();
