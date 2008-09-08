@@ -48,8 +48,15 @@
 <tr>
     <th><label for="password" class="required">* <fmt:message key="user.password"/>:</label></th>
     <td>
-        <form:input path="password" id="password"/>
+        <form:password path="password" id="password" showPassword="true"/>
         <form:errors path="password" cssClass="fieldError"/>
+    </td>
+</tr>
+<tr>
+    <th><label for="verifyPassword" class="required">* <fmt:message key="user.verifyPassword"/>:</label></th>
+    <td>
+        <form:password path="verifyPassword" id="verifyPassword" showPassword="true"/>
+        <form:errors path="verifyPassword" cssClass="fieldError"/>
     </td>
 </tr>
 <tr>
@@ -88,9 +95,6 @@
 <button type="submit" name="_target2" value="true" style="float: right; margin-top: -30px; width: 100px">Add Room</button>
 </form:form>
 <display:table name="user.administeredRooms" class="table" requestURI="" id="rooms" export="true" pagesize="10">
-	<display:setProperty name="export.pdf.filename" value="rooms.pdf"/>
-    <display:column property="id" sortable="true" href="roomform.html" media="html"
-        paramId="id" paramProperty="id" titleKey="room.id"/>
     <display:column property="name" sortable="true" titleKey="room.name" escapeXml="true"/>
     <display:column property="title" sortable="true" titleKey="room.title" escapeXml="true"/>
     <display:column sortable="true" href="userform.html" media="html"

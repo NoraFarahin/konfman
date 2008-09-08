@@ -34,6 +34,8 @@ public class User extends BaseObject implements UserDetails{
     private String phone;
     private String email;
     private String password;
+    private String verifyPassword;
+    
     private String adminStatus;
     private Floor defaultFloor;
     private Date birthday;
@@ -282,5 +284,23 @@ public class User extends BaseObject implements UserDetails{
 	@Transient
 	public boolean isCredentialsNonExpired() {
 		return true;
+	}
+
+	/**
+	 * @param verifyPassword the verifyPassword to set
+	 */
+	public void setVerifyPassword(String verifyPassword) {
+		this.verifyPassword = verifyPassword;
+	}
+
+	/**
+	 * @return the verifyPassword
+	 */
+	@Transient
+	public String getVerifyPassword() {
+		if (verifyPassword == null){
+			return password;
+		}
+		return verifyPassword;
 	}
 }

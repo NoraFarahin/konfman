@@ -1,7 +1,7 @@
 <%@ include file="/taglibs.jsp"%>
 
 <head>
-    <title><fmt:message key="userForm.title"/></title>
+    <title><fmt:message key="myProfile.title"/></title>
 </head>
 
 <p>Please fill in user's information below:</p>
@@ -48,8 +48,15 @@
 	<tr>
 	    <th><label for="password" class="required">* <fmt:message key="user.password"/>:</label></th>
 	    <td>
-	        <form:input path="password" id="password"/>
+	        <form:password path="password" id="password" showPassword="true"/>
 	        <form:errors path="password" cssClass="fieldError"/>
+	    </td>
+	</tr>
+	<tr>
+	    <th><label for="verifyPassword" class="required">* <fmt:message key="user.verifyPassword"/>:</label></th>
+	    <td>
+	        <form:password path="verifyPassword" id="password" showPassword="true"/>
+	        <form:errors path="verifyPassword" cssClass="fieldError"/>
 	    </td>
 	</tr>
 	<tr>

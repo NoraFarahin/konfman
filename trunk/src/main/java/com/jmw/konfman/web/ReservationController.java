@@ -43,7 +43,7 @@ public class ReservationController {
     		model.addAttribute("reservations", reservationManager.getPastRoomReservations(room));
     	} else if (subset.equals("all")){
     		logger.debug("Loading ALL Reservations");
-    		model.addAttribute("reservations", room.getReservations());    		
+    		model.addAttribute("reservations", reservationManager.getAllRoomReservations(room));    		
     	}
         return "reservationList";
     }
@@ -60,7 +60,7 @@ public class ReservationController {
     		model.addAttribute("reservations", reservationManager.getPastUserReservations(user));
     	} else if (subset.equals("all")){
     		logger.debug("Loading ALL Reservations");
-    		model.addAttribute("reservations", user.getReservations());    		
+    		model.addAttribute("reservations", reservationManager.getAllUserReservations(user));    		
     	}
         return "appadmin/userReservations";
     }
@@ -79,7 +79,7 @@ public class ReservationController {
     		model.addAttribute("reservations", reservationManager.getPastUserReservations(user));
     	} else if (subset.equals("all")){
     		logger.debug("Loading ALL Reservations");
-    		model.addAttribute("reservations", user.getReservations());    		
+    		model.addAttribute("reservations", reservationManager.getAllUserReservations(user));    		
     	}
         return "myReservations";
     }
