@@ -1,5 +1,7 @@
 package com.jmw.konfman.web;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,8 +16,9 @@ public class RoomController {
     FloorManager floorManager;
 
     @RequestMapping("/appadmin/rooms.*")
-    public String execute(ModelMap model, @RequestParam(value="floorId") String floorId) {
+    public String execute(HttpServletRequest request, ModelMap model, @RequestParam(value="floorId") String floorId) {
         model.addAttribute("floor", floorManager.getFloor(floorId));
+        request.getSession().setAttribute("context", "appadmin/");
         return "appadmin/roomList";
     }
 }

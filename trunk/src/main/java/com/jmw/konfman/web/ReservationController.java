@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.jmw.konfman.model.Room;
 import com.jmw.konfman.model.User;
@@ -32,9 +33,16 @@ public class ReservationController {
     ReservationManager reservationManager;
 
     @RequestMapping("/**/reservations.*")
-    public String execute(ModelMap model, @RequestParam(value="roomId") String roomId, @RequestParam(value="subset", required=false) String subset) {
+    public String execute(HttpServletRequest request, ModelMap model, @RequestParam(value="roomId") String roomId, @RequestParam(value="subset", required=false) String subset) {
         Room room = roomManager.getRoom(roomId);
-    	model.addAttribute("room", room);
+        String context = (String) request.getSession().getAttribute("context");
+        model.addAttribute(room);
+        if (context.equals("roomadmin/")){
+        	model.addAttribute("return", "./roomadmin.html");
+        } else {
+        	model.addAttribute("return", "./rooms.html?floorId=" + room.getFloor().getId());
+        }
+        
     	if (subset == null){
     		logger.debug("Loading CURRENT Reservations");
     		model.addAttribute("reservations", reservationManager.getCurrentRoomReservations(room));

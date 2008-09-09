@@ -44,7 +44,7 @@ public class ReservationValidator implements Validator {
 		if (reservation.getStartDateTime() != null && reservation.getStartDateTime().before(now)){
 			errors.rejectValue("date", "past");
 		}
-		if (reservation.getStartDateTime() != null && reservation.getStartDateTime().after(reservation.getEndDateTime())){
+		if (reservation.getStartDateTime() != null && reservation.getStartDateTime().after(reservation.getEndDateTime()) || reservation.getStartDateTime().equals(reservation.getEndDateTime())){
 			errors.rejectValue("startTime", "startsafterend");
 		}
 

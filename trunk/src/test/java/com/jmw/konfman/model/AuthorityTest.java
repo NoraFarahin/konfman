@@ -44,7 +44,7 @@ public class AuthorityTest {
 	@Test
 	public void testToString() {
 		assertEquals("Authority: null", authority.toString());
-		authority.setName("name1");
+		authority.setRole("name1");
 		assertEquals("Authority: name1", authority.toString());
 	}*/
 
@@ -64,10 +64,10 @@ public class AuthorityTest {
 	 * Test method for {@link com.jmw.konfman.model.Authority#setRoll(java.lang.String)}.
 	 */
 	@Test
-	public void testGetSetRoll() {
+	public void testGetSetRole() {
 		assertNull(authority.getRole());
-		authority.setRole("Roll1");
-		assertEquals("Roll1", authority.getRole());
+		authority.setRole("Role1");
+		assertEquals("Role1", authority.getRole());
 	}
 
 	/**

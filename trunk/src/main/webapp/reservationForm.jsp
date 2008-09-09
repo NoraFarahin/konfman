@@ -62,7 +62,7 @@
     <td>
         <input name="userName" value="${reservation.user.fullName}" readonly="true"/>
         <form:errors path="user" cssClass="fieldError"/>
-        <sec:authorize ifAllGranted="ROLE_APP-ADMIN"> 
+        <sec:authorize ifAnyGranted="ROLE_APP-ADMIN,ROLE_ROOM-ADMIN"> 
         	<input type="submit" class="button" name="_target1" value="Select/Change User"/>
         </sec:authorize>
     </td>
@@ -70,12 +70,8 @@
 <tr>
     <td></td>
     <td>
-      <c:if test="${not empty reservation.user}">
-        <input type="submit" class="button" name="_finish" value="Save"/>
-      </c:if>
-      <c:if test="${empty reservation.user}">
-        <input type="submit" class="button" name="_target1" value="Save"/>
-      </c:if>
+      <input type="submit" class="button" name="_finish" value="Save"/>
+      <!-- TODO block this button for someone other than an admin or the user himself -->
       <c:if test="${not empty param.id}">
         <input type="submit" class="button" name="_finish" value="Delete" onclick="bCancel=true"/>
       </c:if>

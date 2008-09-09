@@ -17,13 +17,9 @@ public class BuildingManagerTest extends AbstractTransactionalDataSourceSpringCo
         return new String[] {"classpath*:/WEB-INF/applicationContext*.xml"};
     }
 
-    protected void onSetUpInTransaction() throws Exception {
-        deleteFromTables(new String[] {"FLOORS"});
-        deleteFromTables(new String[] {"BUILDINGS"});
-    }
-
     public void testGetBuildings() {
-        Building building1 = new Building();
+        int buildingCount = buildingManager.getBuildings().size();
+    	Building building1 = new Building();
         building1.setName("Abbie");
         building1.setTitle("Raible");
         Building building2 = new Building();
@@ -32,6 +28,18 @@ public class BuildingManagerTest extends AbstractTransactionalDataSourceSpringCo
         buildingManager.saveBuilding(building1);
         buildingManager.saveBuilding(building2);
 
-        assertEquals(2, buildingManager.getBuildings().size());
+        assertEquals(buildingCount + 2, buildingManager.getBuildings().size());
+        
+        buildingManager.removeBuilding(building1.getId().toString());
+        assertEquals(buildingCount + 1, buildingManager.getBuildings().size());
+                
+        buildingManager.removeBuilding(building2.getId().toString());
+        assertEquals(buildingCount, buildingManager.getBuildings().size());
+        
+        try{
+            buildingManager.removeBuilding(building2.getId().toString());
+            fail("Should not be able to remove an object that was removed already!");
+        }catch (Exception e){}
+        assertEquals(buildingCount, buildingManager.getBuildings().size());
     }
 }

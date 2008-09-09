@@ -41,25 +41,28 @@
     <td></td>
     <td>
         <button type="submit" class="button" name="_finish" value="Save">Save</button>
-      <c:if test="${not empty param.id}">
-        <button type="submit" class="button" name="_finish" value="Delete" onclick="bCancel=true">Delete</button>
-      </c:if>
+		<sec:authorize ifAllGranted="ROLE_APP-ADMIN">
+			<c:if test="${not empty param.id}">
+				<button type="submit" class="button" name="_finish" value="Delete" onclick="bCancel=true">Delete</button>
+			</c:if>
+		</sec:authorize>
       	<button type="submit" class="button" name="_cancel" value="Cancel" onclick="bCancel=true">Cancel</button>
     </td>
 </tr>
 </table>
 
-<h2>Administrators for ${room.name}</h2>
-
-<button type="submit" name="_target1" value="true" style="float: right; margin-top: -30px; width: 100px">Add Admin</button>
-<display:table name="room.administrators" class="table" requestURI="" id="userList" pagesize="10">
-    <display:column property="fullName" sortable="true" titleKey="user.firstName" escapeXml="true"/>
-    <display:column property="phone" sortable="true" titleKey="user.phone" escapeXml="true"/>
-    <display:column property="email" sortable="true" titleKey="user.email" escapeXml="true"/>
-    <display:column sortable="true" href="roomform.html" media="html"
-        paramId="removeUserId" paramProperty="id">Remove</display:column>
-</display:table>
-
+<sec:authorize ifAllGranted="ROLE_APP-ADMIN">
+	<h2>Administrators for ${room.name}</h2>
+	
+	<button type="submit" name="_target1" value="true" style="float: right; margin-top: -30px; width: 100px">Add Admin</button>
+	<display:table name="room.administrators" class="table" requestURI="" id="userList" pagesize="10">
+	    <display:column property="fullName" sortable="true" titleKey="user.firstName" escapeXml="true"/>
+	    <display:column property="phone" sortable="true" titleKey="user.phone" escapeXml="true"/>
+	    <display:column property="email" sortable="true" titleKey="user.email" escapeXml="true"/>
+	    <display:column sortable="true" href="roomform.html" media="html"
+	        paramId="removeUserId" paramProperty="id">Remove</display:column>
+	</display:table>
+</sec:authorize>
 </form:form>
 <v:javascript formName="room" staticJavascript="false" xhtml="true" cdata="false"/>
 <script type="text/javascript" src="<c:url value="/scripts/validator.jsp"/>"></script>

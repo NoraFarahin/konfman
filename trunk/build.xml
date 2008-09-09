@@ -95,7 +95,7 @@
             message="Please copy ~/.m2/repository/junit/junit/4.4/junit-4.4.jar into ${env.ANT_HOME}/lib"/>
 
         <mkdir dir="${test.dir}/data"/>
-        <junit printsummary="no" fork="true" forkmode="once"
+        <junit printsummary="yes" fork="true" forkmode="once"
             errorProperty="test.failed" failureProperty="test.failed">
             <classpath>
                 <path refid="compile.classpath"/>
@@ -111,7 +111,7 @@
             <formatter type="brief" usefile="false"/>
             <batchtest todir="${test.dir}/data" if="test">
                 <fileset dir="${test.dir}/classes">
-                    <include name="**/*${test}*"/>
+                    <include name="**/L*${test}*"/>
                     <exclude name="**/*TestCase.class"/>
                     <exclude name="**/*$*.class"/>
                 </fileset>

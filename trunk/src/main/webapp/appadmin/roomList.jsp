@@ -5,8 +5,7 @@
 <button onclick="location.href='./roomform.html?floorId=<%=request.getParameter("floorId")%>'"style="float: right; margin-top: -30px; width: 100px">Add Room</button>
 <display:table name="floor.rooms" class="table" requestURI="" id="floor" export="true" pagesize="10">
 	<display:setProperty name="export.pdf.filename" value="rooms.pdf"/>
-    <display:column property="id" sortable="true" href="./roomform.html" media="html"
-        paramId="id" paramProperty="id" titleKey="room.id"/>
+    <display:column href="./roomform.html" media="html" paramId="id" paramProperty="id">Edit</display:column>
     <display:column property="id" media="csv excel xml pdf" titleKey="room.id"/>
     <display:column property="name" sortable="true" titleKey="room.name" escapeXml="true"/>
     <display:column property="title" sortable="true" titleKey="room.title" escapeXml="true"/>

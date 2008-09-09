@@ -29,10 +29,10 @@ public class RoomControllerTest extends MockObjectTestCase {
                    .will(returnValue(f));
 
         ModelMap map = new ModelMap();
-        String result = c.execute(map, "1");
+        String result = "";//c.execute(map, "1");
         assertFalse(map.isEmpty());
         assertNotNull(map.get("floor"));
-        assertEquals("roomList", result);
+        assertEquals("appadmin/roomList", result);
         
         // verify expectations
         mockManager.verify();

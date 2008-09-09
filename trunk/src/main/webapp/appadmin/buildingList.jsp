@@ -6,8 +6,7 @@
 
 <display:table name="buildingList" class="table" requestURI="" id="buildingList" export="true" pagesize="10">
     <display:setProperty name="export.pdf.filename" value="buildings.pdf"/>
-    <display:column property="id" sortable="true" href="./buildingform.html" media="html"
-        paramId="id" paramProperty="id" titleKey="building.id"/>
+    <display:column href="./buildingform.html" media="html" paramId="id" paramProperty="id">Edit</display:column>
     <display:column property="id" media="csv excel xml pdf" titleKey="building.id"/>
     <display:column property="name" sortable="true" titleKey="building.name" escapeXml="true"/>
     <display:column property="title" sortable="true" titleKey="building.title" escapeXml="true"/>

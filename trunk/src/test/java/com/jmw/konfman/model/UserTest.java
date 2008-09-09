@@ -145,7 +145,8 @@ public class UserTest extends TestCase {
 	}
 	
 	public void testGetSetAdministeredRooms(){
-		assertNull(user.getAdministeredRooms());
+		assertNotNull(user.getAdministeredRooms());
+		assertEquals(0, user.getAdministeredRooms().size());
 		Set<Room> rooms = new HashSet<Room>();
 		Room room = new Room();
 		room.setId(new Long(3000));
@@ -157,12 +158,10 @@ public class UserTest extends TestCase {
 	}
 	
 	public void testAddRemoveAdministeredRooms(){
-		assertNull(user.getAdministeredRooms());
-		Set<Room> rooms = new HashSet<Room>();
+		assertNotNull(user.getAdministeredRooms());
+		assertEquals(0, user.getAdministeredRooms().size());
 		Room room = new Room();
 		room.setId(new Long(3300));
-		user.setAdministeredRooms(rooms);
-		assertEquals(0, user.getAdministeredRooms().size());
 		
 		//add the room
 		user.addAdministeredRoom(room);

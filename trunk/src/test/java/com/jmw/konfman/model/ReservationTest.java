@@ -121,7 +121,7 @@ public class ReservationTest extends TestCase {
 		assertEquals("", reservation.getDate());
 		reservation.setDate("01/01/2005");
 		reservation.setStartTime("8:30 AM");
-		assertEquals("1/1/05", reservation.getDate());
+		assertEquals("01/01/2005", reservation.getDate());
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class ReservationTest extends TestCase {
 		reservation.setDate("01/01/2008");
 		reservation.setStartTime("08:30 AM");
 		assertEquals(d, reservation.getStartDateTime());
-		assertEquals("1/1/08", reservation.getDate());
+		assertEquals("01/01/2008", reservation.getDate());
 		assertEquals("8:30 AM", reservation.getStartTime());
 	}
 
@@ -165,7 +165,7 @@ public class ReservationTest extends TestCase {
 		reservation.setDate("01/01/2008");
 		reservation.setStartTime("8:30 AM");
 		reservation.setEndTime("9:30 AM");
-		assertEquals("1/1/08", reservation.getDate());
+		assertEquals("01/01/2008", reservation.getDate());
 		assertEquals(d, reservation.getEndDateTime());
 		assertEquals("9:30 AM", reservation.getEndTime());
 	}

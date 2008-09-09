@@ -1,11 +1,8 @@
 package com.jmw.konfman.dao;
 
-import java.util.List;
-
 import org.springframework.dao.DataAccessException;
 
 import com.jmw.konfman.model.Authority;
-import com.jmw.konfman.model.Floor;
 
 public class AuthorityDaoTest extends BaseDaoTestCase {
     private Authority authority = null;
@@ -30,7 +27,6 @@ public class AuthorityDaoTest extends BaseDaoTestCase {
     public void testSaveAuthority() throws Exception {
         authority = new Authority();
         authority.setRole("Rod");
-        //authority.setTitle("Johnson");
 
         dao.saveAuthority(authority);
         assertTrue("primary key assigned", authority.getId() != null);

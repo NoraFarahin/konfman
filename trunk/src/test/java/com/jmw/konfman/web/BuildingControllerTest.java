@@ -34,7 +34,7 @@ public class BuildingControllerTest extends MockObjectTestCase {
         String result = c.execute(map);
         assertFalse(map.isEmpty());
         assertNotNull(map.get("buildingList"));
-        assertEquals("buildingList", result);
+        assertEquals("appadmin/buildingList", result);
         
         // verify expectations
         mockManager.verify();

@@ -206,6 +206,10 @@ public class RoomFormController extends AbstractWizardFormController {
             request.getSession().setAttribute("message",
                     getText("room.saved", room.getName()));
         }
+        String context = (String) request.getSession().getAttribute("context");
+        if (context.equals("roomadmin/")){
+            return new ModelAndView("redirect:./roomadmin.html");
+        }
 
         return new ModelAndView("redirect:./rooms.html?floorId=" + room.getFloor().getId());
 	}
@@ -214,6 +218,10 @@ public class RoomFormController extends AbstractWizardFormController {
 			HttpServletResponse response, Object command, BindException error)
 			throws Exception {
 		Room room = (Room) command;
+        String context = (String) request.getSession().getAttribute("context");
+        if (context.equals("roomadmin/")){
+            return new ModelAndView("redirect:./roomadmin.html");
+        }
         return new ModelAndView("redirect:./rooms.html?floorId=" + room.getFloor().getId());
 	}
 }
