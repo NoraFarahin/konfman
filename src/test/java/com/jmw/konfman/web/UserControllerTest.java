@@ -34,7 +34,7 @@ public class UserControllerTest extends MockObjectTestCase {
         String result = c.execute(map);
         assertFalse(map.isEmpty());
         assertNotNull(map.get("userList"));
-        assertEquals("userList", result);
+        assertEquals("appadmin/userList", result);
         
         // verify expectations
         mockManager.verify();
@@ -54,7 +54,7 @@ public class UserControllerTest extends MockObjectTestCase {
         String result = c.executeSelect(map);
         assertFalse(map.isEmpty());
         assertNotNull(map.get("userList"));
-        assertEquals("usersSelect", result);
+        assertEquals("appadmin/usersSelect", result);
         
         // verify expectations
         mockManager.verify();

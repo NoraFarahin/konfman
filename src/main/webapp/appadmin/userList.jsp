@@ -6,8 +6,7 @@
 
 <display:table name="userList" class="table" requestURI="" id="userList" export="true" pagesize="10">
     <display:setProperty name="export.pdf.filename" value="users.pdf"/>
-    <display:column property="id" sortable="true" href="./userform.html" media="html"
-        paramId="id" paramProperty="id" titleKey="user.id"/>
+    <display:column href="./userform.html" media="html" paramId="id" paramProperty="id" titleKey="user.id">Edit</display:column>
     <display:column property="id" media="csv excel xml pdf" titleKey="user.id"/>
     <display:column property="firstName" sortable="true" titleKey="user.firstName" escapeXml="true"/>
     <display:column property="lastName" sortable="true" titleKey="user.lastName" escapeXml="true"/>

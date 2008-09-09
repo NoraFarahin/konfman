@@ -81,13 +81,13 @@ public class UserFormControllerTest extends MockObjectTestCase {
         mockManager.expects(once()).method("saveUser")
                    .with(eq(savedUser));
         
-        request = new MockHttpServletRequest("POST", "/userform.html");
+        request = new MockHttpServletRequest("POST", "appadmin/userform.html");
         request.addParameter("id", user.getId().toString());
         request.addParameter("firstName", user.getFirstName());
         request.addParameter("lastName", "Updated Last Name");
         mv = c.handleRequest(request, new MockHttpServletResponse());
         Errors errors = (Errors) mv.getModel().get(BindException.MODEL_KEY_PREFIX + "user");
-        assertNull(errors);
+        assertEquals(0, errors.getErrorCount());
         assertNotNull(request.getSession().getAttribute("message"));
         
         // verify expectations

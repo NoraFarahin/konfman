@@ -9,7 +9,7 @@ public class FloorWebTest extends WebTestCase {
 
     public FloorWebTest(String name) {
         super(name);
-        getTestContext().setBaseUrl("http://localhost:25888");
+        getTestContext().setBaseUrl("http://localhost:8080");
         getTestContext().setResourceBundleName("messages");
         messages = ResourceBundle.getBundle("messages");
         //getTestContext().setLocale(Locale.GERMAN);

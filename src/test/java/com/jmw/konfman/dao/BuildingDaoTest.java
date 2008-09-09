@@ -34,7 +34,8 @@ public class BuildingDaoTest extends BaseDaoTestCase {
     }
 
     public void testGetActiveBuildings() {
-    	int currentBuildingCount = dao.getBuildings().size();
+    	//see how many active buildings there are now 
+    	int currentBuildingCount = dao.getActiveBuildings().size();
     	
         building = new Building();
         building.setName("name");
@@ -42,6 +43,7 @@ public class BuildingDaoTest extends BaseDaoTestCase {
 
         dao.saveBuilding(building);
 
+        //the number should be the same since we have only added an inactive building
         assertEquals(currentBuildingCount, dao.getActiveBuildings().size());
 
         Building b1 = new Building();
@@ -49,6 +51,8 @@ public class BuildingDaoTest extends BaseDaoTestCase {
         b1.setTitle("title1");
         b1.setActive(true);
         dao.saveBuilding(b1);
+        
+        //add an active building and confirm that the count has increased by 1
 
         assertEquals(currentBuildingCount + 1, dao.getActiveBuildings().size());
 }

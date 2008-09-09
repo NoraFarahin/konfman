@@ -27,12 +27,10 @@ public class FloorManagerTest extends AbstractTransactionalDataSourceSpringConte
         
     }
 
-    protected void onSetUpInTransaction() throws Exception {
-        deleteFromTables(new String[] {"FLOORS"});
-    }
-
     public void testGetFloors() {
-        Floor floor1 = new Floor();
+    	int floorCount = floorManager.getFloors().size();
+    	
+    	Floor floor1 = new Floor();
         floor1.setName("Abbie");
         floor1.setTitle("Raible");
         floor1.setBuilding(building);
@@ -43,8 +41,21 @@ public class FloorManagerTest extends AbstractTransactionalDataSourceSpringConte
         floorManager.saveFloor(floor1);
         floorManager.saveFloor(floor2);
 
-        assertEquals(2, floorManager.getFloors().size());
+        assertEquals(floorCount + 2, floorManager.getFloors().size());
         Building b = floor2.getBuilding();
         assertNotNull(b);
+        
+        floorManager.removeFloor(floor1.getId().toString());
+        assertEquals(floorCount + 1, floorManager.getFloors().size());
+        
+        floorManager.removeFloor(floor2.getId().toString());
+        assertEquals(floorCount, floorManager.getFloors().size());
+    
+        try{
+        	floorManager.removeFloor(floor1.getId().toString());
+        	fail("Should not be able to remove an object that was removed already!");
+        }catch (Exception e){}
+        
+        assertEquals(floorCount, floorManager.getFloors().size());
     }
 }

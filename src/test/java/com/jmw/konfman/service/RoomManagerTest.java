@@ -36,13 +36,9 @@ public class RoomManagerTest extends AbstractTransactionalDataSourceSpringContex
         floorManager.saveFloor(floor);
     }
 
-    protected void onSetUpInTransaction() throws Exception {
-        deleteFromTables(new String[] {"ROOMS"});
-        deleteFromTables(new String[] {"FLOORS"});
-    }
-
-    public void testGetRooms() {
-        Room room1 = new Room();
+    public void testGetRoomsRemmoveRoom() {
+        int roomCount = roomManager.getRooms().size();
+    	Room room1 = new Room();
         room1.setName("Abbie");
         room1.setTitle("Raible");
         room1.setFloor(floor);
@@ -53,8 +49,22 @@ public class RoomManagerTest extends AbstractTransactionalDataSourceSpringContex
         roomManager.saveRoom(room1);
         roomManager.saveRoom(room2);
 
-        assertEquals(2, roomManager.getRooms().size());
+        assertEquals(roomCount + 2, roomManager.getRooms().size());
         Floor f = room2.getFloor();
         assertNotNull(f);
+        
+        roomManager.removeRoom(room1.getId().toString());
+        assertEquals(roomCount + 1, roomManager.getRooms().size());
+
+        roomManager.removeRoom(room2.getId().toString());
+        assertEquals(roomCount, roomManager.getRooms().size());
+        
+        try{
+        	roomManager.removeRoom(room2.getId().toString());
+        	fail("Should not be able to remove a room that was already removed!");
+        }catch (Exception e){}
+        
+        //should be unchanged
+        assertEquals(roomCount, roomManager.getRooms().size());
     }
 }

@@ -17,11 +17,8 @@ public class UserManagerTest extends AbstractTransactionalDataSourceSpringContex
         return new String[] {"classpath*:/WEB-INF/applicationContext*.xml"};
     }
 
-    protected void onSetUpInTransaction() throws Exception {
-        deleteFromTables(new String[] {"USERS"});
-    }
-
     public void testGetUsers() {
+    	int userCount = userManager.getUsers().size();
         User kid1 = new User();
         kid1.setFirstName("Abbie");
         kid1.setLastName("Raible");
@@ -31,6 +28,19 @@ public class UserManagerTest extends AbstractTransactionalDataSourceSpringContex
         userManager.saveUser(kid1);
         userManager.saveUser(kid2);
 
-        assertEquals(2, userManager.getUsers().size());
+        assertEquals(userCount + 2, userManager.getUsers().size());
+        
+        userManager.removeUser(kid1.getId().toString());
+        userManager.removeUser(kid2.getId().toString());
+        
+        assertEquals(userCount, userManager.getUsers().size());
+
+        try{
+        	userManager.removeUser(kid1.getId().toString());
+        	fail("we should not be able to remove an object which has already been removed.");
+        }catch (Exception e){
+        	
+        }
+        
     }
 }

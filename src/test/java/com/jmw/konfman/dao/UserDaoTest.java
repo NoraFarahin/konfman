@@ -57,4 +57,27 @@ public class UserDaoTest extends BaseDaoTestCase {
             assertNotNull(dae);
         }
     }
+    
+    public void testGetUserByUsername_null(){
+    	assertNull(dao.getUser("zzzzzzzz111111111111111111"));
+    }
+    
+    
+    public void testGetUserByUsername(){
+        user = new User();
+        user.setFirstName("Billy");
+        user.setLastName("Josef");
+        user.setUsername("bj");
+
+        dao.saveUser(user);
+
+        assertNotNull(user.getId());
+        assertTrue(user.getFirstName().equals("Billy"));
+
+        log.debug("removing user...");
+
+        User user1 = dao.getUser("bj");
+        assertNotNull(user1.getId());
+        assertTrue(user1.getFirstName().equals("Billy"));
+    }
 }

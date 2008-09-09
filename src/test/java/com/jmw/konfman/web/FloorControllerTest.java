@@ -28,7 +28,7 @@ public class FloorControllerTest extends MockObjectTestCase {
         String result = c.execute(map, "1");
         assertFalse(map.isEmpty());
         assertNotNull(map.get("building"));
-        assertEquals("floorList", result);
+        assertEquals("appadmin/floorList", result);
         
         // verify expectations
         mockManager.verify();
