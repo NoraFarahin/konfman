@@ -371,7 +371,7 @@ fieldset ol li {
 }
 
 /* END FORM ELEMENTS */
-button, .button {
+button, .button, button:hover, .button:hover {
     text-align: center;
     padding-left: 4px;
     padding-right: 4px;

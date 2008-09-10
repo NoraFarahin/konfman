@@ -27,7 +27,7 @@
 
         <div id="branding">
             <a href="http://konfman.sourceforge.net" title="Konfman - Conference room scheduler">
-                <img src="${ctx}/images/powered-by-appfuse.gif" width="203" height="75" alt="Konfman"/></a>
+                <img src="${ctx}/images/logo.gif" width="203" height="75" alt="Konfman"/></a>
         </div>
 
         <p>Konfman</p>
@@ -58,7 +58,7 @@
 						<td> Remember me on this computer.</td>
 					</tr>
 					<tr>
-						<td><button type="submit">Login</button></td>
+						<td><button type="submit" id="login">Login</button></td>
 					</tr>
 				</table>			
 			</form>

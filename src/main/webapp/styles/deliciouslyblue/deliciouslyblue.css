@@ -170,6 +170,14 @@ div#nav a span {
     color: #FFF;
 }
 
+div#nav a:hover {
+    background-position:0% -42px;
+}
+    
+
+div#nav a:hover span {
+    background-position:100% -42px;
+}
 /**************** content styles ****************/
 div#main {
     width: 520px;

@@ -12,7 +12,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="${ctx}/images/favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" type="text/css" href="${ctx}/styles/deliciouslyblue/theme.css" title="default" />
-    <link rel="alternate stylesheet" type="text/css" href="${ctx}/styles/deliciouslygreen/theme.css" title="green" />
+    <link rel="alternate stylesheet" type="text/css" href="${ctx}/styles/deliciouslyred/theme.css" title="green" />
     <script type="text/javascript" src="${ctx}/scripts/prototype.js"></script>
     <script type="text/javascript" src="${ctx}/scripts/scriptaculous.js"></script>
     <script type="text/javascript" src="${ctx}/scripts/stylesheetswitcher.js"></script>

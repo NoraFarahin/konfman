@@ -1,27 +1,28 @@
 package com.jmw.konfman.web;
 
-import net.sourceforge.jwebunit.WebTestCase;
-
 import java.util.ResourceBundle;
+
+import net.sourceforge.jwebunit.junit.WebTestCase;
 
 public class BuildingWebTest extends WebTestCase {
     private ResourceBundle messages;
 
     public BuildingWebTest(String name) {
         super(name);
-        getTestContext().setBaseUrl("http://localhost:25888");
+        getTestContext().setBaseUrl("http://localhost:8080");
         getTestContext().setResourceBundleName("messages");
         messages = ResourceBundle.getBundle("messages");
         //getTestContext().setLocale(Locale.GERMAN);
         //getTestContext().getWebClient().setHeaderField("Accept-Language", "de");
     }
 
+    
     public void testWelcomePage() {
         beginAt("/");
-        assertTitleKeyMatches("index.title");
+        assertTitleEquals("Welcome");
     }
 
-    public void testAddBuilding() {
+    /*public void testAddBuilding() {
         beginAt("/buildingform.html");
         assertTitleKeyMatches("buildingForm.title");
         setFormElement("name", "Spring");
@@ -59,7 +60,7 @@ public class BuildingWebTest extends WebTestCase {
      * Convenience method to get the id of the inserted building
      * Assumes last inserted building is "Spring Building"
      * @return last id in the table
-     */
+     *
     protected String getInsertedBuildingId() {
         beginAt("/buildings.html");
         assertTablePresent("buildingList");
@@ -68,7 +69,7 @@ public class BuildingWebTest extends WebTestCase {
                 getDialog().getSparseTableBySummaryOrId("buildingList");
         return tableCellValues[tableCellValues.length-1][0];
     }
-
+*/
     protected void assertTitleKeyMatches(String title) {
         assertTitleEquals(messages.getString(title) + " | " + messages.getString("webapp.name")); 
     }
