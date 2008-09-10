@@ -200,29 +200,17 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>jwebunit</groupId>
-            <artifactId>jwebunit</artifactId>
-            <version>1.2</version>
+            <groupId>net.sourceforge.jwebunit</groupId>
+            <artifactId>jwebunit-core</artifactId>
+            <version>1.5</version>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>rhino</groupId>
-                    <artifactId>js</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
-        <dependency>
+        <!-- dependency>
             <groupId>httpunit</groupId>
             <artifactId>httpunit</artifactId>
             <version>1.6</version>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>rhino</groupId>
-                    <artifactId>js</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+        </dependency -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate</artifactId>

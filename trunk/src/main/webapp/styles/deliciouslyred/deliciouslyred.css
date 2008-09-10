@@ -2,6 +2,7 @@
 body {
     margin-top: 0;
     margin-bottom: 30px;
+    background-color: #FFFFFF;
 }
 
 div#page {
@@ -13,7 +14,7 @@ div#page {
     color: #666666;
     background-color: #FFFFFF;
     padding-bottom: 10px;
-    border-bottom: 2px solid #008000;
+    border-bottom: 2px solid #CC0033;
 }
 
 div#content {
@@ -30,7 +31,7 @@ div#header h1 {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     font-weight: normal;
     font-size: 32px;
-    color: #7bb04d;
+    color: #CC0000;
     margin-bottom: 16px;
     background-color: #FFFFFF;
 }
@@ -52,7 +53,7 @@ div#main h3 {
 }
 
 a, a:visited {
-    color: #65d039;
+    color: #993333;
     background-color: #FFFFFF;
     text-decoration: none;
     font-weight: bold;
@@ -93,17 +94,17 @@ img.right {
 /**************** form styles ****************/
 .button, button {
     padding: 2px;
-    background-color: #87B95B;
+    background-color: #FF3333;
     color: #fff;
-    border: 1px solid #008000;
+    border: 1px solid #993333;
     font-size: 11px;
 }
 
-button:hover {
+.button:hover, button:hover {
     padding: 2px;
-    background-color: #008000;
+    background-color: #993333;
     color: #fff;
-    border: 1px solid #87B95B;
+    border: 1px solid #FF3333;
     font-size: 11px;
 }
 
@@ -131,7 +132,7 @@ div#header div#branding {
 div#header p {
     margin-top: -20px;
     margin-left: 30px;
-    color: #999999;
+    color: #FF9999;
 }
 
 /**************** menu styles ****************/
@@ -140,7 +141,7 @@ div#nav {
     width: 750px;
     font-size: 93%;
     padding-bottom: 1px;
-    border-bottom: 4px solid #008000;
+    border-bottom: 4px solid #CC0033;
     line-height: normal;
 }
 
@@ -193,7 +194,7 @@ div#main {
 div#main p {
     line-height: 1.6em;
     padding-bottom: 10px;
-    border-bottom: 1px solid #DDDDDD;
+    border-bottom: 1px solid #FFCCCC;
 }
 
 /**************** sidebar styles ****************/
@@ -215,7 +216,7 @@ div#sub h3 {
 div#sub p {
     line-height: 1.5em;
     padding-bottom: 10px;
-    border-bottom: 1px solid #DDDDDD;
+    border-bottom: 1px solid #CC6666;
 }
 
 /**************** footer styles ****************/
@@ -227,7 +228,7 @@ div#footer {
     padding-right: 5px;
     clear: both;
     width: 742px;
-    background-color: #008000;
+    background-color: #CC0000;
 }
 
 div#footer p {
@@ -237,7 +238,7 @@ div#footer p {
 }
 
 div#footer p a {
-    background-color: #008000;
+    background-color: #CC0000;
     color: #FFFFFF;
     font-weight: 100;
     border-bottom: 1px dotted #FFFFFF;
