@@ -49,7 +49,3 @@
 </tr>
 </table>
 </form:form>
-
-
-<v:javascript formName="floor" staticJavascript="false" xhtml="true" cdata="false"/>
-<script type="text/javascript" src="<c:url value="/scripts/validator.jsp"/>"></script>
