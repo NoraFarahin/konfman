@@ -26,7 +26,7 @@
        				<var-value>4</var-value>
        			</var>
             </field>
-            <field property="email" depends="required,email">
+            <field property="email" depends="required">
                 <arg key="user.email"/>
             </field>
             <field property="password" depends="required">

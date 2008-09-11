@@ -155,10 +155,10 @@
             <artifactId>aspectjweaver</artifactId>
             <version>1.6.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.codehaus.cargo</groupId>
-            <artifactId>cargo-ant</artifactId>
-            <version>0.9</version>
+		<dependency>
+			<groupId>org.codehaus.cargo</groupId>
+			<artifactId>cargo-ant</artifactId>
+			<version>1.0-alpha-6</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -205,12 +205,23 @@
             <version>1.5</version>
             <scope>test</scope>
         </dependency>
-        <!-- dependency>
+		<!-- dependency>
+		    <groupId>net.sourceforge.jwebunit</groupId>
+		    <artifactId>jwebunit-selenium-plugin</artifactId>
+		    <version>1.5</version>
+		</dependency --> 
+		<dependency>
+		    <groupId>net.sourceforge.jwebunit</groupId>
+		    <artifactId>jwebunit-htmlunit-plugin</artifactId>
+		    <version>1.5</version>
+            <scope>test</scope>
+		</dependency>
+        <dependency>
             <groupId>httpunit</groupId>
             <artifactId>httpunit</artifactId>
-            <version>1.6</version>
+            <version>1.6.2</version>
             <scope>test</scope>
-        </dependency -->
+        </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate</artifactId>
