@@ -91,16 +91,15 @@
         paramId="removeAuthorityId" paramProperty="id">Remove</display:column>
 </display:table>
 
-<h2>Rooms Administered by ${user.fullName}</h2>
-<button type="submit" name="_target2" value="true" style="float: right; margin-top: -30px; width: 100px">Add Room</button>
-</form:form>
-<display:table name="user.administeredRooms" class="table" requestURI="" id="rooms" export="true" pagesize="10">
-    <display:column property="name" sortable="true" titleKey="room.name" escapeXml="true"/>
-    <display:column property="title" sortable="true" titleKey="room.title" escapeXml="true"/>
-    <display:column sortable="true" href="userform.html" media="html"
-        paramId="removeRoomId" paramProperty="id">Remove</display:column>
-</display:table>
-
+	<h2>Rooms Administered by ${user.fullName}</h2>
+	<button type="submit" name="_target2" value="true" style="float: right; margin-top: -30px; width: 100px">Add Room</button>
+	</form:form>
+	<display:table name="user.administeredRooms" class="table" requestURI="" id="rooms" export="true" pagesize="10">
+	    <display:column property="name" sortable="true" titleKey="room.name" escapeXml="true"/>
+	    <display:column property="title" sortable="true" titleKey="room.title" escapeXml="true"/>
+	    <display:column sortable="true" href="userform.html" media="html"
+	        paramId="removeRoomId" paramProperty="id">Remove</display:column>
+	</display:table>
 
 <v:javascript formName="user" staticJavascript="false" xhtml="true" cdata="false"/>
 <script type="text/javascript" src="<c:url value="/scripts/validator.jsp"/>"></script>

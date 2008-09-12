@@ -135,7 +135,9 @@ public class Reservation extends BaseObject {
     
     @Transient
     public void setStartTime(String time) throws Exception{
-    	startDateTime = df.parse(date + " " + time);
+    	if (!(time == null || time.equals(""))){
+    		startDateTime = df.parse(date + " " + time);
+    	}
     }
     
     @Transient    
@@ -156,7 +158,9 @@ public class Reservation extends BaseObject {
         
     @Transient
     public void setEndTime(String time) throws Exception{
-    	endDateTime = df.parse(date + " " + time);
+    	if (!(time == null || time.equals(""))){
+    		endDateTime = df.parse(date + " " + time);
+    	}
     }
     
     public String toString(){

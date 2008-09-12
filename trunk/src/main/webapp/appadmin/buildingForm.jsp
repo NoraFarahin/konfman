@@ -6,7 +6,7 @@
 
 <p>Please fill in building's information below:</p>
 
-<form:form commandName="building" method="post" action="buildingform.html" id="buildingForm">
+<form:form commandName="building" method="post" action="buildingform.html" id="buildingForm" onsubmit="return validateBuilding(this)">
 <form:errors path="*" cssClass="error"/>
 <form:hidden path="id"/>
 <table class="detail">
@@ -50,3 +50,5 @@
 </tr>
 </table>
 </form:form>
+<v:javascript formName="building" staticJavascript="false" xhtml="true" cdata="false"/>
+<script type="text/javascript" src="<c:url value="/scripts/validator.jsp"/>"></script>
