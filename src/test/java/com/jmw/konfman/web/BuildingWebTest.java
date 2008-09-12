@@ -46,7 +46,7 @@ public class BuildingWebTest extends TestCase {
     	int tableRowCount = wt.getTable("buildingList").getRowCount();
     	
     	wt.gotoPage("/appadmin/buildingform.html");
-        assertTitleKeyMatches("buildingForm.title");
+    	assertTitleKeyMatches("buildingForm.title");
         wt.setTextField("name", "BuildingTest");
         wt.setTextField("title", "BTitle");
         wt.submit("save");
@@ -58,6 +58,35 @@ public class BuildingWebTest extends TestCase {
         this.getInsertedBuildingId();
     }
 
+    public void testAttemptInvalidBuilding() {
+    	wt.gotoPage("/appadmin/buildings.html");
+    	wt.assertTablePresent("buildingList");
+    	    	
+    	int tableRowCount = wt.getTable("buildingList").getRowCount();
+    	
+    	wt.gotoPage("/appadmin/buildingform.html");
+        assertTitleKeyMatches("buildingForm.title");
+
+        wt.setTextField("name", "FN");
+        
+        try{
+        	wt.clickButtonWithText("Save");
+        	fail("Should error on no other fields");
+        }catch (Exception e){}
+        
+        wt.setTextField("title", "FN");
+        
+        try{
+        	wt.clickButtonWithText("Save");
+        	fail("Should error on no other fields");
+        }catch (Exception e){}
+        
+        wt.clickButtonWithText("Cancel");
+    	wt.assertTablePresent("buildingList");
+    	
+    	assertEquals(tableRowCount, wt.getTable("buildingList").getRowCount());
+    }
+        
     public void testListBuildings() {
     	wt.gotoPage("/appadmin/buildings.html");
 

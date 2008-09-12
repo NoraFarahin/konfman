@@ -49,5 +49,23 @@
         		</var>
     		</field>
         </form>
+        <form name="building">
+            <field property="name" depends="minlength">
+                <arg position="0" key="building.name"/>
+				<arg position="1" name="minlength" key="${var:minlength}" resource="false"/>
+        		<var>
+        			<var-name>minlength</var-name>
+       				<var-value>4</var-value>
+       			</var>
+            </field>
+            <field property="title" depends="minlength">
+                <arg position="0" key="building.title"/>
+				<arg position="1" name="minlength" key="${var:minlength}" resource="false"/>
+        		<var>
+        			<var-name>minlength</var-name>
+       				<var-value>4</var-value>
+       			</var>
+            </field>
+		</form>
     </formset>
 </form-validation>

@@ -95,14 +95,7 @@ public class ReservationFormController extends AbstractWizardFormController  {
     }
 
     protected void validatePage(Object command, Errors errors, int page){
-    	
     	validator.validate(command, errors);
-
-    	Reservation reservation = (Reservation)command;
-    	boolean conflict = reservationManager.isConflict(reservation);
-    	if (conflict){
-    		errors.reject("reservation.conflicted", new String[] {reservation.getComment()}, "" );
-    	}
     }
 
     private Reservation createNewReservation(HttpServletRequest request){
