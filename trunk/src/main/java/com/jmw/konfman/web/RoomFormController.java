@@ -43,7 +43,7 @@ public class RoomFormController extends AbstractWizardFormController {
     public RoomFormController() {
         setCommandName("room");
         setCommandClass(Room.class);
-        setPages(new String[] {"roomForm", "appadmin/usersSelect"} );
+        setPages(new String[] {"roomForm", "usersSelect"} );
         //setSuccessView("redirect:rooms.html");
         if (validator != null)
             setValidator(validator);

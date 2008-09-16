@@ -1,0 +1,8 @@
+jdbc.driverClassName=org.h2.Driver
+jdbc.url=jdbc:h2:tcp://localhost:9092/~/conf
+jdbc.username=sa
+jdbc.password=
+
+# You can remove this property if you're not using Hibernate
+hibernate.dialect=org.hibernate.dialect.H2Dialect
+

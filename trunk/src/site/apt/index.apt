@@ -1,0 +1,7 @@
+Welcome to KONFMAN the conference room scheduling web app.
+
+	The current version is 0.2, hot off the keyboard.
+	This release is going out so that the basic functionality can be proven in production environments.
+	Stay tuned for version 0.3 featuring many enhancments and additional functionality.
+
+	Special mention must be given to Matt Raible, whose appfuse light provided the underlying structure of this project.
