@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.springframework.security.GrantedAuthority;
@@ -25,6 +26,7 @@ import org.springframework.security.userdetails.UserDetails;
  *
  */
 @Entity
+@Table(name="Users")
 public class User extends BaseObject implements UserDetails{
     private static final long serialVersionUID = 3257568390917667126L;
 

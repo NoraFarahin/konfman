@@ -68,8 +68,8 @@ public class ReservationDaoHibernate implements ReservationDao {
 	public boolean isConflict(Reservation reservation) {
 		//increment start time and end time to prevent overlap conflicts for 
 		//reservations that begin where another ends
-		Date startDateTime = new Date(reservation.getStartDateTime().getTime() + 1);
-		Date endDateTime = new Date(reservation.getEndDateTime().getTime() - 1);
+		Date startDateTime = new Date(reservation.getStartDateTime().getTime() + 1000);
+		Date endDateTime = new Date(reservation.getEndDateTime().getTime() - 1000);
 
 		//this HQL checks for three conditions:
 		//1) If the start time overlaps with and existing reservation

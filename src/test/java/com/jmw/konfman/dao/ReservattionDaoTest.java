@@ -271,7 +271,7 @@ public class ReservattionDaoTest extends BaseDaoTestCase {
 			e.printStackTrace();
 			fail();
 		}
-    	assertFalse(resDao.isConflict(res));
+    	assertFalse("Should not conflict any more", resDao.isConflict(res));
     }
 
     /**

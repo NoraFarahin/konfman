@@ -1,0 +1,7 @@
+jdbc.driverClassName=org.firebirdsql.jdbc.FBDriver
+jdbc.url=jdbc:firebirdsql:localhost:c:\ymw\servers\db\firebird_2_1\conf.fdb
+jdbc.username=sysdba
+jdbc.password=masterkey
+
+# You can remove this property if you're not using Hibernate
+hibernate.dialect=org.hibernate.dialect.FirebirdDialect

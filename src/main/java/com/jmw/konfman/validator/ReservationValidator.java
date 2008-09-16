@@ -57,7 +57,10 @@ public class ReservationValidator implements Validator {
 			errors.rejectValue("startTime", "startsafterend");
 		}
 
-		if (reservation.getStartDateTime() != null && reservation.getEndDateTime() != null){
+		//if there are no other issues then see if there is a conflict with existing reservations
+		if (errors.getErrorCount() == 0){
+		//if (reservation.getStartDateTime() != null && reservation.getEndDateTime() != null){
+			log.debug("Checking for a conflict");
 			boolean conflict = reservationManager.isConflict(reservation);
 	    	if (conflict){
 	    		errors.reject("reservation.conflicted", new String[] {reservation.getComment()}, "" );
