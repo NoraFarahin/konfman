@@ -20,8 +20,10 @@ Special Instructions for supported databases
 	* H2 - No special configuration needed
 	
 	[[1]] Start your server and allow hibernate to create the tables.
-	[[2]] Open you favorite jdbc gui or command line and connect to the conf database (usually running on jdbc:h2:tcp://localhost:9092/~/conf).
-	[[3]] Run the statements found in the setup.sql file in the distributions main directory (this will create a default admin (user name = admin, password = admin) so that the application can be accessed. (In production environments it is highly recommended that you change the default password right away.)
-	[[4]] Point your browers to the home page (on tomcat that would be http://localhost:8080/konfman/) and login. 
 	
+	[[2]] Open you favorite jdbc gui or command line and connect to the conf database (usually running on jdbc:h2:tcp://localhost:9092/~/conf).
+	
+	[[3]] Run the statements found in the setup.sql file in the distributions main directory (this will create a default admin (user name = admin, password = admin) so that the application can be accessed. (In production environments it is highly recommended that you change the default password right away.)
+	
+	[[4]] Point your browers to the home page (on tomcat that would be http://localhost:8080/konfman/) and login. 
 	

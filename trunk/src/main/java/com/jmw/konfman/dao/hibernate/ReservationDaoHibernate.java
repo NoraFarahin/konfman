@@ -120,7 +120,7 @@ public class ReservationDaoHibernate implements ReservationDao {
 	}
 
 	public List getAllUserReservations(User user) {
-		return 	hibernateTemplate.find("from Reservation r where r.user = ? ", user);
+		return 	hibernateTemplate.find("from Reservation r where r.user = ? order by r.startDateTime", user);
 	}
 
 	public List getCurrentUserReservations(User user) {
@@ -129,7 +129,7 @@ public class ReservationDaoHibernate implements ReservationDao {
 		Object [] params = new Object[2];
 		params[0] = user;
 		params[1] = date;
-		return 	hibernateTemplate.find("from Reservation r where r.user = ? and r.startDateTime >= ?", params);
+		return 	hibernateTemplate.find("from Reservation r where r.user = ? and r.startDateTime >= ? order by r.startDateTime", params);
 	}
 
 	public List getPastUserReservations(User user) {
@@ -138,11 +138,11 @@ public class ReservationDaoHibernate implements ReservationDao {
 		Object [] params = new Object[2];
 		params[0] = user;
 		params[1] = date;
-		return 	hibernateTemplate.find("from Reservation r where r.user = ? and r.startDateTime < ?)", params);
+		return 	hibernateTemplate.find("from Reservation r where r.user = ? and r.startDateTime < ? order by r.startDateTime", params);
 	}
 
 	public List getAllRoomReservations(Room room) {
-		return 	hibernateTemplate.find("from Reservation r where r.room = ? ", room);
+		return 	hibernateTemplate.find("from Reservation r where r.room = ? order by r.startDateTime", room);
 	}
 
 	public List getCurrentRoomReservations(Room room) {
@@ -151,7 +151,7 @@ public class ReservationDaoHibernate implements ReservationDao {
 		Object [] params = new Object[2];
 		params[0] = room;
 		params[1] = date;
-		return 	hibernateTemplate.find("from Reservation r where r.room = ? and r.startDateTime >= ?", params);
+		return 	hibernateTemplate.find("from Reservation r where r.room = ? and r.startDateTime >= ? order by r.startDateTime", params);
 	}
 
 	public List getPastRoomReservations(Room room) {
@@ -160,6 +160,6 @@ public class ReservationDaoHibernate implements ReservationDao {
 		Object [] params = new Object[2];
 		params[0] = room;
 		params[1] = date;
-		return 	hibernateTemplate.find("from Reservation r where r.room = ? and r.startDateTime < ?)", params);
+		return 	hibernateTemplate.find("from Reservation r where r.room = ? and r.startDateTime < ? order by r.startDateTime)", params);
 	}
 }

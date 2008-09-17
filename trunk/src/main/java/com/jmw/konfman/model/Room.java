@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 /**
  * Represents a room in the Konfman application
@@ -32,13 +33,13 @@ public class Room extends BaseObject {
     private List<Reservation> reservations; 
     private Set<User> administrators;
     
-    public void setFloor(Floor floor){
+    public void setFloor(Floor floor) {
     	this.floor = floor;
     }
     
     
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    public Floor getFloor(){
+    public Floor getFloor() {
     	return floor;
     }
     
@@ -46,7 +47,7 @@ public class Room extends BaseObject {
 	 * @return the id
 	 */
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
@@ -131,7 +132,8 @@ public class Room extends BaseObject {
 	/**
 	 * @return the reservations
 	 */
-	@OneToMany(mappedBy="room", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+	@OrderBy("startDateTime")
 	public List<Reservation> getReservations() {
 		return reservations;
 	}
@@ -140,7 +142,8 @@ public class Room extends BaseObject {
 	 * Gets the administrators for this room
 	 * @return the administrators
 	 */
-	@ManyToMany(mappedBy="administeredRooms", cascade=CascadeType.ALL)
+	@ManyToMany(mappedBy = "administeredRooms", cascade = CascadeType.ALL)
+	@OrderBy("lastName")
 	public Set<User> getAdministrators() {
 		return administrators;
 	}
@@ -175,9 +178,9 @@ public class Room extends BaseObject {
      */
     public boolean equals(Object o){
     	if (o != null){
-	    	if (o.getClass().equals(Room.class)){
+	    	if (o.getClass().equals(Room.class)) {
 	    		Room room = (Room)o;
-	    		if (room.id != null && (room.id.longValue() == id.longValue())){
+	    		if (room.id != null && (room.id.longValue() == id.longValue())) {
 	    			return true;
 	    		}
 	    	}
@@ -188,14 +191,14 @@ public class Room extends BaseObject {
     /**
      * Needed for comparison. Returns the hashcode of the id object
      */
-    public int hashCode(){
+    public int hashCode() {
     	if (id != null){
     		return id.hashCode();
     	}
     	return 0;
     }
     
-    public String toString(){
+    public String toString() {
     	return "Room: " + name;
     }
 }

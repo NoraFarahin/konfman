@@ -1,3 +1,18 @@
+/*
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
 package com.jmw.konfman.model;
 
 import java.util.Date;
@@ -14,6 +29,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -49,7 +65,7 @@ public class User extends BaseObject implements UserDetails{
     private List<Reservation> reservations;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
         return id;
     }
@@ -115,18 +131,6 @@ public class User extends BaseObject implements UserDetails{
 		this.defaultFloor = defaultFloor;
 	}
 
-	/**
-	 * TODO remove birthday useful for copying date 
-	 * @return
-	 */
-	public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
     /**
 	 * @return the username
 	 */
@@ -159,7 +163,8 @@ public class User extends BaseObject implements UserDetails{
 	 * Gets the rooms that this user can administer
 	 * @return the administeredRooms
 	 */
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
+	@OrderBy("name")
     public Set<Room> getAdministeredRooms() {
 		return administeredRooms;
 	}
@@ -203,11 +208,11 @@ public class User extends BaseObject implements UserDetails{
     /**
      * Needed for comparison. Compares the value of the id.
      */
-    public boolean equals(Object o){
+    public boolean equals(Object o) {
     	if (o != null){
-	    	if (o.getClass().equals(User.class)){
+	    	if (o.getClass().equals(User.class)) {
 	    		User user = (User)o;
-	    		if (user.id != null && (user.id.longValue() == id.longValue())){
+	    		if (user.id != null && (user.id.longValue() == id.longValue())) {
 	    			return true;
 	    		}
 	    	}
@@ -218,21 +223,22 @@ public class User extends BaseObject implements UserDetails{
     /**
      * Needed for comparison. Returns the hashcode of the id object
      */
-    public int hashCode(){
+    public int hashCode() {
     	if (id != null){
     		return id.hashCode();
     	}
     	return 0;
     }
     
-    public String toString(){
+    public String toString() {
     	return firstName + " " + lastName;
     }
 
     /**
 	 * @return the reservations
 	 */
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy = "user")
+	@OrderBy("startDateTime")
     public List<Reservation> getReservations() {
 		return reservations;
 	}
@@ -245,9 +251,12 @@ public class User extends BaseObject implements UserDetails{
 	}
 
     /**
+	 * Gets the roles that this user is assigned to. 
+	 * Must be eager fetched so that the user object can be used for security
+	 * outside of the original transaction.   
 	 * @return the authorities
 	 */
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
 	public Set<Authority> getRoles() {
 		return roles;
 	}
@@ -289,6 +298,7 @@ public class User extends BaseObject implements UserDetails{
 	}
 
 	/**
+	 * Sets variable to contain the confirmation password during a password change. 
 	 * @param verifyPassword the verifyPassword to set
 	 */
 	public void setVerifyPassword(String verifyPassword) {
@@ -296,6 +306,7 @@ public class User extends BaseObject implements UserDetails{
 	}
 
 	/**
+	 * Gets variable containing the confirmation password during a password change. 
 	 * @return the verifyPassword
 	 */
 	@Transient
