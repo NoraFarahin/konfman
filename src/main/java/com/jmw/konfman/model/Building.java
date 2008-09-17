@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 /**
  * Represents a building in the Konfman application
@@ -30,7 +31,7 @@ public class Building extends BaseObject {
 	 * @return the id
 	 */
     @Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
@@ -91,7 +92,8 @@ public class Building extends BaseObject {
 	/**
 	 * @return the floors
 	 */
-	@OneToMany(mappedBy="building", cascade=CascadeType.ALL)//, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "building", cascade = CascadeType.ALL)
+	@OrderBy("name")
 	public List<Floor> getFloors() {
 		return floors;
 	}

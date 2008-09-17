@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
 /**
@@ -44,7 +45,7 @@ public class Floor extends BaseObject {
 	 * @return the id
 	 */
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
@@ -106,7 +107,8 @@ public class Floor extends BaseObject {
 	/**
 	 * @return the floors
 	 */
-	@OneToMany(mappedBy="floor", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "floor", cascade = CascadeType.ALL)
+	@OrderBy("name")
 	public List<Room> getRooms() {
 		return rooms;
 	}
@@ -126,7 +128,7 @@ public class Floor extends BaseObject {
 	 * @return the full name of the floor
 	 */
 	@Transient
-	public String getFullName(){
+	public String getFullName() {
 		if (building != null){
 			return building.getName() + " : " + name;
 		}
