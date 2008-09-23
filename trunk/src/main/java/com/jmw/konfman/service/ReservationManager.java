@@ -1,5 +1,6 @@
 package com.jmw.konfman.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.jmw.konfman.model.Reservation;
@@ -49,6 +50,56 @@ public interface ReservationManager {
      */
 	public List getPastRoomReservations(Room room);
 
+	/**
+	 * Gets the reservations that the user has for the given day
+	 * @param user
+	 * @param date
+	 * @return a list of reservations
+	 */
+	public List getDailyUserReservations(User user, Date date);
+	
+	/**
+	 * Gets the reservations that the user has for the week of the date parameter
+	 * @param user
+	 * @param date
+	 * @return a list of reservations
+	 */
+	public List getWeeklyUserReservations(User user, Date date);
+
+	/**
+	 * Gets the reservations that the user has for the month of the date para
+	 * @param user
+	 * @param date
+	 * @return a list of reservations
+	 */
+	public List getMonthlyUserReservations(User user, Date date);
+	
+	/**
+	 * Gets the reservations that the room has for the given day
+	 * @param room
+	 * @param date
+	 * @return
+	 */
+	public List getDailyRoomReservations(Room room, Date date);
+
+	/**
+	 * Gets the reservations that the room has for the week of the date parameter
+	 * @param room
+	 * @param date
+	 * @return
+	 */
+	public List getWeeklyRoomReservations(Room room, Date date);
+
+	/**
+	 * Gets the reservations that the room has for the week of the date parameter
+	 * @param room
+	 * @param date
+	 * @return
+	 */
+	public List getMonthlyRoomReservations(Room room, Date date);
+	
+	
+	
 	/**
      * Gets a specifc reservation
      * @param reservationId id number of the reservation to get

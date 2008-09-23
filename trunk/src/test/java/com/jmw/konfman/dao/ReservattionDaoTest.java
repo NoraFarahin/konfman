@@ -48,6 +48,12 @@ public class ReservattionDaoTest extends BaseDaoTestCase {
     }
 
     private void config(){
+    	user = new User();
+    	user.setFirstName("FN");
+    	user.setLastName("LN");
+    	uDao.saveUser(user);
+    	
+    	
         building = new Building();
         building.setName("B1");
         bDao.saveBuilding(building);
@@ -87,7 +93,11 @@ public class ReservattionDaoTest extends BaseDaoTestCase {
 
     public void testSaveReservation() throws Exception {
     	config();
-    	int count = resDao.getReservations().size();
+    	int count = 0;
+    	List list = resDao.getReservations();
+    	if (list != null){
+    		count = list.size();
+    	}
         res = new Reservation();
         res.setComment("comment");
         res.setRoom(room);
@@ -795,15 +805,15 @@ public class ReservattionDaoTest extends BaseDaoTestCase {
 	
 	public void testPastAndCurrentUserReservations(){
 		config();
-		user = new User();
-		user.setFirstName("FN");
-		user.setLastName("LN");
-		uDao.saveUser(user);
+    	user = new User();
+    	user.setFirstName("FNx");
+    	user.setLastName("LNx");
+    	uDao.saveUser(user);
 		
         Reservation r1 = new Reservation();
         r1.setComment("comment101");
         r1.setRoom(room);
-        r1.setDate("09/20/2008");
+        r1.setDate("09/20/2009");
 		r1.setUser(user);
         try {
         	r1.setStartTime("2:00 PM");
@@ -843,7 +853,7 @@ public class ReservattionDaoTest extends BaseDaoTestCase {
         Reservation r3 = new Reservation();
         r3.setComment("comment103");
         r3.setRoom(room);
-        r3.setDate("10/20/2008");
+        r3.setDate("10/20/2009");
 		r3.setUser(user);
         try {
         	r3.setStartTime("2:00 PM");
@@ -869,11 +879,15 @@ public class ReservattionDaoTest extends BaseDaoTestCase {
 
 	public void testPastAndCurrentRoomReservations(){
 		config();
+    	user = new User();
+    	user.setFirstName("FNx");
+    	user.setLastName("LN");
+    	uDao.saveUser(user);
 		
         Reservation r1 = new Reservation();
         r1.setComment("comment101");
         r1.setRoom(room);
-        r1.setDate("09/20/2008");
+        r1.setDate("09/20/2009");
 		r1.setUser(user);
         try {
         	r1.setStartTime("2:00 PM");
@@ -913,7 +927,7 @@ public class ReservattionDaoTest extends BaseDaoTestCase {
         Reservation r3 = new Reservation();
         r3.setComment("comment103");
         r3.setRoom(room);
-        r3.setDate("10/20/2008");
+        r3.setDate("10/20/2009");
 		r3.setUser(user);
         try {
         	r3.setStartTime("2:00 PM");
@@ -937,4 +951,245 @@ public class ReservattionDaoTest extends BaseDaoTestCase {
 		assertEquals("comment103", reservationC.getComment());
 	}
 
+	public void testGetInterval_RoomDaily(){
+		config();
+		
+        Reservation r1 = new Reservation();
+        r1.setComment("comment101");
+        r1.setRoom(room);
+        r1.setDate("09/20/2008");
+    	try {
+			r1.setStartTime("2:00 PM");
+	    	r1.setEndTime("4:00 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Should not produce a parseing error");
+		}
+        assertTrue(resDao.saveReservation(r1));
+        
+        Reservation test = new Reservation();
+        
+        test.setRoom(room);
+        test.setDate("09/20/2008");
+    	try {
+        	test.setStartTime("12:00 AM");
+			test.setEndTime("11:59 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Should not produce a parseing error");
+		}
+    	
+    	List list = resDao.getIntervalReservations(test);
+    	assertEquals(1, list.size());
+    	Reservation out = (Reservation) list.iterator().next();
+    	assertEquals("comment101", out.getComment());
+    	assertEquals("2:00 PM", out.getStartTime());
+        
+    	//add a second for 'today'
+        Reservation r2 = new Reservation();
+        r2.setComment("comment102");
+        r2.setRoom(room);
+        r2.setDate("09/20/2008");
+		r2.setUser(user);
+        try {
+        	r2.setStartTime("4:00 PM");
+        	r2.setEndTime("5:30 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+        assertTrue(resDao.saveReservation(r2));
+
+        list = resDao.getIntervalReservations(test);
+    	assertEquals(2, list.size());
+    	
+        //add a reservation for after 'today' 
+    	Reservation r3 = new Reservation();
+        r3.setComment("comment104");
+        r3.setRoom(room);
+        r3.setDate("10/20/2008");
+		r3.setUser(user);
+        try {
+        	r3.setStartTime("2:00 PM");
+        	r3.setEndTime("4:00 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		//be sure that it does not get returned
+        assertTrue(resDao.saveReservation(r3));
+        list = resDao.getIntervalReservations(test);
+    	assertEquals(2, list.size());
+    	
+        //add a reservation for before 'today' 
+    	Reservation r4 = new Reservation();
+        r4.setComment("comment104");
+        r4.setRoom(room);
+        r4.setDate("08/20/2008");
+		r4.setUser(user);
+        try {
+        	r4.setStartTime("2:00 PM");
+        	r4.setEndTime("4:00 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		//be sure that it does not get returned
+        assertTrue(resDao.saveReservation(r4));
+        list = resDao.getIntervalReservations(test);
+    	assertEquals(2, list.size());
+        
+    	//add a reservation for 'today' with a different room
+    	Room room2 = new Room();
+    	room2.setName("room2");
+    	rDao.saveRoom(room2);
+    	Reservation r5 = new Reservation();
+        r5.setComment("comment105");
+        r5.setRoom(room2);
+        r5.setDate("09/20/2008");
+        try {
+        	r5.setStartTime("2:00 PM");
+        	r5.setEndTime("4:00 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		//be sure that it does not get returned
+        assertTrue(resDao.saveReservation(r5));
+        list = resDao.getIntervalReservations(test);
+    	assertEquals(2, list.size());
+	
+	}
+
+	public void testGetInterval_UserDaily(){
+		config();
+		
+        Reservation r1 = new Reservation();
+        r1.setComment("comment101");
+        r1.setRoom(room);
+        r1.setUser(user);
+        r1.setDate("09/20/2008");
+    	try {
+			r1.setStartTime("2:00 PM");
+	    	r1.setEndTime("4:00 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Should not produce a parseing error");
+		}
+        assertTrue(resDao.saveReservation(r1));
+        
+        Reservation test = new Reservation();
+        
+        test.setUser(user);
+        test.setDate("09/20/2008");
+    	try {
+        	test.setStartTime("12:00 AM");
+			test.setEndTime("11:59 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Should not produce a parseing error");
+		}
+    	
+    	List list = resDao.getIntervalReservations(test);
+    	assertEquals(1, list.size());
+    	Reservation out = (Reservation) list.iterator().next();
+    	assertEquals("comment101", out.getComment());
+    	assertEquals("2:00 PM", out.getStartTime());
+        
+    	//add a second for 'today'
+        Reservation r2 = new Reservation();
+        r2.setComment("comment102");
+        r2.setRoom(room);
+        r2.setDate("09/20/2008");
+		r2.setUser(user);
+        try {
+        	r2.setStartTime("4:00 PM");
+        	r2.setEndTime("5:30 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+        assertTrue(resDao.saveReservation(r2));
+
+        list = resDao.getIntervalReservations(test);
+    	assertEquals(2, list.size());
+    	
+        //add a reservation for after 'today' 
+    	Reservation r3 = new Reservation();
+        r3.setComment("comment104");
+        r3.setRoom(room);
+        r3.setDate("10/20/2008");
+		r3.setUser(user);
+        try {
+        	r3.setStartTime("2:00 PM");
+        	r3.setEndTime("4:00 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		//be sure that it does not get returned
+        assertTrue(resDao.saveReservation(r3));
+        list = resDao.getIntervalReservations(test);
+    	assertEquals(2, list.size());
+        //add a reservation for before 'today' 
+    	Reservation r4 = new Reservation();
+        r4.setComment("comment104");
+        r4.setRoom(room);
+        r4.setDate("08/20/2008");
+		r4.setUser(user);
+        try {
+        	r4.setStartTime("2:00 PM");
+        	r4.setEndTime("4:00 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		//be sure that it does not get returned
+        assertTrue(resDao.saveReservation(r4));
+        list = resDao.getIntervalReservations(test);
+    	assertEquals(2, list.size());
+        
+    	//add a reservation for 'today' with a different room
+    	Room room2 = new Room();
+    	room2.setName("room2");
+    	rDao.saveRoom(room2);
+    	Reservation r5 = new Reservation();
+        r5.setComment("comment105");
+        r5.setRoom(room2);
+		r5.setUser(user);
+        r5.setDate("09/20/2008");
+        try {
+        	r5.setStartTime("2:00 PM");
+        	r5.setEndTime("4:00 PM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		//be sure that it does get returned
+        assertTrue(resDao.saveReservation(r5));
+        list = resDao.getIntervalReservations(test);
+    	assertEquals(3, list.size());
+	
+    	//add a reservation for 'today' with a different user
+    	User user2 = new User();
+    	user2.setFirstName("aaaa");
+    	user2.setLastName("zzz");
+    	uDao.saveUser(user2);
+    	Reservation r6 = new Reservation();
+        r6.setComment("comment106");
+        r6.setRoom(room);
+		r6.setUser(user2);
+        r6.setDate("09/20/2008");
+        try {
+        	r6.setStartTime("9:00 AM");
+        	r6.setEndTime("10:00 AM");
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail();
+		}
+		//be sure that it does not get returned
+        assertTrue(resDao.saveReservation(r6));
+        list = resDao.getIntervalReservations(test);
+    	assertEquals(3, list.size());
+	}
 }
