@@ -1,5 +1,6 @@
 package com.jmw.konfman.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.jmw.konfman.model.Reservation;
@@ -32,7 +33,7 @@ public interface ReservationDao extends Dao {
      */
 	public List getPastUserReservations(User user);
 
-    /**
+	/**
      * Gets room's current reservations (those which for today and in the future)
      * @return a list of reservations
      */
@@ -49,6 +50,14 @@ public interface ReservationDao extends Dao {
      * @return a list of reservations
      */
 	public List getPastRoomReservations(Room room);
+
+	/**
+     * Gets room's reservations for a specific interval
+	 * 
+	 * @param reservation the template reservation with the properties to be searched for
+	 * @return a list of reservations
+	 */
+	public List getIntervalReservations(Reservation reservation);
 
 	/**
 	 * Gets a specific reservation specified by reservationId

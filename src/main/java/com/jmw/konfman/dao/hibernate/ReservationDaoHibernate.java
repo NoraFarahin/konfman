@@ -34,7 +34,7 @@ public class ReservationDaoHibernate implements ReservationDao {
     }
 
     public List getReservations() {
-        return hibernateTemplate.find("from Reservation");
+        return hibernateTemplate.loadAll(Reservation.class);
     }
 
     public Reservation getReservation(Long id) {
@@ -98,24 +98,6 @@ public class ReservationDaoHibernate implements ReservationDao {
 		if (list.size() > 0){
 			return true;
 		}
-		/*
-		//in case that passed need to check if the new reservation is longer on both ends
-		list = hibernateTemplate.find("from Reservation r where r.room = ? and (? < r.startDateTime and ? > r.endDateTime)", params);
-		logger.debug("Retreiving matching reservations, count: " + list.size());
-		System.out.println("\t2.1");
-		if (list.size()> 1){
-			System.out.println("\t2.2");
-			return true;
-		} else if (list.size() == 1){
-			System.out.println("\t2.3");
-			Reservation res = (Reservation) list.iterator().next();
-			//if this reservation was never saved...
-			//or if the ID is different then it is a conflict
-			if (reservation.getId() == null || (!res.getId().equals(reservation.getId()))){
-				System.out.println("\t2.5");
-				return true;
-			}
-		}*/
 		return false;
 	}
 
@@ -141,6 +123,38 @@ public class ReservationDaoHibernate implements ReservationDao {
 		return 	hibernateTemplate.find("from Reservation r where r.user = ? and r.startDateTime < ? order by r.startDateTime", params);
 	}
 
+	public List getIntervalReservations(Reservation reservation){
+		List list = null;
+		Object [] params; 
+		int fieldCount = 4;
+		StringBuffer whereClause = new StringBuffer();
+		if (reservation.getRoom() != null){
+			fieldCount++;
+			whereClause.append("r.room = ? and ");
+		}
+		
+		if (reservation.getUser() != null){
+			fieldCount++;
+			whereClause.append("r.user = ? and ");
+		}
+		params = new Object[fieldCount];
+		int paramCount = 0;
+		if (reservation.getRoom() != null){
+			params[paramCount++] = reservation.getRoom();
+		}
+		if (reservation.getUser() != null){
+			params[paramCount++] = reservation.getUser();
+		}
+		params[paramCount++] = reservation.getStartDateTime();
+		params[paramCount++] = reservation.getEndDateTime();
+		params[paramCount++] = reservation.getStartDateTime();
+		params[paramCount++] = reservation.getEndDateTime();
+		
+		list = hibernateTemplate.find("from Reservation r where " + whereClause.toString() + "((? between r.startDateTime and r.endDateTime) or ((? between r.startDateTime and r.endDateTime)) or (? < r.startDateTime and ? > r.endDateTime))", params);
+		return list;
+	}
+	
+	
 	public List getAllRoomReservations(Room room) {
 		return 	hibernateTemplate.find("from Reservation r where r.room = ? order by r.startDateTime", room);
 	}

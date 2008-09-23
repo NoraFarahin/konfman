@@ -15,15 +15,38 @@ Databases Supported
 
 Special Instructions for supported databases
 	
-	HsqlDb - No special configuration needed.
+	* HsqlDb
+
+	No special configuration needed. See the Quick start page for more details.
+	
+	
 	
 	* H2 - No special configuration needed
 	
-	[[1]] Start your server and allow hibernate to create the tables.
+	[[1]] Start the h2 server.
+
+	[[2]] Start the application server (tomcat...) and allow hibernate to create the tables.
 	
-	[[2]] Open you favorite jdbc gui or command line and connect to the conf database (usually running on jdbc:h2:tcp://localhost:9092/~/conf).
+	[[3]] Open you favorite jdbc gui or command line and connect to the conf database (usually running on jdbc:h2:tcp://localhost:9092/~/conf).
 	
-	[[3]] Run the statements found in the setup.sql file in the distributions main directory (this will create a default admin (user name = admin, password = admin) so that the application can be accessed. (In production environments it is highly recommended that you change the default password right away.)
+	[[4]] Run the statements found in the setup.sql file in the distributions main directory (this will create a default admin (user name = admin, password = admin) so that the application can be accessed. (In production environments it is highly recommended that you change the default password right away.)
 	
-	[[4]] Point your browers to the home page (on tomcat that would be http://localhost:8080/konfman/) and login. 
+	[[5]] Point your browers to the home page (on tomcat that would be http://localhost:8080/konfman/) and login. 
+	
+	* Derby
+
+	[[1]] Start the Derby server.
+	
+	[[2]] Create a database named conf, using the create database command.
+
+	[[3]] Create a user called sa with password of pass.
+
+	[[4]] Start the application server (tomcat...) and allow hibernate to create the tables.
+	
+	[[5]] Open you favorite jdbc gui or command line and connect to the conf database (usually running on jdbc:derby://localhost:1527/conf).
+	
+	[[6]] Run the statements found in the setup.derby.sql file in the distributions main directory (this will create a default admin (user name = admin, password = admin) so that the application can be accessed. (In production environments it is highly recommended that you change the default password right away.)
+	
+	[[7]] Point your browers to the home page (on tomcat that would be http://localhost:8080/konfman/) and login. 
+	
 	
