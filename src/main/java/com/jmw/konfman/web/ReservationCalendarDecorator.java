@@ -1,6 +1,7 @@
 package com.jmw.konfman.web;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.calendartag.decorator.DefaultCalendarDecorator;
@@ -8,6 +9,8 @@ import org.calendartag.decorator.DefaultCalendarDecorator;
 import com.jmw.konfman.model.Reservation;
 
 public class ReservationCalendarDecorator extends DefaultCalendarDecorator {
+	int item = 0;
+	
 	public String getDay(String url) {
 		StringBuffer buffer = new StringBuffer();
 		if (calendar.get(Calendar.DATE) != 1 ||
@@ -22,15 +25,27 @@ public class ReservationCalendarDecorator extends DefaultCalendarDecorator {
 		if (reservations == null || reservations.size() == 0){
 			return buffer.toString();
 		}
-		for(int i=0; i<reservations.size(); i++){
+		for(int i=item; i<reservations.size(); i++){
+			
+			//System.out.println("Cal time: " + calendar.getTime());
 			Reservation reservation = (Reservation) reservations.get(i);
-			if (reservation.getStartDateTime().after(calendar.getTime())){
+			if (reservation.getStartDateTime().after(calendar.getTime()) && reservation.getStartDateTime().before(new Date(calendar.getTimeInMillis() + 86400000))){
+				item++;
 				buffer.append(reservation.getStartTime()).append("<br/>");
 			}
 		}
-		
-		
+			
 		return buffer.toString();
+	}
+	
+	public String getNextLink(String url) {
+		String mUrl = url.replace(".jsp", ".html");
+		return "<a href=\"" + mUrl + "\">>></a>";
+	}
+	
+	public String getPreviousLink(String url) {
+		String mUrl = url.replace(".jsp", ".html");
+		return "<a href=\"" + mUrl + "\"><<</a>";
 	}
 
 }
