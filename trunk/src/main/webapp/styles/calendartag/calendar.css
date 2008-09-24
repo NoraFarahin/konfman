@@ -12,14 +12,16 @@ table.calendarTableStyle {
 table.calendarTableStyle .calendarPreviousLinkStyle  {
 	font-weight:		bold;
 	font-size: 			16px;
-	color: 				#000066;
+	color: 				#FFFFFF;
+	background:			#000066;
 	text-align: 		left;
 }
 
 table.calendarTableStyle .calendarNextLinkStyle  {
 	font-weight: 		bold;
 	font-size: 			16px;
-	color: 				#000066;
+	color: 				#FFFFFF;
+	background:			#000066;
 	text-align: 		right;
 }
 
@@ -27,7 +29,8 @@ table.calendarTableStyle .calendarTitleStyle  {
 	font-weight: 		bold;
 	text-align:         center;
 	font-size: 			16px;
-	color: 				#000066;
+	color: 				#FFFFFF;
+	background:			#000066;
 	letter-spacing: 	10px;
 }
 
