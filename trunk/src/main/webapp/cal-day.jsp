@@ -5,7 +5,13 @@
 <div id="cal">
 	<h1>Reservations for ${entity} for ${date}</h1>
 	<display:table name="hours" class="table" requestURI="" id="hours">
-	    <display:column property="time" sortable="true" titleKey="reservation.comment" escapeXml="true"/>
-	    <display:column property="reservation.comment" sortable="true" titleKey="reservation.comment" escapeXml="true"/>
+	    <display:column property="time" sortable="false" titleKey="reservation.comment" escapeXml="true"/>
+	    <display:column property="reservation.comment" sortable="false" titleKey="reservation.comment" escapeXml="true"/>
+	    <c:if test="${empty requestScope.userId}">
+	    	<display:column property="reservation.room" sortable="false" titleKey="reservation.room" escapeXml="true"/>
+		</c:if>	    	
+	    <c:if test="${empty requestScope.roomId}">
+	    	<display:column property="reservation.user" sortable="false" titleKey="reservation.user" escapeXml="true"/>
+		</c:if>	    	
 	</display:table>
 </div>
