@@ -1,6 +1,5 @@
 package com.jmw.konfman.web;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,6 +10,9 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -52,20 +54,18 @@ public class CalendarController {
     	if (userId != null){
     		user = userManager.getUser(userId);
     	}
-    	
-    	Date d = parseDate(date);
-    	if (d == null){
-    		d = new Date();
-    	}
+    	DateTime dt = DateTimeFormat.forPattern("MM-dd-yyyy").parseDateTime(date);
+
     	List list = null;
     	if (room != null){
     		model.addAttribute("entity", room);
-    		list = reservationManager.getMonthlyRoomReservations(room, d);
+    		list = reservationManager.getMonthlyRoomReservations(room, dt.toDate());
     	} else {
     		model.addAttribute("entity", user);
-    		list = reservationManager.getMonthlyUserReservations(user, d);
+    		list = reservationManager.getMonthlyUserReservations(user, dt.toDate());
     	}
     	log.debug("Retrived: " + list.size() + " items for the calendar");
+    	model.addAttribute("month", dt.toString("MMMM"));
     	model.addAttribute("reservations", list);
     	return "cal-month";
     }
@@ -81,26 +81,20 @@ public class CalendarController {
     		user = userManager.getUser(userId);
     	}
     	
-    	Date d = parseDate(date);
-    	if (d == null){
-    		d = new Date();
-    	}
+    	DateTime dt = DateTimeFormat.forPattern("MM-dd-yyyy").parseDateTime(date);
     	List list = null;
     	if (room != null){
     		model.addAttribute("entity", room);
-    		list = reservationManager.getWeeklyRoomReservations(room, d);
+    		list = reservationManager.getWeeklyRoomReservations(room, dt.toDate());
     	} else {
     		model.addAttribute("entity", user);
-    		list = reservationManager.getWeeklyUserReservations(user, d);
+    		list = reservationManager.getWeeklyUserReservations(user, dt.toDate());
     	}
-    	Calendar cal = Calendar.getInstance();
-    	cal.setTime(d);
-    	cal.set(Calendar.DAY_OF_WEEK, 1);
-    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-    	model.addAttribute("startDate", sdf.format(cal.getTime()));
-    	
-    	cal.set(Calendar.DAY_OF_WEEK, 7);
-    	model.addAttribute("endDate", sdf.format(cal.getTime()));
+    	dt = dt.dayOfWeek().setCopy(1);
+    	dt = dt.minusDays(1);
+    	model.addAttribute("startDate", dt.toString("MM/dd/yyyy"));
+    	dt = dt.plusDays(6);
+    	model.addAttribute("endDate", dt.toString("MM/dd/yyyy"));
 
     	log.debug("Retrived: " + list.size() + " items for the calendar");
     	model.addAttribute("reservations", list);
@@ -118,39 +112,40 @@ public class CalendarController {
     		user = userManager.getUser(userId);
     	}
     	
-    	Date d = parseDate(date);
-    	if (d == null){
-    		d = new Date();
-    	}
+    	DateTime now = DateTimeFormat.forPattern("MM-dd-yyyy").parseDateTime(date);
+
     	List list = null;
     	if (room != null){
     		model.addAttribute("entity", room);
-    		list = reservationManager.getDailyRoomReservations(room, d);
+    		list = reservationManager.getDailyRoomReservations(room, now.toDate());
     	} else {
     		model.addAttribute("entity", user);
-    		list = reservationManager.getDailyUserReservations(user, d);
+    		list = reservationManager.getDailyUserReservations(user, now.toDate());
     	}
-    	model.addAttribute("date", d.toString());
-    	DateFormat df = DateFormat.getTimeInstance(DateFormat.SHORT);
-    	Calendar cal = Calendar.getInstance();
-    	cal.setTime(d);
-    	cal.set(Calendar.HOUR_OF_DAY, 8);
+    	model.addAttribute("date", now.toString("MMMM d, yyyy"));
+    	now = now.plusHours(8);
     	List hours = new ArrayList();
     	Iterator iter = list.iterator();
     	Reservation res = null;
     	for(int i=0; i<20; i++){
-    		if (iter.hasNext()){
+    		if (res == null && iter.hasNext()){
     			res = (Reservation) iter.next();
     		}
-    		Date displayNow = new Date(cal.getTimeInMillis() - 1);
-    		Date now = new Date(cal.getTimeInMillis() + 1);
-    		cal.add(Calendar.MINUTE, 30);
-    		Date later = cal.getTime();
-    		if (res != null && (now.after(res.getStartDateTime()) && now.before(res.getEndDateTime()))){
-    			hours.add(new Hour(df.format(displayNow), res));
+        	Interval interval = new Interval(now, now.plusMinutes(30));
+        	if (res != null){
+        		Interval resInterval = new Interval(res.getStartDateTime().getTime(), res.getEndDateTime().getTime());
+        		if (interval.overlaps(resInterval)){
+        			hours.add(new Hour(now.toString("h:mm"), res));
+        			if (!resInterval.contains(now.plusMinutes(30))){
+        				res = null;
+        			}
+        		} else {
+        			hours.add(new Hour(now.toString("h:mm"), new Reservation()));
+        		}
     		} else {
-    			hours.add(new Hour(df.format(displayNow), new Reservation()));
+    			hours.add(new Hour(now.toString("h:mm"), new Reservation()));
     		}
+        	now = now.plusMinutes(30);
     	}
 
     	log.debug("Retrived: " + list.size() + " items for the calendar");
