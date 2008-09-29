@@ -45,7 +45,7 @@ public class CalendarController {
     }*/
     
     @RequestMapping("/**/cal-month.*")
-    public String executeMonthRoom(ModelMap model, @RequestParam(value="roomId", required=false) String roomId, @RequestParam(value="userId", required=false) String userId, @RequestParam(value="date", required=true) String date){
+    public String executeMonthRoom(ModelMap model, @RequestParam(value="roomId", required=false) String roomId, @RequestParam(value="userId", required=false) String userId, @RequestParam(value="date", required=false) String date){
     	Room room = null;
     	User user = null;
     	if (roomId != null){
@@ -54,7 +54,13 @@ public class CalendarController {
     	if (userId != null){
     		user = userManager.getUser(userId);
     	}
-    	DateTime dt = DateTimeFormat.forPattern("MM-dd-yyyy").parseDateTime(date);
+    	
+    	DateTime dt = null;
+    	if (date == null){
+    		dt = new DateTime();
+    	} else {
+    		dt = DateTimeFormat.forPattern("MM-dd-yyyy").parseDateTime(date);
+    	}
 
     	List list = null;
     	if (room != null){

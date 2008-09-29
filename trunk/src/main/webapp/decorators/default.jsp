@@ -47,15 +47,14 @@
 
         <!-- TODO put this into a tag which detemines users rights -->
         <div id="sub">
-            <h3>User Functions</h3>
+            <h3>Functions</h3>
 		
-            <p>The following is a list </p>
-	        <!-- TODO determine some user functions to put here -->
-
             <ul class="glassList">
-                <li><a href="./404.html">Put some stuff here </a></li>
-                <li><a href="./404.html">More stuff here</a></li>
-            </ul>
+				<li><a href="${ctx}/myprofile.html?me" title="My Profile">My Profile</a></li>
+                <li><a href="${ctx}/reservationform.html?dest=myreservations.html" title="Create a new reservation">New Reservation</a></li>
+				<li><a href="${ctx}/cal-month.html" title="My Calendar">My Calendar</a></li>
+                <li><a href="${ctx}/myreservations.html" title="My Reservations">My Reservations</a></li>
+			</ul>
 
             <img src="${ctx}/images/image.gif" alt="Click to Change Theme" width="150" height="112" class="right" style="margin: 10px 0 20px 0"
                  onclick="StyleSheetSwitcher.setActive((StyleSheetSwitcher.getActive() == 'default') ? 'green' : 'default')"/>
