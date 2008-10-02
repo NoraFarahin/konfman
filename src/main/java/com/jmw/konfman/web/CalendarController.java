@@ -3,10 +3,11 @@ package com.jmw.konfman.web;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,6 +15,8 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.Authentication;
+import org.springframework.security.context.SecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,15 +47,22 @@ public class CalendarController {
         return "appadmin/buildingList";
     }*/
     
+    private User getUser(HttpServletRequest request){
+    	SecurityContext ssc = (SecurityContext) request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+    	Authentication auth = ssc.getAuthentication();
+    	return (User) auth.getPrincipal();
+    }
+    
     @RequestMapping("/**/cal-month.*")
-    public String executeMonthRoom(ModelMap model, @RequestParam(value="roomId", required=false) String roomId, @RequestParam(value="userId", required=false) String userId, @RequestParam(value="date", required=false) String date){
+    public String executeMonthRoom(HttpServletRequest request, ModelMap model, @RequestParam(value="roomId", required=false) String roomId, @RequestParam(value="userId", required=false) String userId, @RequestParam(value="date", required=false) String date){
     	Room room = null;
     	User user = null;
-    	if (roomId != null){
-    		room = roomManager.getRoom(roomId);
-    	}
     	if (userId != null){
     		user = userManager.getUser(userId);
+    	} else if (roomId != null){
+    		room = roomManager.getRoom(roomId);
+    	} else {
+    		user = getUser(request);
     	}
     	
     	DateTime dt = null;
@@ -77,17 +87,24 @@ public class CalendarController {
     }
     
     @RequestMapping("/**/cal-week.*")
-    public String executeWeekRoom(ModelMap model, @RequestParam(value="roomId", required=false) String roomId, @RequestParam(value="userId", required=false) String userId, @RequestParam(value="date", required=true) String date){
+    public String executeWeekRoom(HttpServletRequest request, ModelMap model, @RequestParam(value="roomId", required=false) String roomId, @RequestParam(value="userId", required=false) String userId, @RequestParam(value="date", required=false) String date){
     	Room room = null;
     	User user = null;
-    	if (roomId != null){
-    		room = roomManager.getRoom(roomId);
-    	}
     	if (userId != null){
     		user = userManager.getUser(userId);
+    	} else if (roomId != null){
+    		room = roomManager.getRoom(roomId);
+    	} else {
+    		user = getUser(request);
     	}
     	
-    	DateTime dt = DateTimeFormat.forPattern("MM-dd-yyyy").parseDateTime(date);
+    	DateTime dt = null;
+    	if (date == null){
+    		dt = new DateTime();
+    	} else {
+    		dt = DateTimeFormat.forPattern("MM-dd-yyyy").parseDateTime(date);
+    	}
+
     	List list = null;
     	if (room != null){
     		model.addAttribute("entity", room);
@@ -108,18 +125,24 @@ public class CalendarController {
     }
     
     @RequestMapping("/**/cal-day.*")
-    public String executeDay(ModelMap model, @RequestParam(value="roomId", required=false) String roomId, @RequestParam(value="userId", required=false) String userId, @RequestParam(value="date", required=true) String date){
+    public String executeDay(HttpServletRequest request, ModelMap model, @RequestParam(value="roomId", required=false) String roomId, @RequestParam(value="userId", required=false) String userId, @RequestParam(value="date", required=false) String date){
     	Room room = null;
     	User user = null;
-    	if (roomId != null){
-    		room = roomManager.getRoom(roomId);
-    	}
     	if (userId != null){
     		user = userManager.getUser(userId);
+    	} else if (roomId != null){
+    		room = roomManager.getRoom(roomId);
+    	} else {
+    		user = getUser(request);
     	}
     	
-    	DateTime now = DateTimeFormat.forPattern("MM-dd-yyyy").parseDateTime(date);
-
+    	DateTime now = null;
+    	if (date == null){
+    		now = new DateTime();
+    	} else {
+    		now = DateTimeFormat.forPattern("MM-dd-yyyy").parseDateTime(date);
+    	}
+    	
     	List list = null;
     	if (room != null){
     		model.addAttribute("entity", room);
@@ -153,6 +176,31 @@ public class CalendarController {
     		}
         	now = now.plusMinutes(30);
     	}
+    	
+    	//create next link
+    	StringBuffer next = new StringBuffer();
+    	next.append("<a href=\"./cal-day.html?date=");
+    	next.append(now.plusDays(1).toString("MM-dd-yyyy"));
+    	if (user != null){
+    		next.append("&userId=").append(user.getId());
+    	} else {
+    		next.append("&roomId=").append(roomId);
+    	}
+    	next.append("\">&gt;&gt;</a>");
+    	model.addAttribute("next", next.toString());
+    	
+
+    	//create previous link
+    	StringBuffer prev = new StringBuffer();
+    	prev.append("<a href=\"./cal-day.html?date=");
+    	prev.append(now.plusDays(-1).toString("MM-dd-yyyy"));
+    	if (user != null){
+    		prev.append("&userId=").append(user.getId());
+    	} else {
+    		prev.append("&roomId=").append(roomId);
+    	}
+    	prev.append("\">&lt;&lt;</a>");
+    	model.addAttribute("prev", prev.toString());
 
     	log.debug("Retrived: " + list.size() + " items for the calendar");
     	model.addAttribute("hours", hours);

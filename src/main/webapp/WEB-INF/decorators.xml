@@ -8,4 +8,7 @@
     <decorator name="appadmin" page="appadmin.jsp">
         <pattern>/appadmin/*</pattern>
     </decorator>
+    <decorator name="calendar" page="calendar.jsp">
+        <pattern>/cal-*</pattern>
+    </decorator>
 </decorators>

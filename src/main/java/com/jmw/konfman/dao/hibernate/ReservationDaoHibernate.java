@@ -150,7 +150,7 @@ public class ReservationDaoHibernate implements ReservationDao {
 		params[paramCount++] = reservation.getStartDateTime();
 		params[paramCount++] = reservation.getEndDateTime();
 		
-		list = hibernateTemplate.find("from Reservation r where " + whereClause.toString() + "((? between r.startDateTime and r.endDateTime) or ((? between r.startDateTime and r.endDateTime)) or (? < r.startDateTime and ? > r.endDateTime))", params);
+		list = hibernateTemplate.find("from Reservation r where " + whereClause.toString() + "((? between r.startDateTime and r.endDateTime) or ((? between r.startDateTime and r.endDateTime)) or (? < r.startDateTime and ? > r.endDateTime)) order by r.startDateTime", params);
 		return list;
 	}
 	
