@@ -4,10 +4,10 @@
 <link rel="stylesheet" href="/styles/calendartag/minicalendar.css" type="text/css" />
 <title>Weekly Calendar</title>
 <div id="cal">
-	<h1>Reservations for ${entity} for the week of ${startDate} - ${endDate}</h1>
+	<b>Reservations for ${entity} for the week of ${startDate} - ${endDate}</b> <br/>
+	<a href='./cal-month.html?<%=request.getQueryString()%>'>Monthly Calendar</a> | 
+	<a href='./cal-day.html?<%=request.getQueryString()%>'>Daily Calendar</a> 
 
-	<cal:calendar cssPrefix="mini" dayWidth="20" dayHeight="20" id="minical"/>
-	
     <cal:calendar decorator="com.jmw.konfman.web.ReservationCalendarDecorator" 
     	startDate="${startDate}" dayHeight="200" endDate="${endDate}"/> 
 </div>
