@@ -9,5 +9,6 @@
 	    <display:column property="title" sortable="true" titleKey="room.title" escapeXml="true"/>
 	    <display:column href="roomform.html" paramId="id" paramProperty="id">Edit</display:column>
 	    <display:column href="reservations.html" paramId="roomId" paramProperty="id">Reservations</display:column>
+	    <display:column href="cal-month.html" paramId="roomId" paramProperty="id">Calendar</display:column>
 	</display:table>
 </div>

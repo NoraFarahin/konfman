@@ -139,6 +139,7 @@ public class CalendarController {
     	DateTime now = null;
     	if (date == null){
     		now = new DateTime();
+    		now = now.minuteOfDay().setCopy(0);
     	} else {
     		now = DateTimeFormat.forPattern("MM-dd-yyyy").parseDateTime(date);
     	}

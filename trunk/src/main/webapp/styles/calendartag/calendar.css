@@ -12,16 +12,14 @@ table.calendarTableStyle {
 table.calendarTableStyle .calendarPreviousLinkStyle  {
 	font-weight:		bold;
 	font-size: 			16px;
-	color: 				#FFFFFF;
-	background:			#06DA6E2;
+	color:				#06DA6E2;
 	text-align: 		left;
 }
 
 table.calendarTableStyle .calendarNextLinkStyle  {
 	font-weight: 		bold;
 	font-size: 			16px;
-	color: 				#FFFFFF;
-	background:			#6DA6E2;
+	color:				#6DA6E2;
 	text-align: 		right;
 }
 
@@ -30,7 +28,7 @@ table.calendarTableStyle .calendarTitleStyle  {
 	text-align:         center;
 	font-size: 			16px;
 	color: 				#FFFFFF;
-	background:			#6DA6E2;
+	background:			#2763A5;
 	letter-spacing: 	10px;
 }
 
@@ -39,8 +37,8 @@ table.calendarTableStyle .calendarWeekdayStyle  {
 	border-bottom:      #c1cdd8 1px solid;
 	border-right:       #c1cdd8 2px solid;
 	border-left:        #c1cdd8 1px solid;
-	color:              #10659e;
-	background-color:   #e1e2f3;
+	color:              #FFFFFF;
+	background-color:   #6DA6E2;
 	text-align:         left;
 	padding-left:       10px;
 }
@@ -73,7 +71,8 @@ table.calendarTableStyle .calendarActiveDayStyle {
 }
 
 table.calendarTableStyle a, a:visited .a:active {
- 	color: #000099;
+ 	color: #2763A5;
 	text-decoration: none;
 	height: 20px;
+	font-size: 12px;
 }

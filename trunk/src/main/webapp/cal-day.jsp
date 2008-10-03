@@ -16,7 +16,7 @@
 	    	<display:column property="reservation.room" sortable="false" titleKey="reservation.room.name" escapeXml="true"/>
 		</c:if>	    	
 	    <c:if test="${not empty param.roomId}">
-	    	<display:column property="reservation.user" sortable="false" titleKey="reservation.user.fullname" escapeXml="true"/>
+	    	<display:column property="reservation.user" sortable="false" titleKey="reservation.user.fullName" escapeXml="true"/>
 		</c:if>	    	
 	</display:table>
 </div>
