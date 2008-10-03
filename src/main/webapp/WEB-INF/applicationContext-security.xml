@@ -34,7 +34,7 @@
 		<form-login login-page="/login.jsp" 
 			authentication-failure-url="/login.jsp?login_error=1"
 			default-target-url="/index.jsp"/>
-		<logout logout-success-url="/index.jsp"/>
+		<logout logout-success-url="/login.jsp"/>
 		
 
   

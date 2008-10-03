@@ -48,10 +48,10 @@ table.minicalendarTableStyle .minicalendarOddMonthStyle  {
 table.minicalendarTableStyle .minicalendarActiveDayStyle {
 	background-color:   #FAF0F0;
 	font-weight:        bold;
-	color:              black;
+	color:              #2763A5;
 }
 
 table.minicalendarTableStyle a, a:visited .a:active {
     text-decoration:    none;
-    color:              black;
+    color:              #2763A5;
 }
