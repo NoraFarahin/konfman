@@ -10,7 +10,7 @@
 //   is pressed, the previously pressed button is unpressed.
 // - Widget shows time closest to time in textbox element
 // - Widget is modal and throws a curtain over other screen elements
-// - If am/pm is not specified, all hours within 9-11 inclusive are considered to be AM, and the rest PM.
+// - If AM/PM is not specified, all hours within 9-11 inclusive are considered to be AM, and the rest PM.
 //   This is consistent with usage of time in speech, for business hours.
 // - Fixed so that pressing ESC closes the timepicker
 // - Fixed script so that it works with Yahoo! maps AJAX API v.3.4. Variable dom inteferes with the Yahoo! script, so
@@ -23,7 +23,7 @@
 
   var ie=document.all;
   var docGeid=document.getElementById;
-  var ns4=document.layers;
+  //var ns4=document.layers;
   var bShow=false;
   var textCtl; // "bogus" form field?? what is this for???
   
@@ -36,12 +36,12 @@
     textCtl.value=t;
     // if (typeof(validateTime)!="undefined")
     //  validateTime(textCtl); // try to get rid of this... this is reference OUTSIDE of the timepicker!
-    validateDatePicker(textCtl);
+    //validateDatePicker(textCtl);
     closeTimePicker();
   }
 
   /* nearestTime: find the nearest time within 15 mins.
-     assumption: time is formatted as xx:xx am/pm or xx:xx:xx am/pm, and is a valid time.
+     assumption: time is formatted as xx:xx AM/PM or xx:xx:xx AM/PM, and is a valid time.
   */
   function nearestTime(n) {
     if (debugging) logger("nearestTime");
@@ -50,30 +50,30 @@
     // t is not a screen object, so call vDP2. vDP itself expects to be given a reference to a textbox.
     validateDatePicker2(t);
     
-    // time is now validated; should be in xx:xx am/pm format.
+    // time is now validated; should be in xx:xx AM/PM format.
     var arr = t.value.split(":");
     var a2=arr[1].split(" ");
     var mn=parseInt(a2[0],10);
-    var ampm=a2[1];
+    var AMPM=a2[1];
     
     // get nearest minute boundary, within 15 mins.
     var nMin= parseInt((mn+7)/15, 10)*15;
     
-    return arr[0]+":"+padZero(nMin)+" "+ampm;
+    return arr[0]+":"+padZero(nMin)+" "+AMPM;
     
     
   }
 
 
   /*
-    mode: am or pm
-    tm: time selected, must be properly formatted: xx:xx am/pm, e.g. 12:30 pm
+    mode: AM or PM
+    tm: time selected, must be properly formatted: xx:xx AM/PM, e.g. 12:30 PM
     
     if tm is provided, then mode is ignored.
   */
   function refreshTimePicker(mode, tm) {
     // was a selected time provided?
-    if (tm===undefined) { // is ===undefined an error, or is this correct javascript syntax?
+	if (tm===undefined) { // is ===undefined an error, or is this correct javascript syntax?
         if (mode==0)
           { 
             suffix="AM"; 
@@ -91,8 +91,7 @@
         mode = 1;
     }
 
-
-    // sHTML = "<table><tr><td><table cellpadding=3 cellspacing=0 bgcolor='#f0f0f0'>";
+	// sHTML = "<table><tr><td><table cellpadding=3 cellspacing=0 bgcolor='#f0f0f0'>";
     sHTML = "<table><tr><td><table cellpadding=3 cellspacing=0 bgcolor='#FFFFFF'>";
     for (i=8;i<18;i++) {
 
@@ -114,8 +113,9 @@
         var bgcolor = "";
         if (thisTime==tm) {bgcolor="bgcolor='#F7C8E3'";}
         
+		
         sHTML+="<td " + bgcolor + "width=57 style='cursor:hand;font-family:verdana;font-size:11px;' onmouseover='this.style.backgroundColor=\"#66CCFF\"' onmouseout='this.style.backgroundColor=\"\"' onclick='setTimePicker(\""+ hr + ":" + padZero(j*30) + "&nbsp;" + suffix 
-        + "\")'><a style='text-decoration:none;color:#000000' href='javascript:setTimePicker(\""+ hr + ":" + padZero(j*30) + "&nbsp;" + suffix + "\")'>" + hr + ":"+padZero(j*30) +"&nbsp;"+ "<font color=\"#808080\">" + suffix + "&nbsp;</font></a></td>";
+        + "\")'><a style='text-decoration:none;color:#000000' href='javascript:setTimePicker(\""+ hr + ":" + padZero(j*30) + "&nbsp;" + suffix + "\")'>" + hr + ":"+padZero(j*30) +"&nbsp;"+ suffix + "&nbsp;</a></td>";
 
       }
 
@@ -126,7 +126,7 @@
   }
 
   if (docGeid){
-    document.write ("<div id='timepicker' style='z-index:9;position:absolute;visibility:hidden;'><table style='border-width:3px;border-style:solid;border-color:#0033AA' bgcolor='#ffffff' cellpadding=0><tr bgcolor='#0033AA'><td><table cellpadding=0 cellspacing=0 width='100%' background='" + imagePath + "titleback.gif'><tr valign=bottom height=21><td style='font-family:verdana;font-size:11px;color:#ffffff;padding:3px' valign=center><B>&nbsp;Select&nbsp;Time </B></td><td></td><td></td><td align=right valign=center>&nbsp;<img onclick='closeTimePicker()' src='" + imagePath + "close.gif'  STYLE='cursor:hand'>&nbsp;</td></tr></table></td></tr><tr><td colspan=2><span id='timePickerContent'></span></td></tr></table></div>");
+    document.write ("<div id='timepicker' style='z-index:9;position:absolute;visibility:hidden;'><table style='border-width:3px;border-style:solid;border-color:#0033AA' bgcolor='#ffffff' cellpadding=0><tr bgcolor='#0033AA'><td><table cellpadding=0 cellspacing=0 width='100%' background='" + imagePath + "titleback.gif'><tr valign=bottom height=5><td style='font-family:verdana;font-size:11px;color:#ffffff;padding:3px' valign=center><b>&nbsp;Select&nbsp;Time </b></td><td></td><td></td><td align=right valign=center>&nbsp;<img onclick='closeTimePicker()' src='" + imagePath + "close.gif'  STYLE='cursor:hand'>&nbsp;</td></tr></table></td></tr><tr><td colspan=2><span id='timePickerContent'></span></td></tr></table></div>");
     refreshTimePicker(0);
   }
 
@@ -151,7 +151,7 @@
       aTag = aTag.offsetParent;
       leftpos  += aTag.offsetLeft;
       toppos += aTag.offsetTop;
-    } while(aTag.tagName!="BODY");
+    } while(aTag.tagName!="BODY" && aTag.tagName!='HTML');
     
     var o= new Object();
     o.left=leftpos
@@ -172,7 +172,6 @@
     if timePicker buttons were pressed one after the other, they would all show up as pressed. */
     
 
-    
     if ((currentCtl != ctl) && (currentCtl != null)) {// not the same
         currentCtl.src=imagePath + "timepicker.gif"; // prev button in released state
     }
@@ -181,6 +180,7 @@
 
     // let the timepicker show a time as close to the current choice as possible, if the time
     // in the textbox is valid.
+	
     if (ctl2.value!="") {
         var res=validateDatePicker2(ctl2);
         if (res)
@@ -191,13 +191,13 @@
     
     aPos = getAbsPos(ctl);
     
-    crossobj.left =  ctl.offsetLeft  + aPos.left;
-    crossobj.top = ctl.offsetTop +  aPos.top + ctl.offsetHeight +  2 
+    crossobj.left =  ctl.offsetLeft + aPos.left + "px";
+    crossobj.top = ctl.offsetHeight +  aPos.top + "px"; 
     crossobj.visibility=(docGeid||ie)? "visible" : "show"
     hideElement( 'SELECT', document.getElementById("timepicker") );
     hideElement( 'APPLET', document.getElementById("timepicker") );
     
-
+	//alert("Left: " + crossobj.left);
     
     // make the time picker modal.
     curtain.show();
@@ -306,12 +306,12 @@
     }
   }
 
-   // if the hour is between 9 to 11, assume it is AM. if it is between 12-8, assume it is PM
+   // if the hour is between 8 to 11, assume it is AM. if it is between 12-7, assume it is PM
   function amOrPm(hr) {
-    if ((parseInt(hr,10)>=9) && (parseInt(hr)<=11))
-         return "am"
+    if ((parseInt(hr,10)>=8) && (parseInt(hr)<=11))
+         return "AM"
     else
-        return "pm"
+        return "PM"
   }
 
     // validate whether the contents of a textbox represent a valid time.
@@ -344,7 +344,7 @@
     if (tl==1 ) {
       if (isDigit(t)) {
         if (t=="0") 
-            ctl.value="12:00 am";
+            ctl.value="12:00 AM";
         else
             ctl.value=t+":00" +amOrPm(t);
       }
@@ -360,13 +360,13 @@
           }
           else {
             if (t.charAt(0)=="0")
-                ctl.value="12:00 am";
+                ctl.value="12:00 AM";
             else
                 ctl.value= t + '00' + amOrPm(t);
           }
         }
         else if (parseInt(t,10)==24) {
-          ctl.value= "12:00 am";
+          ctl.value= "12:00 AM";
         }
         else if (parseInt(t,10)<24) {
           if (t.charAt(1)!=":") {
@@ -398,12 +398,12 @@
         // 3-digit time modification by MV, 5/2007
         if ((tl==3) && (!isNumeric(t))) return false;
         if ((tl==3) && (isNumeric(t))) {
-            // time is in format, say 330, for 330 am or pm
+            // time is in format, say 330, for 330 AM or PM
             var tHour=t.charAt(0);
             var tMin=t.charAt(1)+t.charAt(2);
             hr=parseInt(tHour,10);
             mn=parseInt(tMin,10);
-            if (isNaN(mn)) mn=0; // e.g. if "7qq" is entered, this becomes 7:00pm
+            if (isNaN(mn)) mn=0; // e.g. if "7qq" is entered, this becomes 7:00PM
             if ((mn<0) || (mn>59))
                 return false;
             if (hr==0) {
