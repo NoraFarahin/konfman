@@ -3,6 +3,7 @@ package com.jmw.konfman.model;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Logger;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.jmw.konfman.web.ReservationFormController;
+
 /**
  * Represents a room in the Konfman application
  * @author judahw
@@ -18,6 +24,7 @@ import javax.persistence.Transient;
  */
 @Entity
 public class Reservation extends BaseObject {
+    private final Log log = LogFactory.getLog(Reservation.class);
 	
 	private static final long serialVersionUID = -6541523687944328507L;
 	private Long id;
@@ -29,9 +36,9 @@ public class Reservation extends BaseObject {
     @Transient 
     private String date;
     @Transient
-    DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+    DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
     @Transient
-    DateFormat tf = new SimpleDateFormat("h:mm aa");
+    DateFormat tf = new SimpleDateFormat("h:mm a");
     @Transient
     DateFormat shortdf = new SimpleDateFormat("MM/dd/yyyy");
    
@@ -135,6 +142,7 @@ public class Reservation extends BaseObject {
     
     @Transient
     public void setStartTime(String time) throws Exception{
+    	log.debug("Got: xx" + time + "xx");
     	if (!(time == null || time.equals(""))){
     		startDateTime = df.parse(date + " " + time);
     	}

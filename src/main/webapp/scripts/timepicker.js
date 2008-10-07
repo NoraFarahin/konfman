@@ -1,6 +1,6 @@
 //	Written by Tan Ling wee
 //	on 19 June 2005
-//	email :	info@sparrowscripts.com
+//	email :	info@sparrowscripts.com 
 //      url : www.sparrowscripts.com
 
 /////////////////////////////////Here is the fix from Sihui Wu 
@@ -115,7 +115,7 @@
         
 		
         sHTML+="<td " + bgcolor + "width=57 style='cursor:hand;font-family:verdana;font-size:11px;' onmouseover='this.style.backgroundColor=\"#66CCFF\"' onmouseout='this.style.backgroundColor=\"\"' onclick='setTimePicker(\""+ hr + ":" + padZero(j*30) + "&nbsp;" + suffix 
-        + "\")'><a style='text-decoration:none;color:#000000' href='javascript:setTimePicker(\""+ hr + ":" + padZero(j*30) + "&nbsp;" + suffix + "\")'>" + hr + ":"+padZero(j*30) +"&nbsp;"+ suffix + "&nbsp;</a></td>";
+        + "\")'><a style='text-decoration:none;color:#000000' href='javascript:setTimePicker(\""+ hr + ":" + padZero(j*30) + " " + suffix + "\")'>" + hr + ":"+padZero(j*30) +"&nbsp;"+ suffix + "&nbsp;</a></td>";
 
       }
 

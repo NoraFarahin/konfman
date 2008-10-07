@@ -1,5 +1,4 @@
 <%@ include file="/taglibs.jsp"%>
-
 <head>
     <title><fmt:message key="reservationForm.title"/></title>
     <link  href="${ctx}/styles/calendar.css"  type="text/css"  rel="stylesheet"/>
@@ -72,10 +71,17 @@
     <td>
       <input type="submit" class="button" name="_finish" value="Save"/>
       <!-- TODO block this button for someone other than an admin or the user himself -->
-      <c:if test="${not empty param.id}">
-        <input type="submit" class="button" name="_finish" value="Delete" onclick="bCancel=true"/>
-      </c:if>
-      	<input type="submit" class="button" name="_cancel" value="Cancel" onclick="_Cancel=true"/>
+      <c:if test="${not empty self}">
+	      <c:if test="${not empty param.id}">
+			<input type="submit" class="button" name="_finish" value="Delete"/>
+	      </c:if>
+	  </c:if>
+      <c:if test="${empty self}">
+      	  <sec:authorize ifAnyGranted="Role_App-Admin, Role_Room-Admin">
+			<input type="submit" class="button" name="_finish" value="Delete"/>
+			</sec:authorize>
+	  </c:if>
+      <input type="submit" class="button" name="_cancel" value="Cancel" onclick="_Cancel=true"/>
     </td>
 </tr>
 </table>

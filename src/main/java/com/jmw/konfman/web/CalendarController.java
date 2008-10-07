@@ -128,12 +128,16 @@ public class CalendarController {
     public String executeDay(HttpServletRequest request, ModelMap model, @RequestParam(value="roomId", required=false) String roomId, @RequestParam(value="userId", required=false) String userId, @RequestParam(value="date", required=false) String date){
     	Room room = null;
     	User user = null;
+    	String entityId = "";
     	if (userId != null){
     		user = userManager.getUser(userId);
+    		entityId = "&userId=" + user.getId();
     	} else if (roomId != null){
     		room = roomManager.getRoom(roomId);
+    		entityId = "&roomId=" + room.getId();
     	} else {
     		user = getUser(request);
+    		entityId = "&userId=" + user.getId();
     	}
     	
     	DateTime now = null;
@@ -170,10 +174,16 @@ public class CalendarController {
         				res = null;
         			}
         		} else {
-        			hours.add(new Hour(now.toString("h:mm"), new Reservation()));
+        			String datetime = now.toString("yyyy-MM-dd:hh:mm:a");
+        			Reservation newRes = new Reservation();
+        			newRes.setComment("<a href=\"./reservationform.html?dest=cal-day.html&date=" + datetime + entityId +"\">Reserve this slot</a>");
+        			hours.add(new Hour(now.toString("h:mm"), newRes));
         		}
     		} else {
-    			hours.add(new Hour(now.toString("h:mm"), new Reservation()));
+    			String datetime = now.toString("yyyy-MM-dd:hh:mm:a");
+    			Reservation newRes = new Reservation();
+    			newRes.setComment("<a href=\"./reservationform.html?dest=cal-day.html&date=" + datetime + entityId +"\">Reserve this slot</a>");
+    			hours.add(new Hour(now.toString("h:mm"), newRes));
     		}
         	now = now.plusMinutes(30);
     	}

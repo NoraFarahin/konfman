@@ -11,7 +11,7 @@
 			<center>${prev}&nbsp;&nbsp;&nbsp;&nbsp;${date} &nbsp;&nbsp;&nbsp;&nbsp;${next}</center>
 		</display:caption>
 	    <display:column property="time" sortable="false" escapeXml="true"/>
-	    <display:column property="reservation.comment" sortable="false" titleKey="reservation.comment" escapeXml="true"/>
+	    <display:column property="reservation.comment" sortable="false" titleKey="reservation.comment" escapeXml="false"/>
 	    <c:if test="${not empty param.userId}">
 	    	<display:column property="reservation.room" sortable="false" titleKey="reservation.room.name" escapeXml="true"/>
 		</c:if>	    	

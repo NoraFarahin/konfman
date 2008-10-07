@@ -16,7 +16,8 @@
   </bannerRight>
   <body>
     <menu name="Konfman">
-      <item name="Overview" href="index.html"/>      
+      <item name="Overview" href="index.html"/> 
+	  <item name="Compatibility" href="compatibility.html"/>
       <item name="Getting Started" href="quickstart.html"/>      
       <item name="Database Support" href="database.html"/>      
     </menu>
