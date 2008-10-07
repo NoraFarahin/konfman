@@ -157,15 +157,21 @@ public class ReservationTest extends TestCase {
 	 * Test method for {@link com.jmw.konfman.model.Reservation#setEndTime(java.util.Date)}.
 	 * Test method for {@link com.jmw.konfman.model.Reservation#getEndTime()}.
 	 */
-	public void testGetSetEndTime() throws Exception {
+	public void testGetSetEndTime(){
 		assertNull(reservation.getEndDateTime());
 		assertEquals("", reservation.getEndTime());
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
-		Date d = df.parse("01/01/2008 09:30 AM");
-		reservation.setDate("01/01/2008");
-		reservation.setStartTime("8:30 AM");
-		reservation.setEndTime("9:30 AM");
-		assertEquals("01/01/2008", reservation.getDate());
+		Date d = null;
+		try {
+			d = df.parse("10/01/2008 09:30 AM");
+			reservation.setDate("10/01/2008");
+			reservation.setStartTime("8:30 AM");
+			reservation.setEndTime("9:30 AM");
+		}catch (Exception e){
+			e.printStackTrace();
+			fail("Should not produce parse exceptions!");
+		}
+		assertEquals("10/01/2008", reservation.getDate());
 		assertEquals(d, reservation.getEndDateTime());
 		assertEquals("9:30 AM", reservation.getEndTime());
 	}

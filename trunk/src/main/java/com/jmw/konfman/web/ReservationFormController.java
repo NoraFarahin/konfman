@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -33,7 +35,6 @@ import com.jmw.konfman.service.BuildingManager;
 import com.jmw.konfman.service.ReservationManager;
 import com.jmw.konfman.service.RoomManager;
 import com.jmw.konfman.service.UserManager;
-import com.jmw.konfman.validator.ReservationValidator;
 
 @Controller
 @RequestMapping("/**/reservationform.*")
@@ -51,6 +52,8 @@ public class ReservationFormController extends AbstractWizardFormController  {
     @Autowired(required = false)
 	@Qualifier("reservationValidator")
 	Validator validator;
+    
+    User currentUser;
     
     public ReservationFormController() {
         setCommandName("reservation");
@@ -102,11 +105,16 @@ public class ReservationFormController extends AbstractWizardFormController  {
     	Reservation reservation = new Reservation();
 		String dest = request.getParameter("dest");
 		if (dest!=null && dest.startsWith("my")){
-			SecurityContext sc = (SecurityContext)request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
-			Authentication auth = sc.getAuthentication();
-			User user = (User)auth.getPrincipal();
-			reservation.setUser(user);
+			reservation.setUser(currentUser);
 		}
+		String date = request.getParameter("date");
+		if (date != null && !date.equals("")){
+			DateTime startTime = DateTimeFormat.forPattern("yyyy-MM-dd:hh:mm:a").parseDateTime(date);
+			log.debug("Setting reservation for: " + startTime.toString());
+			reservation.setStartDateTime(startTime.toDate());
+			reservation.setEndDateTime(startTime.plusMinutes(30).toDate());
+		}
+		
     	return reservation;
     }
     
@@ -137,6 +145,16 @@ public class ReservationFormController extends AbstractWizardFormController  {
     			dest = dest + "?userId="+ reservation.getUser().getId();
     		} else if (dest.startsWith("reservation")){
     			dest = dest + "?roomId=" + reservation.getRoom().getId();
+    		} else if (dest.startsWith("cal")){
+    			String roomId = request.getParameter("roomId");
+    			dest = dest + "?date=" + reservation.getDate().replaceAll("/", "-");
+    			if (roomId != null && ! roomId.equals("")){
+        			dest = dest + "&roomId=" + request.getParameter("roomId");
+    			}
+    			String userId = request.getParameter("userId");
+    			if (userId != null && ! userId.equals("")){
+    				dest = dest + "&userId=" + request.getParameter("userId");
+    			}
     		}
 	        request.getSession().setAttribute("destination", dest);
     	}
@@ -149,6 +167,9 @@ public class ReservationFormController extends AbstractWizardFormController  {
     }
     
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
+		SecurityContext sc = (SecurityContext)request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+		Authentication auth = sc.getAuthentication();
+		currentUser = (User)auth.getPrincipal();
         Reservation reservation = null;
 		try {
 			reservation = (Reservation)this.getCommand(request);
@@ -171,6 +192,10 @@ public class ReservationFormController extends AbstractWizardFormController  {
         	reservation = this.updateRoom(reservation, roomId);
         }
         setDestination(request, reservation);
+        
+        if (currentUser.equals(reservation.getUser())){
+        	request.getSession().setAttribute("self", "self");
+        }
         return reservation;
     }
     
@@ -236,9 +261,15 @@ public class ReservationFormController extends AbstractWizardFormController  {
 		//String roomId = reservation.getRoom().getId().toString();
 		if (request.getParameter("_finish").equals("Delete")){
 			logger.debug("Removing reservation: " + reservation.getComment() + "/" + reservation.getId());
-			reservationManager.removeReservation(reservation.getId().toString());		
-	        request.getSession().setAttribute("message", 
+			//if user is authorized make the delete
+			if (currentUser.equals(reservation.getUser())){
+				reservationManager.removeReservation(reservation.getId().toString());		
+		        request.getSession().setAttribute("message", 
 	                getText("reservation.deleted", reservation.getComment()));
+			} else {
+		        request.getSession().setAttribute("message", 
+		                getText("reservation.delete.unauthorized", reservation.getComment()));
+			}
 		} else {
 			boolean b = reservationManager.saveReservation(reservation);
 			if (b == true){
@@ -251,7 +282,7 @@ public class ReservationFormController extends AbstractWizardFormController  {
 			}
 			
 		}
-		System.out.println("Destination: " + request.getSession().getAttribute("destination"));
+		//System.out.println("Destination: " + request.getSession().getAttribute("destination"));
 		return new ModelAndView("redirect:" + request.getSession().getAttribute("destination"));
 	}
 
