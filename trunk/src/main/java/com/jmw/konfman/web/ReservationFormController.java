@@ -103,19 +103,16 @@ public class ReservationFormController extends AbstractWizardFormController  {
 
     private Reservation createNewReservation(HttpServletRequest request){
     	Reservation reservation = new Reservation();
-		String dest = request.getParameter("dest");
-		if (dest!=null && dest.startsWith("my")){
-			reservation.setUser(currentUser);
-		}
-		String date = request.getParameter("date");
-		if (date != null && !date.equals("")){
-			DateTime startTime = DateTimeFormat.forPattern("yyyy-MM-dd:hh:mm:a").parseDateTime(date);
-			log.debug("Setting reservation for: " + startTime.toString());
-			reservation.setStartDateTime(startTime.toDate());
-			reservation.setEndDateTime(startTime.plusMinutes(30).toDate());
-		}
-		
+		reservation.setUser(currentUser);
     	return reservation;
+    }
+    
+    private Reservation updateDate(Reservation reservation, String dateStr){
+		DateTime startTime = DateTimeFormat.forPattern("yyyy-MM-dd:hh:mm:a").parseDateTime(dateStr);
+		log.debug("Setting reservation for: " + startTime.toString());
+		reservation.setStartDateTime(startTime.toDate());
+		reservation.setEndDateTime(startTime.plusMinutes(30).toDate());
+		return reservation;
     }
     
     private Reservation getReservation(String reservationId){
@@ -180,6 +177,7 @@ public class ReservationFormController extends AbstractWizardFormController  {
         String reservationId = request.getParameter("id");
         String roomId = request.getParameter("roomId");
         String userId = request.getParameter("userId");
+        String date = request.getParameter("date");
         
         //if we are requesting an existing reservation 
         if ((reservationId != null) && !reservationId.equals("")) {
@@ -190,6 +188,9 @@ public class ReservationFormController extends AbstractWizardFormController  {
         }
         if ((roomId != null) && !roomId.equals("")) {
         	reservation = this.updateRoom(reservation, roomId);
+        }
+        if ((date != null) && !date.equals("")) {
+        	reservation = this.updateDate(reservation, date);
         }
         setDestination(request, reservation);
         

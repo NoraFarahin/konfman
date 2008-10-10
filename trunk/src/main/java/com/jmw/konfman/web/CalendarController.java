@@ -129,10 +129,10 @@ public class CalendarController {
     	Room room = null;
     	User user = null;
     	String entityId = "";
-    	if (userId != null){
+    	if (userId != null && ! userId.equals("")){
     		user = userManager.getUser(userId);
     		entityId = "&userId=" + user.getId();
-    	} else if (roomId != null){
+    	} else if (roomId != null && ! roomId.equals("")){
     		room = roomManager.getRoom(roomId);
     		entityId = "&roomId=" + room.getId();
     	} else {

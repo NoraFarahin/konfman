@@ -5,4 +5,3 @@ jdbc.password=
 
 # You can remove this property if you're not using Hibernate
 hibernate.dialect=org.hibernate.dialect.H2Dialect
-
