@@ -221,12 +221,12 @@
 		    <version>1.5</version>
             <scope>test</scope>
 		</dependency>
-        <dependency>
+        <!-- dependency>
             <groupId>httpunit</groupId>
             <artifactId>httpunit</artifactId>
             <version>1.6.2</version>
             <scope>test</scope>
-        </dependency>
+        </dependency -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate</artifactId>
@@ -269,11 +269,11 @@
             <artifactId>postgresql</artifactId>
             <version>8.1-407.jdbc3</version>
         </dependency-->
-        <!-- dependency>
-            <groupId>jaybird</groupId>
-            <artifactId>jaybird</artifactId>
-            <version>2.1.6</version>
-        </dependency -->
+	<dependency>
+		<groupId>org.firebirdsql</groupId>
+		<artifactId>jaybird</artifactId>
+		<version>2.1.6</version>
+	</dependency >
 
         <dependency>
             <groupId>javax.servlet</groupId>

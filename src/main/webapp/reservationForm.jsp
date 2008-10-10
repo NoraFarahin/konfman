@@ -47,12 +47,16 @@
     <th><label for="room" >*<fmt:message key="reservation.room.name"/>:</label></th>
     <td>
     	<c:if test="${not empty reservation.room}">
-        	<input name="roomName" value="${reservation.room.floor.name}-${reservation.room.title}" readonly="true"/> 
+        	<input name="roomId" id="roomId" value="${reservation.room.id}" type="hidden"/> 
+        	<input name="roomName" value="${reservation.room.name}" readonly="true"/>
 		</c:if>
     	<c:if test="${empty reservation.room}">
         	<input name="roomName" value="No Room Selected" readonly="true"/> 
 		</c:if>
         <input type="submit" class="button" name="_target2" value="Select/Change Room"/>
+    	<c:if test="${not empty reservation.room}">
+	        <a href="javascript:viewCal()"/>View Room Schedule</a>
+		</c:if>
         <form:errors path="room" cssClass="fieldError"/>
     </td>
 </tr>
@@ -100,4 +104,18 @@
 
     }
     );
+</script>
+<script type="text/javascript">
+function viewCal(){
+	var dateval=document.getElementById('date').value;
+	if(dateval.length == 0){
+		alert("Please choose a date before viewing the calendar.");
+		return;
+	}
+	dateval = dateval.replace("/","-");
+	dateval = dateval.replace("/","-");
+	var roomIdVal=document.getElementById('roomId').value;
+	var url="./cal-day.html?roomId=" + roomIdVal + "&date=" + dateval;
+	window.location = url;
+}
 </script>
