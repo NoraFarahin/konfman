@@ -94,6 +94,7 @@ public class BuildingDaoTest extends BaseDaoTestCase {
         }
     }
     
+    /*
     public void testGetBuildingFloors() throws Exception{
         building = new Building();
         building.setName("b1");
@@ -125,5 +126,5 @@ public class BuildingDaoTest extends BaseDaoTestCase {
         List<Floor> floors = b2.getFloors();
         assertNotNull(floors);
         assertEquals(1, floors.size());
-    }
+    } */
 }

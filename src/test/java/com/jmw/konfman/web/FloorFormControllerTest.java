@@ -69,6 +69,7 @@ public class FloorFormControllerTest extends MockObjectTestCase {
         mockManager.verify();
     }
 
+    /*
     public void testSave() throws Exception {
         // set expected behavior on manager
         // called by formBackingObject()
@@ -110,5 +111,5 @@ public class FloorFormControllerTest extends MockObjectTestCase {
         
         // verify expectations
         mockManager.verify();
-    }   
+    }   */
 }
