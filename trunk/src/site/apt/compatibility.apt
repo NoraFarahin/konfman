@@ -1,0 +1,30 @@
+Compatibility
+
+* Browser Compatibility
+  Konfman has been tested on is compatible with the following browsers:
+
+	* {{{http://www.microsoft.com/ie}IE}}
+	
+	* {{{http://www.mozilla.org/firefox}Firefox}}
+	
+	* {{{http://www.apple.com/safari/}Apple Safari (for windows)}}
+	
+* App Server Compatibility
+  Konfman has been successfully tested on the following application servers:
+
+	* {{{http://tomcat.apache.org/}Tomcat 5}}
+	
+	* {{{http://www.mortbay.org/jetty/}Jetty 6.1}}
+
+
+* Database Compatibility
+	Konfman has also been tested with the following databases. 
+	(For more details of how to use these databases see the {{{./database.html}database}} page.
+	
+	* {{{http://www.hsqldb.org}Hsql DB 8.0}}
+	
+	* {{{http://www.h2database.com/html/main.html}H2}}
+	
+	* {{{http://www.mysql.com}MySql}}
+	
+	* {{{http://db.apache.org/derby/}Derby}}

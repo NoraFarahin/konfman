@@ -1,17 +1,18 @@
 Databases Supported
 
-  Konfman has been effectively tested with the following databases: 
+  Konfman has been successfully tested with the following databases: 
   
-	* HsqlDB
+	* {{{http://www.hsqldb.org}Hsql DB 8.0}}
 	
-	* H2
+	* {{{http://www.h2database.com/html/main.html}H2}}
 	
-	* MySql
+	* {{{http://www.mysql.com}MySql}}
 	
-	* Derby
- 
-  By default it runs on HsqlDb which comes along with the distribution.
-  Many other databases will likely work, but I have not had the opportunity to test more of them.
+	* {{{http://db.apache.org/derby/}Derby}} 
+	
+  By default it runs on HsqlDb which is packaged with the distribution.
+  
+  Most other databases will likely work, but I have not had the opportunity to test more of them.
 
 Special Instructions for supported databases
 	
@@ -21,7 +22,7 @@ Special Instructions for supported databases
 	
 	
 	
-	* H2 - No special configuration needed
+  * H2 - No special configuration needed
 	
 	[[1]] Start the h2 server.
 
@@ -33,7 +34,9 @@ Special Instructions for supported databases
 	
 	[[5]] Point your browers to the home page (on tomcat that would be http://localhost:8080/konfman/) and login. 
 	
-	* Derby
+	
+	
+  * Derby
 
 	[[1]] Start the Derby server.
 	

@@ -6,4 +6,4 @@ Welcome to KONFMAN the conference room scheduling web app.
 	
 	See 
 
-	Special thanks must be given to Matt Raible, whose appfuse light provided the underlying structure of this project.
+	Special thanks must be given to Matt Raible, whose {{{https://appfuse-light.dev.java.net/} appfuse light}} provided the basic underlying infrastructure of this project.
