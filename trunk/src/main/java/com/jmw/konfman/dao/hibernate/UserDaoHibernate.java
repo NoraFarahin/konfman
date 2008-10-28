@@ -46,6 +46,7 @@ public class UserDaoHibernate implements UserDao {
     	logger.debug("Looking up user: " + username);
         List list = hibernateTemplate.find("from User where username = ?" , username);
         if (list.size() == 0){
+        	logger.debug("User not found: " + username);
         	return null;
         }
     	User user = (User) list.get(0);
@@ -59,12 +60,11 @@ public class UserDaoHibernate implements UserDao {
     public void saveUser(User user) {
         hibernateTemplate.saveOrUpdate(user);
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("userId set to: " + user.getId());
-        }
+        logger.debug("Saved User #" + user.getId());
     }
 
     public void removeUser(Long id) {
-        hibernateTemplate.delete(getUser(id));
+        logger.debug("Deleting user #" + id);
+    	hibernateTemplate.delete(getUser(id));
     }
 }

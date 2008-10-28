@@ -9,6 +9,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.security.Authentication;
+import org.springframework.security.context.SecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Validator;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import com.jmw.konfman.model.Building;
 import com.jmw.konfman.model.Floor;
+import com.jmw.konfman.model.User;
 import com.jmw.konfman.service.FloorManager;
 
 @Controller
@@ -74,14 +77,20 @@ public class FloorFormController extends SimpleFormController {
         log.debug("entering 'onSubmit' method...");
 
         Floor floor = (Floor) command;
+		SecurityContext sc = (SecurityContext)request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+		Authentication auth = sc.getAuthentication();
+        User currentUser = (User)auth.getPrincipal(); 
+
         setSuccessView("redirect:floors.html?buildingId=" + floor.getBuilding().getId());
 
         if (request.getParameter("delete") != null) {
             floorManager.removeFloor(floor.getId().toString());
+			logger.info("Deleted floor#" + floor.getId() + " by " + currentUser.getUsername());
             request.getSession().setAttribute("message", 
                     getText("floor.deleted", floor.getName()));
         } else {
             floorManager.saveFloor(floor);
+			logger.info("Saved floor#" + floor.getId() + " by " + currentUser.getUsername());
             request.getSession().setAttribute("message",
                     getText("floor.saved", floor.getName()));
         }
