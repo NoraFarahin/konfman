@@ -11,8 +11,8 @@
     <meta http-equiv="Expires" content="0"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="${ctx}/images/favicon.ico" type="image/x-icon"/>
-    <link rel="stylesheet" type="text/css" href="${ctx}/styles/deliciouslyblue/theme.css" title="default" />
-    <link rel="alternate stylesheet" type="text/css" href="${ctx}/styles/deliciouslygreen/theme.css" title="green" />
+    <link rel="stylesheet" type="text/css" href="${ctx}/styles/deliciouslygreen/theme.css" title="default" />
+    <link rel="alternate stylesheet" type="text/css" href="${ctx}/styles/deliciouslyred/theme.css" title="alt" />
     <script type="text/javascript" src="${ctx}/scripts/prototype.js"></script>
     <script type="text/javascript" src="${ctx}/scripts/scriptaculous.js"></script>
     <script type="text/javascript" src="${ctx}/scripts/stylesheetswitcher.js"></script>
@@ -49,15 +49,13 @@
         <div id="sub">
             <h3>Administration Functions</h3>
 
-            <p>The following is a list </p>
-
-            <ul class="glassList">
+             <ul class="glassList">
                 <li><a href="./userlist.html">Administer Users</a></li>
                 <li><a href="./buildings.html">Administer Facilities</a></li>
             </ul>
 
             <img src="${ctx}/images/image.gif" alt="Click to Change Theme" width="150" height="112" class="right" style="margin: 10px 0 20px 0"
-                 onclick="StyleSheetSwitcher.setActive((StyleSheetSwitcher.getActive() == 'default') ? 'green' : 'default')"/>
+                 onclick="StyleSheetSwitcher.setActive((StyleSheetSwitcher.getActive() == 'default') ? 'alt' : 'default')"/>
         </div>
 
         <div id="nav">

@@ -265,7 +265,8 @@ public class ReservationFormController extends AbstractWizardFormController  {
 			//if user is authorized make the delete
 			if (currentUser.equals(reservation.getUser())){
 				reservationManager.removeReservation(reservation.getId().toString());		
-		        request.getSession().setAttribute("message", 
+				logger.info("Deleted reservation #" + reservation.getId() + " by " + currentUser.getUsername());
+				request.getSession().setAttribute("message", 
 	                getText("reservation.deleted", reservation.getComment()));
 			} else {
 		        request.getSession().setAttribute("message", 
@@ -274,7 +275,7 @@ public class ReservationFormController extends AbstractWizardFormController  {
 		} else {
 			boolean b = reservationManager.saveReservation(reservation);
 			if (b == true){
-				logger.debug("Reservation saved/updated");
+				logger.info("Saved reservation #" + reservation.getId() + " by " + currentUser.getUsername());
 				request.getSession().setAttribute("message",
                     getText("reservation.saved", reservation.getComment()));
 			} else {

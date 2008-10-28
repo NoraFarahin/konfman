@@ -1,0 +1,15 @@
+Quick Start
+
+Two easy steps
+
+   [1] Start the sample database (you may use the supplied batch file for this purpose. 
+   [2] Deploy konfman.war to your app server of choice and start it up.
+   
+   The sample database starts you off with two buildings, containing three floors and three rooms on each floor.
+   There are three default users:
+   [1] Admin, user name: admin, password: admin
+   [2] Room Admin, user name: roomadmin, password: roomadmin
+   [3] User user name: user, password: user
+   
+
+

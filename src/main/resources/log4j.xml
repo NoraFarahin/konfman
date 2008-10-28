@@ -10,11 +10,11 @@
         </layout>
     </appender>
 
-	<appender name="util" class="org.apache.log4j.FileAppender">
-        <param name="File" value="/tmp/util.log" />
+	<appender name="FILE" class="org.apache.log4j.FileAppender">
+        <param name="File" value="konfman.log" />
         <param name="Append" value="true" />
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%t %-5p %c{2} - %m%n"/>
+            <param name="ConversionPattern" value="%d{ISO8601} %-5p %c{5} - %m%n"/>
         </layout>           
      </appender>
 
@@ -50,12 +50,12 @@
     </logger>
    
     <logger name="com.jmw.konfman">
-        <level value="DEBUG"/>
+        <level value="INFO"/>
     </logger>
 
     <root>
-        <level value="WARN"/>
-        <appender-ref ref="CONSOLE"/>
+        <level value="INFO"/>
+        <appender-ref ref="FILE"/>
     </root>
 
 </log4j:configuration>

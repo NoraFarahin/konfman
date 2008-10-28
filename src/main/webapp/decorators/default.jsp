@@ -12,7 +12,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="${ctx}/images/favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" type="text/css" href="${ctx}/styles/deliciouslyblue/theme.css" title="default" />
-    <link rel="alternate stylesheet" type="text/css" href="${ctx}/styles/deliciouslyred/theme.css" title="green" />
+    <link rel="alternate stylesheet" type="text/css" href="${ctx}/styles/deliciouslyred/theme.css" title="alt" />
     <script type="text/javascript" src="${ctx}/scripts/prototype.js"></script>
     <script type="text/javascript" src="${ctx}/scripts/scriptaculous.js"></script>
     <script type="text/javascript" src="${ctx}/scripts/stylesheetswitcher.js"></script>
@@ -45,15 +45,14 @@
             <div id="underground"><decorator:getProperty property="page.underground"/></div>
         </div>
 
-        <!-- TODO put this into a tag which detemines users rights -->
         <div id="sub">
-            <h3>Functions</h3>
+            <h3>User Services</h3>
 		
             <ul class="glassList">
-				<li><a href="${ctx}/myprofile.html?me" title="My Profile">My Profile</a></li>
-                <li><a href="${ctx}/reservationform.html?dest=myreservations.html" title="Create a new reservation">New Reservation</a></li>
 				<li><a href="${ctx}/cal-month.html" title="My Calendar">My Calendar</a></li>
+				<li><a href="${ctx}/myprofile.html?me" title="My Profile">My Profile</a></li>
                 <li><a href="${ctx}/myreservations.html" title="My Reservations">My Reservations</a></li>
+                <li><a href="${ctx}/reservationform.html?dest=myreservations.html" title="Create a new reservation">New Reservation</a></li>
 			</ul>
 
             <img src="${ctx}/images/image.gif" alt="Click to Change Theme" width="150" height="112" class="right" style="margin: 10px 0 20px 0"
@@ -67,7 +66,6 @@
                     <li><a href="${ctx}/" title="Home"><span>Home</span></a></li>
                     <li><a href="${ctx}/myreservations.html" title="My Reservations"><span>My Reservations</span></a></li>
                     <li><a href="${ctx}/myprofile.html?me" title="My Profile"><span>My Profile</span></a></li>
-                    <li><a href="${ctx}/reservationform.html?dest=myreservations.html" title="Create a new reservation"><span>New Reservation</span></a></li>
 		            <sec:authorize ifAllGranted="ROLE_APP-ADMIN">
                     	<li><a href="${ctx}/appadmin/" title="Application Administration"><span>Administration</span></a></li>
                     </sec:authorize>

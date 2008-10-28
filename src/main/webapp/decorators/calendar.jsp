@@ -13,7 +13,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <link rel="shortcut icon" href="${ctx}/images/favicon.ico" type="image/x-icon"/>
     <link rel="stylesheet" type="text/css" href="${ctx}/styles/deliciouslyblue/theme.css" title="default" />
-    <link rel="alternate stylesheet" type="text/css" href="${ctx}/styles/deliciouslyred/theme.css" title="green" />
+    <link rel="alternate stylesheet" type="text/css" href="${ctx}/styles/deliciouslyred/theme.css" title="alt" />
     <script type="text/javascript" src="${ctx}/scripts/prototype.js"></script>
     <script type="text/javascript" src="${ctx}/scripts/scriptaculous.js"></script>
     <script type="text/javascript" src="${ctx}/scripts/stylesheetswitcher.js"></script>
@@ -48,7 +48,7 @@
 
         <!-- TODO put this into a tag which detemines users rights -->
         <div id="sub">
-            <h3>Functions</h3>
+            <h3>User Services</h3>
 		
             <ul class="glassList">
 				<li><a href="${ctx}/myprofile.html?me" title="My Profile">My Profile</a></li>

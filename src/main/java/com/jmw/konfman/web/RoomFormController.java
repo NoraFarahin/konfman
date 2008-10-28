@@ -12,6 +12,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.security.Authentication;
+import org.springframework.security.context.SecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Validator;
@@ -196,13 +198,17 @@ public class RoomFormController extends AbstractWizardFormController {
 			HttpServletResponse response, Object command, BindException error)
 			throws Exception {
         Room room = (Room) command;
+		SecurityContext sc = (SecurityContext)request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+		Authentication auth = sc.getAuthentication();
+        User currentUser = (User)auth.getPrincipal(); 
         if (request.getParameter("_finish").equals("Delete")) {
             roomManager.removeRoom(room.getId().toString());
-            request.getSession().setAttribute("message", 
+			logger.info("Deleted room #" + room.getId() + " by " + currentUser.getUsername());
+			request.getSession().setAttribute("message", 
                     getText("room.deleted", room.getName()));
         } else {
             roomManager.saveRoom(room);
-            //logger.debug("Saved room: " + room + " has " + room.getAdministrators().size() + " admins.");
+			logger.info("Saved room #" + room.getId() + " by " + currentUser.getUsername());
             request.getSession().setAttribute("message",
                     getText("room.saved", room.getName()));
         }

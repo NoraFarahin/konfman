@@ -46,23 +46,20 @@ public class ReservationDaoHibernate implements ReservationDao {
     }
 
     public boolean saveReservation(Reservation reservation) {
-		//logger.debug("###1");
     	boolean b = isConflict(reservation);
-		//logger.debug("###2");
     	if (b == true){
             logger.debug("conflict discovered");
     		return false;
     	}
-		//logger.debug("###3");
         hibernateTemplate.saveOrUpdate(reservation);
-		//logger.debug("###4");
 
-        logger.debug("reservationId set to: " + reservation.getId());
+        logger.debug("Saved Reservation Id #" + reservation.getId());
         return true;
     }
 
     public void removeReservation(Long id) {
         hibernateTemplate.delete(getReservation(id));
+        logger.debug("Deleted Reservation Id #" + id);
     }
 
 	public boolean isConflict(Reservation reservation) {

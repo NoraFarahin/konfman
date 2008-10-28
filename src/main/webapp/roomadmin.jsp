@@ -1,6 +1,6 @@
 <%@ include file="/taglibs.jsp"%>
 <div id="intro">
-    <h2>Welcome ${user.fullName}, to Room Administration!</h2>
+    <h2>${user}, welcome to Room Administration!</h2>
 
    	You are the administrator of the following rooms:
 

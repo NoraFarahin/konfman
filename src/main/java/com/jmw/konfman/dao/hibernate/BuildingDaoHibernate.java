@@ -1,7 +1,6 @@
 package com.jmw.konfman.dao.hibernate;
 
 import org.springframework.orm.ObjectRetrievalFailureException;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,15 +46,14 @@ public class BuildingDaoHibernate implements BuildingDao {
         return user;
     }
 
-    public void saveBuilding(Building user) {
-        hibernateTemplate.saveOrUpdate(user);
+    public void saveBuilding(Building building) {
+        hibernateTemplate.saveOrUpdate(building);
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("userId set to: " + user.getId());
-        }
+        logger.debug("Saved building #" + building.getId());
     }
 
     public void removeBuilding(Long id) {
         hibernateTemplate.delete(getBuilding(id));
+        logger.debug("Deleted building #" + id);
     }
 }

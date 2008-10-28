@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.security.Authentication;
+import org.springframework.security.context.SecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Validator;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import com.jmw.konfman.model.Building;
+import com.jmw.konfman.model.User;
 import com.jmw.konfman.service.BuildingManager;
 
 @Controller
@@ -79,13 +82,18 @@ public class BuildingFormController extends SimpleFormController {
         log.debug("entering 'onSubmit' method...");
 
         Building building = (Building) command;
+		SecurityContext sc = (SecurityContext)request.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+		Authentication auth = sc.getAuthentication();
+        User currentUser = (User)auth.getPrincipal(); 
 
         if (request.getParameter("delete") != null) {
             buildingManager.removeBuilding(building.getId().toString());
+			logger.info("Deleted building #" + building.getId() + " by " + currentUser.getUsername());
             request.getSession().setAttribute("message", 
                     getText("building.deleted", building.getName()));
         } else {
             buildingManager.saveBuilding(building);
+			logger.info("Saved building #" + building.getId() + " by " + currentUser.getUsername());
             request.getSession().setAttribute("message",
                     getText("building.saved", building.getName()));
         }

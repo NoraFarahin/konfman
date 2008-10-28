@@ -155,7 +155,7 @@ public class MyProfileFormController extends AbstractWizardFormController {
         userManager.saveUser(user);
         request.getSession().setAttribute("message", 
                 getText("profile.saved"));
-        log.debug("Saved user: " + user.getFullName());
+		logger.info("Update profile #" + user.getId());
 		return new ModelAndView("redirect:/");
 	}
 	
