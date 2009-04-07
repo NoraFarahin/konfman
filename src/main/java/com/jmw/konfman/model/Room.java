@@ -32,6 +32,7 @@ public class Room extends BaseObject {
     private Floor floor = null;
     private List<Reservation> reservations; 
     private Set<User> administrators;
+    private Set<Facility> facilities;
     
     public void setFloor(Floor floor) {
     	this.floor = floor;
@@ -171,6 +172,41 @@ public class Room extends BaseObject {
 	 */
 	public boolean removeAdministrator(User user){
 		return administrators.remove(user);
+	}
+
+	/**
+	 * Gets the facilities for this room
+	 * @return the facilities
+	 */
+	@ManyToMany
+	@OrderBy("name")
+	public Set<Facility> getFacilities() {
+		return facilities;
+	}
+
+	/**
+	 * @param facilitys the facilities to set
+	 */
+	public void setFacilities(Set<Facility> facilities) {
+		this.facilities = facilities;
+	}
+
+	/**
+	 * Adds an facility
+	 * @param user the user to administer this room
+	 * @return true if the admin was added, false if this admin already exists
+	 */
+	public boolean addFacility(Facility facility){
+		return facilities.add(facility);
+	}
+
+	/**
+	 * Removes an facility
+	 * @param user the facilities to remove
+	 * @return true if the facilities was removed, false if the facilities does not exist
+	 */
+	public boolean removeFacility(Facility facility){
+		return facilities.remove(facility);
 	}
 
 	/**
