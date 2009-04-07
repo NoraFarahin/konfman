@@ -23,6 +23,7 @@
                 <value>com.jmw.konfman.model.Floor</value>
                 <value>com.jmw.konfman.model.Room</value>
                 <value>com.jmw.konfman.model.Reservation</value>
+                <value>com.jmw.konfman.model.Facility</value>
             </list>
         </property>
         <property name="hibernateProperties">
