@@ -1,0 +1,1 @@
+Web based conference room reservation system, based upon Appfuse Light, using standard open source products, including hibernate and spring mvc.
